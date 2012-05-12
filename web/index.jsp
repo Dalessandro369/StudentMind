@@ -16,6 +16,9 @@
         <title>HomebOYbitch</title>
     </head>
     <body>
+        mdr
+        
+        Salut ça va ?
         <header role="banner">
             <span class="namepart1">student</span><span class="namepart2">mind</span>
 
