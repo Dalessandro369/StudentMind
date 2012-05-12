@@ -5,6 +5,9 @@
 --%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,7 +16,6 @@
         <title>Home</title>
     </head>
     <body>
-        LOL
         <header role="banner">
             <span class="namepart1">student</span><span class="namepart2">mind</span>
 
