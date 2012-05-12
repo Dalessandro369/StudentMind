@@ -16,7 +16,7 @@
         <title>HomebOYbitch</title>
     </head>
     <body>
-        mdr
+        mdr BOY ALZ BOY OU QUOI WESH WESH BOYèèèèèèèèèèèèè
         
         Salut ça va ?
         <header role="banner">
