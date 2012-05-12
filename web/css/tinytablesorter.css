@@ -1,0 +1,17 @@
+.sortable .head {
+	background:url('../img/tinytablesorter/sort.gif') 7px center no-repeat; 
+	cursor:pointer; 
+	padding-left:18px
+}
+
+.sortable .desc {
+	background:url('../img/tinytablesorter/desc.gif') 7px center no-repeat;
+	cursor:pointer; 
+	padding-left:18px
+}
+
+.sortable .asc {
+	background:url('../img/tinytablesorter/asc.gif') 7px center no-repeat; 
+	cursor:pointer; 
+	padding-left:18px
+}
