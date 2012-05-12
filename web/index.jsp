@@ -13,7 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="css/www_default.css" rel="stylesheet" type="text/css" />
-        <title>HomeBoyRun</title>
+        <title>Home</title>
     </head>
     <body>
         <header role="banner">
