@@ -1,12 +1,10 @@
 <%-- 
-    Document   : newjsp
+    Document   : index
     Created on : 12-mai-2012, 15:07:09
     Author     : ProjetJava
 --%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,26 +13,7 @@
         <title>StudentMind</title>
     </head>
     <body>
-        <header role="banner">
-            <span class="namepart1">student</span><span class="namepart2">mind</span>
-
-            <div id="login">
-                    <form method="" action="">
-                            <label for="">Adresse email :</label> <label for="">Mot de passe :</label><br/>
-                            <input type="email" name="" for="" placeholder="Adresse email" required /> <input type="password" name="" for="" placeholder="Mot de passe" required />
-                            <input type="submit" name="" for="" value="Connexion" /><br/>
-                    </form>
-            </div>
-
-            <nav role="navigation">
-                    <ul>
-                            <li><a href="index.html">Accueil</a></li>
-                            <li><a href="rechercher.html">Rechercher un document</a></li>
-                            <li><a href="contact.html">Contact</a></li>
-                            <li><a href="inscription.html">S'inscrire</a></li>
-                    </ul>
-            </nav>
-        </header>
+        <%@ include file="header.jspf"%>
 
         <div id="left_menu">
             <div class="menu">
@@ -96,8 +75,6 @@
             </div>
         </div>
 
-        <footer id="body">
-            Copyright &copy; 2011 studentmind.
-        </footer>
+        <%@ include file="footer.jspf"%>
     </body>
 </html>

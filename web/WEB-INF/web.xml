@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app 
-version="3.0" 
-xmlns="http://java.sun.com/xml/ns/javaee" 
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">    
     <display-name>StudentMind</display-name>
     <welcome-file-list>
         <welcome-file>IndexServlet</welcome-file>
@@ -12,9 +8,129 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
         <servlet-name>IndexServlet</servlet-name>
         <servlet-class>studentmind.controller.IndexServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RechercherDocumentServlet</servlet-name>
+        <servlet-class>studentmind.controller.RechercherDocumentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ContactServlet</servlet-name>
+        <servlet-class>studentmind.controller.ContactServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InscriptionServlet</servlet-name>
+        <servlet-class>studentmind.controller.InscriptionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ConnexionServlet</servlet-name>
+        <servlet-class>studentmind.controller.ConnexionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VoirDocument</servlet-name>
+        <servlet-class>studentmind.controller.VoirDocumentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListeDocuments</servlet-name>
+        <servlet-class>studentmind.controller.ListeDocumentsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InboxServlet</servlet-name>
+        <servlet-class>studentmind.controller.InboxServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LireMessage</servlet-name>
+        <servlet-class>studentmind.controller.LireMessageServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EcrireMessageServlet</servlet-name>
+        <servlet-class>studentmind.controller.EcrireMessageServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UploadDocumentServlet</servlet-name>
+        <servlet-class>studentmind.controller.UploadDocumentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GererUtilisateurServlet</servlet-name>
+        <servlet-class>studentmind.controller.GererUtilisateurServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GererTypeServlet</servlet-name>
+        <servlet-class>studentmind.controller.GererTypeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GererExtensionServlet</servlet-name>
+        <servlet-class>studentmind.controller.GererExtensionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GererCategorieServlet</servlet-name>
+        <servlet-class>studentmind.controller.GererCategorieServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GererAbusServlet</servlet-name>
+        <servlet-class>studentmind.controller.GererAbusServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IndexServlet</servlet-name>
-        <url-pattern>/IndexServlet</url-pattern>
+        <url-pattern>/index.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RechercherDocumentServlet</servlet-name>
+        <url-pattern>/rechercher-document.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ContactServlet</servlet-name>
+        <url-pattern>/contact.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InscriptionServlet</servlet-name>
+        <url-pattern>/inscription.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConnexionServlet</servlet-name>
+        <url-pattern>/connexion.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VoirDocument</servlet-name>
+        <url-pattern>/voir-document.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListeDocuments</servlet-name>
+        <url-pattern>/liste-documents.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InboxServlet</servlet-name>
+        <url-pattern>/inbox.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LireMessage</servlet-name>
+        <url-pattern>/lire-message.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EcrireMessageServlet</servlet-name>
+        <url-pattern>/ecrire-message.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadDocumentServlet</servlet-name>
+        <url-pattern>/upload-document.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GererUtilisateurServlet</servlet-name>
+        <url-pattern>/gerer-utilisateur.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GererTypeServlet</servlet-name>
+        <url-pattern>/gerer-type.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GererExtensionServlet</servlet-name>
+        <url-pattern>/gerer-extension.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GererCategorieServlet</servlet-name>
+        <url-pattern>/gerer-categorie.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GererAbusServlet</servlet-name>
+        <url-pattern>/gerer-abus.html</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
