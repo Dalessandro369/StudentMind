@@ -6,7 +6,9 @@ package studentmind.facade;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import studentmind.model.Utilisateur;
 
 /**
@@ -26,5 +28,15 @@ public class UtilisateurFacade extends AbstractFacade<Utilisateur> {
     public UtilisateurFacade() {
         super(Utilisateur.class);
     }
-    
+     public Utilisateur findEmail(String name){
+        Query query = em.createNamedQuery("Utilisateur.findByEmail");
+        query.setParameter("email",name);
+        Utilisateur u = null;
+        try{
+            u = (Utilisateur)query.getSingleResult();            
+        }catch(NoResultException e){
+        }
+        
+        return u;
+    }
 }

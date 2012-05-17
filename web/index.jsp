@@ -13,6 +13,9 @@
         <title>StudentMind</title>
     </head>
     <body>
+        <div>
+            ${test}
+        </div>
         <%@ include file="header.jspf"%>
         <div id="left_menu">
             <div class="menu">

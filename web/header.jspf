@@ -7,7 +7,7 @@
         <div id="login">
                 <form method="POST" action="connexion.html">
                         <label for="email">Adresse email :</label> <label for="mdp">Mot de passe :</label><br/>
-                        <input type="email" name="email" for="email" placeholder="Adresse email" required /> <input type="password" name="mdp" for="mdp" placeholder="Mot de passe" required />
+                        <input type="email" name="email" for="email" placeholder="Adresse email"/> <input type="password" name="mdp" for="mdp" placeholder="Mot de passe"/>
                         <input type="submit" name="" for="" value="Connexion" /><br/>
                 </form>
         </div>
