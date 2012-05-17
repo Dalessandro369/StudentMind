@@ -98,7 +98,7 @@ public class Rang implements Serializable {
 
     @Override
     public String toString() {
-        return "studentmind.model.Rang[ idRang=" + idRang + " ]";
+        return ""+idRang;
     }
     
 }

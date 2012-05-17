@@ -31,6 +31,8 @@ public class ConnexionServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        /* rediriger vers la page courante */
+        
+        //Recuperation du formulaire
+        
     }
 }

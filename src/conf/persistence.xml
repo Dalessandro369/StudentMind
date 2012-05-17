@@ -3,8 +3,6 @@
   <persistence-unit name="StudentMindPU" transaction-type="JTA">
     <jta-data-source>student_mind_connection</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <properties>
-        <property name="eclipselink.logging.level" value="FINEST"/>
-    </properties>
+    <properties/>
   </persistence-unit>
 </persistence>

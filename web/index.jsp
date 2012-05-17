@@ -14,7 +14,6 @@
     </head>
     <body>
         <%@ include file="header.jspf"%>
-
         <div id="left_menu">
             <div class="menu">
                     <header><h3>Qu'est-ce que studentmind ?</h3></header>
@@ -23,7 +22,6 @@
                     de motivation, et bien d'autres. Que vous soyez étudiants, à la recherche d'un emploi ou encore simple internaute, vous trouverez ce dont vous avez besoin sur studentmind.</p>
                     <p>Notre service est <strong>entièrement gratuit</strong> et propose de nombreux avantages à tous nos membres. Bonne visite !</p>
             </div>
-
             <div class="menu">
                     <header><h3>Statistiques du site</h3></header>
                     <ul>
@@ -37,7 +35,7 @@
                 <div class="menu">
                         <header><h3>Derniers documents</h3></header>
                         <ul>
-                                <li><a href="document.html">Manier la trigonométrie</a> - Vous verrez que la trigo ne se résume pas à un ensemble de formules, c'est aussi une interprétation géométrique qui 
+                                <li><a href="voir-document.html">Manier la trigonométrie</a> - Vous verrez que la trigo ne se résume pas à un ensemble de formules, c'est aussi une interprétation géométrique qui 
                                         a toute son importance. Et puis la trigo n'a pas été inventée pour rien : les applications sont nombreuses en physique.
                                 </li>
                         </ul>

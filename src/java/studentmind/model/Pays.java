@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Pays.findAll", query = "SELECT p FROM Pays p"),
+    @NamedQuery(name = "Pays.findAllAlpha",query = "SELECT p FROM Pays p ORDER BY p.nomPays ASC"),
     @NamedQuery(name = "Pays.findByIdPays", query = "SELECT p FROM Pays p WHERE p.idPays = :idPays"),
     @NamedQuery(name = "Pays.findByNomPays", query = "SELECT p FROM Pays p WHERE p.nomPays = :nomPays")})
 public class Pays implements Serializable {
@@ -98,7 +99,7 @@ public class Pays implements Serializable {
 
     @Override
     public String toString() {
-        return "studentmind.model.Pays[ idPays=" + idPays + " ]";
+        return ""+idPays;
     }
     
 }

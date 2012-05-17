@@ -98,7 +98,7 @@ public class EtatUtilisateur implements Serializable {
 
     @Override
     public String toString() {
-        return "studentmind.model.EtatUtilisateur[ idEtatUtilisateur=" + idEtatUtilisateur + " ]";
+        return "" + idEtatUtilisateur;
     }
     
 }

@@ -5,9 +5,9 @@
         <span class="namepart1">student</span><span class="namepart2">mind</span>
 
         <div id="login">
-                <form method="" action="">
-                        <label for="">Adresse email :</label> <label for="">Mot de passe :</label><br/>
-                        <input type="email" name="" for="" placeholder="Adresse email" required /> <input type="password" name="" for="" placeholder="Mot de passe" required />
+                <form method="POST" action="connexion.html">
+                        <label for="email">Adresse email :</label> <label for="mdp">Mot de passe :</label><br/>
+                        <input type="email" name="email" for="email" placeholder="Adresse email" required /> <input type="password" name="mdp" for="mdp" placeholder="Mot de passe" required />
                         <input type="submit" name="" for="" value="Connexion" /><br/>
                 </form>
         </div>

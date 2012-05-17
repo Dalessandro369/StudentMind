@@ -6,7 +6,9 @@ package studentmind.facade;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import studentmind.model.EtatUtilisateur;
 
 /**
@@ -25,6 +27,18 @@ public class EtatUtilisateurFacade extends AbstractFacade<EtatUtilisateur> {
 
     public EtatUtilisateurFacade() {
         super(EtatUtilisateur.class);
+    }
+     public EtatUtilisateur findEtatUtilisateur(int id){
+        Query query = em.createNamedQuery("EtatUtilisateur.findByIdEtatUtilisateur");
+        query.setParameter("idEtatUtilisateur",id);
+        EtatUtilisateur EU = null;
+        try{
+            EU = (EtatUtilisateur)query.getSingleResult();
+        }catch(NoResultException e){
+            e.printStackTrace();
+        }
+        
+        return EU;
     }
     
 }

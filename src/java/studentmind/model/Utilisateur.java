@@ -144,6 +144,7 @@ public class Utilisateur implements Serializable {
         this.ecole = ecole;
     }
 
+
     public Integer getIdUtilisateur() {
         return idUtilisateur;
     }
@@ -307,6 +308,7 @@ public class Utilisateur implements Serializable {
     public void setFKidetatutlisateur(EtatUtilisateur fKidetatutlisateur) {
         this.fKidetatutlisateur = fKidetatutlisateur;
     }
+    
 
     @XmlTransient
     public Collection<Commentaire> getCommentaireCollection() {

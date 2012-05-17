@@ -46,7 +46,7 @@ public class Image implements Serializable {
         this.idImage = idImage;
     }
 
-    public Image(Integer idImage, String urlImage) {
+    public Image(Integer idImage,String urlImage) {
         this.idImage = idImage;
         this.urlImage = urlImage;
     }
@@ -98,7 +98,7 @@ public class Image implements Serializable {
 
     @Override
     public String toString() {
-        return "studentmind.model.Image[ idImage=" + idImage + " ]";
+        return "" + idImage;
     }
     
 }

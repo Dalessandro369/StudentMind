@@ -21,8 +21,11 @@
         </script>	
     </head>
     <body>
-        <%@ include file="header.jspf"%>
 
+        <%@ include file="header.jspf"%>
+        <div>
+            ${test}
+        </div>
         <div id="left_menu">
 
         </div>
@@ -42,12 +45,12 @@
         <div id="page">
                 <div id="content">
                         <h2>Je m'inscris !</h2>
-                        <form method="" action="">
+                        <form method="POST" action="inscription.html">
                                 <fieldset>
                                         <legend>Informations générales</legend>
-                                        <label for="">Nom :</label> <input type="text" name="" id="" required /><br/>
-                                        <label for="">Prénom :</label> <input type="text" name="" id="" required /><br/>
-                                        <label for="">Date de naissance :</label>
+                                        <label for="nom">Nom :</label> <input type="text" name="nom" id="nom" required /><br/>
+                                        <label for="prenom">Prénom :</label> <input type="text" name="prenom" id="prenom" required /><br/>
+                                        <label for="dateNaissance">Date de naissance :</label>
                                         <script>
                                         $(function() {
                                                 $( "#datepicker" ).datepicker({
@@ -56,33 +59,33 @@
                                                 });
                                         });
                                         </script>
-                                        <input type="text" id="datepicker"><br/>
-                                        <label for="">Sexe :</label>
-                                        <select name="" id="">
+                                        <input type="text" name="dateNaissance" id="datepicker"><br/>
+                                        <label for="sexe">Sexe :</label>
+                                        <select name="sexe" id="sexe" required>
                                                 <option value="M">M</option>
                                                 <option value="F">F</option>
                                         </select><br/>
-                                        <label for="">Adresse e-mail :</label> <input type="text" name="" id="" required /><br/>
-                                        <label for="">Mot de passe : </label> 
-                                        <input type="password" name="" id="" required /> 
-                                        <input type="password" name="" id="" placeholder="Confirmez votre mot de passe" required />
+                                        <label for="email">Adresse e-mail :</label> <input type="text" name="email" id="email" required /><br/>
+                                        <label for="mdp">Mot de passe : </label> 
+                                        <input type="password" name="mdp" id="mdp" required /> 
+                                        <input type="password" name="mdp2" id="mdp2" placeholder="Confirmez votre mot de passe" required />
                                 </fieldset>
 
                                 <fieldset>
                                         <legend>Profil étudiant</legend>
-                                        <label for="">Avatar :</label> <input type="file" name="" id="" /><br/>
-                                        <label for="">Ecole / Université :</label> <input type="text" name="" id="" /><br/>
-                                        <label for="">Site Web :</label> <input type="text" name="" id="" placeholder="http://"/><br/>
-                                        <label for="">Ville :</label> <input type="text" name="" id="" /><br/>
-                                        <label for="">Pays :</label>
-                                        <select name="" id="">
-                                                <option value="BE">Belgique</option>
+                                        <label for="image">Avatar :</label> <input type="file" name="image" id="image" required/><br/>
+                                        <label for="ecole">Ecole / Université :</label> <input type="text" name="ecole" id="ecole" /><br/>
+                                        <label for="site">Site Web :</label> <input type="text" name="site" id="site" placeholder="http://"/><br/>
+                                        <label for="ville">Ville :</label> <input type="text" name="ville" id="ville" required /><br/>
+                                        <label for="pays" required>Pays :</label>
+                                        <select name="pays" id="pays">
+                                                ${listePays}
                                         </select>
                                 </fieldset>
 
                                 <fieldset>
                                         <legend>Contrôle anti-robot</legend>
-                                        <label for="">Anti-spam :</label>
+                                        <label for="verif">Anti-spam :</label>
                                         <script type="text/javascript" src="http://www.google.com/recaptcha/api/challenge?k=6LcSYssSAAAAAEXFSGjOCoP14CoMv4e136L8Klxk"></script>
                                         <noscript>
                                                 <iframe src="http://www.google.com/recaptcha/api/noscript?k=6LcSYssSAAAAAEXFSGjOCoP14CoMv4e136L8Klxk"
