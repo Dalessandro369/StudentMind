@@ -104,7 +104,7 @@ public class InscriptionServlet extends HttpServlet {
             request.setAttribute("ErreurEmail", mesEmail);
             champOk = false;
         }
-        if (((mdp == null || mdp.isEmpty()) || (mdp2 == null || mdp2.isEmpty())) && !(mdp2.equals(mdp))) {
+        if (((mdp == null || mdp.isEmpty()) || (mdp2 == null || mdp2.isEmpty())) || !(mdp2.equals(mdp))) {
             mesMdp = "Veuillez à remplir correctement les mots de passe";
             request.setAttribute("ErreurMdp", mesMdp);
             champOk = false;
@@ -163,7 +163,7 @@ public class InscriptionServlet extends HttpServlet {
             HttpSession session = request.getSession(true);
             session.setAttribute("Utilisateur", user);
             
-            request.setAttribute("test", "inscription ok");
+            request.setAttribute("test", "inscription ok"+mesMdp);
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } else {
             request.setAttribute("test", "erreur");
