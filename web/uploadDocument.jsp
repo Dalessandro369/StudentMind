@@ -7,6 +7,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+    <div>
+        ${test}
+    </div>
     <head>
         <meta charset="utf-8" />
         <title>studentmind</title>
@@ -45,13 +48,13 @@
                                         <select name="categorie" id="categorie">
                                                 ${ListeCategorie}
                                         </select><br/>
-                                        <label for="">Titre :</label> <input type="text" name="" id="" class="titre_document" required /><br/>
-                                        <label for="">Introduction :</label> <textarea></textarea><br/>
+                                        <label for="titre">Titre :</label> <input type="text" name="titre" id="titre" class="titre_document" required /><br/>
+                                        <label for="description">Description :</label> <textarea name="description" id="description" required></textarea><br/>
                                 </fieldset>
 
                                 <fieldset>
                                         <legend>Choisissez le document à uploader</legend>
-                                        <input id="file_upload" name="file_upload" type="file" />
+                                        <input type="file" name="urlFichier" id="urlFichier" required />
                                 </fieldset>
 
                                 <input type="submit" value="Uploader" />

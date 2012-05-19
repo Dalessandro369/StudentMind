@@ -15,10 +15,10 @@ import javax.naming.NamingException;
  * @author ProjetJava
  */
 public abstract class ServicesLocator {
-    
+
     private ServicesLocator() {
     }
-    
+
     public static PaysFacade getPaysFacade() {
         try {
             Context context = new InitialContext();
@@ -28,6 +28,17 @@ public abstract class ServicesLocator {
             return null;
         }
     }
+
+    public static ExtensionFacade getExtensionFacade() {
+        try {
+            Context context = new InitialContext();
+            return (ExtensionFacade) context.lookup("java:global/StudentMind/ExtensionFacade");
+        } catch (NamingException ex) {
+            Logger.getLogger(ServicesLocator.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
     public static DocumentFacade getDocumentFacade() {
         try {
             Context context = new InitialContext();
@@ -37,6 +48,7 @@ public abstract class ServicesLocator {
             return null;
         }
     }
+
     public static TypeFacade getTypeFacade() {
         try {
             Context context = new InitialContext();
@@ -46,6 +58,7 @@ public abstract class ServicesLocator {
             return null;
         }
     }
+
     public static CategorieFacade getCategorieFacade() {
         try {
             Context context = new InitialContext();
@@ -55,7 +68,8 @@ public abstract class ServicesLocator {
             return null;
         }
     }
-      public static UtilisateurFacade getUtilisateurFacade() {
+
+    public static UtilisateurFacade getUtilisateurFacade() {
         try {
             Context context = new InitialContext();
             return (UtilisateurFacade) context.lookup("java:global/StudentMind/UtilisateurFacade");
@@ -64,6 +78,7 @@ public abstract class ServicesLocator {
             return null;
         }
     }
+
     public static ImageFacade getImageFacade() {
         try {
             Context context = new InitialContext();
@@ -73,7 +88,8 @@ public abstract class ServicesLocator {
             return null;
         }
     }
-     public static EtatUtilisateurFacade getEtatUtiFacade() {
+
+    public static EtatUtilisateurFacade getEtatUtiFacade() {
         try {
             Context context = new InitialContext();
             return (EtatUtilisateurFacade) context.lookup("java:global/StudentMind/EtatUtilisateurFacade");
@@ -82,6 +98,7 @@ public abstract class ServicesLocator {
             return null;
         }
     }
+
     public static RangFacade getRangFacade() {
         try {
             Context context = new InitialContext();

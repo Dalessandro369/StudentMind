@@ -160,7 +160,7 @@ public class InscriptionServlet extends HttpServlet {
 
             uFacade.create(user);
                   
-          //  HttpSession session = request.getSession(true);
+            //HttpSession session = request.getSession(true);
             //session.setAttribute("Utilisateur", user);
             
             request.setAttribute("test", "inscription ok"+mesMdp);

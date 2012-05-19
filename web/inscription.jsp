@@ -45,7 +45,7 @@
         <div id="page">
                 <div id="content">
                         <h2>Je m'inscris !</h2>
-                        <form method="POST" action="inscription.html">
+                        <form method="POST" action="inscription.html" enctype="multipart/form-data">
                                 <fieldset>
                                         <legend>Informations générales</legend>
                                         <label for="nom">Nom :</label> <input type="text" name="nom" id="nom" required /><br/>
