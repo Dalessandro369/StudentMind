@@ -9,10 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import studentmind.facade.ServicesLocator;
 import studentmind.facade.UtilisateurFacade;
-import studentmind.model.EtatUtilisateur;
-import studentmind.model.Pays;
 import studentmind.model.Utilisateur;
 
 /**
@@ -40,6 +39,11 @@ public class ConnexionServlet extends HttpServlet {
         String email = request.getParameter("email");
         String mdp = request.getParameter("mdp");
         
+       HttpSession session = request.getSession(false);
+    
+        if (session != null) {
+            session.invalidate();
+        }
         if ((email==null || email.isEmpty()) && (mdp==null) || mdp.isEmpty()){
             request.setAttribute("test", "remplir formu correct" );
         }else 
@@ -48,11 +52,12 @@ public class ConnexionServlet extends HttpServlet {
                Utilisateur user = null;
                user = uFacade.findEmail(email);
                if (user != null) {
-                   if (user.getFKidetatutlisateur().equals(new EtatUtilisateur(2))){
+                   if (user.getFKidetatutlisateur().getIdEtatUtilisateur() == 2){
                    if (user.getPassword().equals(mdp)) {
-                       request.setAttribute("test", "ok" );
-                   }else request.setAttribute("test", "mdp errone donc remettre l'email dans le truc" );   
-               }else request.setAttribute("test", "Veuillez activer votre compte" + user.getFKidetatutlisateur() ); 
+                       request.setAttribute("test", "ok" + user.getFKidetatutlisateur() + user.getEmail());
+                       session.setAttribute("user", user);
+                   }else request.setAttribute("test", "mdp errone donc remettre l'email dans le truc" + user.getFKidetatutlisateur() + user.getEmail() );   
+               }else request.setAttribute("test", "Veuillez activer votre compte " + user.getFKidetatutlisateur() + user.getEmail()); 
                }else
                    request.setAttribute("test", "Rien de bon");
                
