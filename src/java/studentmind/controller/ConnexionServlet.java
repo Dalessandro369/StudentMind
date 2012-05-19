@@ -55,7 +55,9 @@ public class ConnexionServlet extends HttpServlet {
                    if (user.getFKidetatutlisateur().getIdEtatUtilisateur() == 2){
                    if (user.getPassword().equals(mdp)) {
                        request.setAttribute("test", "ok" + user.getFKidetatutlisateur() + user.getEmail());
+                       session = request.getSession(true);
                        session.setAttribute("user", user);
+                       session.setAttribute("rang", user.getFKidrang());
                    }else request.setAttribute("test", "mdp errone donc remettre l'email dans le truc" + user.getFKidetatutlisateur() + user.getEmail() );   
                }else request.setAttribute("test", "Veuillez activer votre compte " + user.getFKidetatutlisateur() + user.getEmail()); 
                }else
