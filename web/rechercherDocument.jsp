@@ -39,7 +39,8 @@
                                         <legend>Informations générales</legend>
                                         <label for="extension">Type de fichier :</label>
                                         <select name="extension" id="extension">
-                                                <optgroup label="Microsoft">
+                                            ${ListeExtension}
+                                               <!-- <optgroup label="Microsoft">
                                                         <option value="">.doc</option>
                                                         <option value="">.docx</option>
                                                         <option value="">.ppt</option>
@@ -54,7 +55,7 @@
                                                 </optgroup>
                                                 <optgroup label="Adobe Systems">
                                                         <option value="">.pdf</option>
-                                                </optgroup>
+                                                </optgroup>-->
                                         </select><br/>
                                         <label for="type">Type de document :</label>
                                         <select name="type">
