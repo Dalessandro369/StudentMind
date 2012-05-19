@@ -32,7 +32,7 @@ public class UploadDocumentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        // Affichage des pays dans la liste déroulante
+        // Affichage des types dans la liste déroulante
 
         TypeFacade tFacade = ServicesLocator.getTypeFacade();
         List<Type> listType = tFacade.findAllAlpha();
@@ -42,6 +42,7 @@ public class UploadDocumentServlet extends HttpServlet {
         }
         request.setAttribute("ListeType", listeHtml);
         
+        // Affichage des catégories dans la liste déroulante
         CategorieFacade cFacade = ServicesLocator.getCategorieFacade();
         List<Categorie> listCategorie = cFacade.findAllAlpha();
         listeHtml = "";
@@ -56,6 +57,40 @@ public class UploadDocumentServlet extends HttpServlet {
  
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-     
+        
+        boolean champOk = true;
+        String mesType = "";
+        String mesCategorie = "";
+        String mesTitre = "";
+        String mesFile = "";
+        String mesIntro = "";
+        
+        //Recupérer le formulaire
+        String type = request.getParameter("type");
+        String categorie = request.getParameter("categorie");
+        String titre = request.getParameter("titre");     
+        String intro = request.getParameter("intro");
+        String file_upload = request.getParameter("file_upload");
+        
+        if (type == null || type.isEmpty()) {
+            mesType = "Veuillez à remplir correctement le type";
+            request.setAttribute("ErreurType", mesType);
+            champOk = false;
+        }
+        if (categorie == null || categorie.isEmpty()) {
+            mesCategorie = "Veuillez à remplir correctement la catégorie";
+            request.setAttribute("ErreurCategorie", mesCategorie);
+            champOk = false;
+        }
+        if (titre == null || titre.isEmpty()) {
+            mesCategorie = "Veuillez à remplir correctement le titre";
+            request.setAttribute("ErreurTitre", mesTitre);
+            champOk = false;
+        }
+        if (intro == null || intro.isEmpty()) {
+            mesIntro = "Veuillez à remplir correctement le titre";
+            request.setAttribute("ErreurTitre", mesIntro);
+            champOk = false;
+        }        
     }
 }

@@ -45,13 +45,13 @@
                                         <select name="categorie" id="categorie">
                                                 ${ListeCategorie}
                                         </select><br/>
-                                        <label for="">Titre :</label> <input type="text" name="" id="" class="titre_document" required /><br/>
-                                        <label for="">Introduction :</label> <textarea></textarea><br/>
+                                        <label for="titre">Titre :</label> <input type="text" name="titre" id="titre" class="titre_document" required /><br/>
+                                        <label for="intro">Introduction :</label> <textarea name="intro" id="intro" required></textarea><br/>
                                 </fieldset>
 
                                 <fieldset>
                                         <legend>Choisissez le document à uploader</legend>
-                                        <input id="file_upload" name="file_upload" type="file" />
+                                        <input id="file_upload" name="file_upload" type="file" required/>
                                 </fieldset>
 
                                 <input type="submit" value="Uploader" />
