@@ -163,7 +163,7 @@ public class InscriptionServlet extends HttpServlet {
             //HttpSession session = request.getSession(true);
             //session.setAttribute("Utilisateur", user);
             
-            request.setAttribute("test", "inscription ok"+mesMdp);
+            request.setAttribute("test", "inscription ok");
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } else {
             request.setAttribute("test", "erreur");

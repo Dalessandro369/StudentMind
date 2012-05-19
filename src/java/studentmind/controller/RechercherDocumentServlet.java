@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import studentmind.facade.CategorieFacade;
 import studentmind.facade.ServicesLocator;
 import studentmind.facade.TypeFacade;
@@ -64,15 +65,13 @@ public class RechercherDocumentServlet extends HttpServlet {
         boolean champOk = true;
         String mesType = "";
         String mesCategorie = "";
-        String mesTitre = "";
-        String mesFile = "";
-        String mesDescription = "";
+        String mesExtension = "";
         
         //Recupérer le formulaire
         String type = request.getParameter("type");
         String categorie = request.getParameter("categorie");
-        String titre = request.getParameter("titre");     
-        String description = request.getParameter("description");
+        String extension = request.getParameter("extension");     
+        String mot = request.getParameter("mot-cle");
    
         
         if (type == null || type.isEmpty()) {
@@ -84,6 +83,20 @@ public class RechercherDocumentServlet extends HttpServlet {
             mesCategorie = "Veuillez à remplir correctement la catégorie";
             request.setAttribute("ErreurCategorie", mesCategorie);
             champOk = false;
+        }
+        if (extension == null || extension.isEmpty()) {
+            mesExtension = "Veuillez à remplir correctement la extension";
+            request.setAttribute("ErreurCategorie", mesExtension);
+            champOk = false;
+        }
+
+        if (champOk){
+            
+                  request.setAttribute("test", "ok");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
+            request.setAttribute("test", "erreur");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
 }
