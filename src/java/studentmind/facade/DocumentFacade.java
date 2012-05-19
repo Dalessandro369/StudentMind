@@ -4,9 +4,12 @@
  */
 package studentmind.facade;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import studentmind.model.Document;
 
 /**
@@ -26,5 +29,15 @@ public class DocumentFacade extends AbstractFacade<Document> {
     public DocumentFacade() {
         super(Document.class);
     }
-    
+   
+    public List<Document> findAll() {
+        Query query = em.createNamedQuery("Document.findAll");
+        List<Document> p = null;
+        try{
+            p = (List<Document>)query.getResultList();
+        }catch(NoResultException e){
+            e.printStackTrace();
+        }
+        return p;
+    }
 }

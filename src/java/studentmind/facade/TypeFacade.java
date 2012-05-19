@@ -4,8 +4,11 @@
  */
 package studentmind.facade;
 
+import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import studentmind.model.Type;
 
@@ -15,6 +18,7 @@ import studentmind.model.Type;
  */
 @Stateless
 public class TypeFacade extends AbstractFacade<Type> {
+
     @PersistenceContext(unitName = "StudentMindPU")
     private EntityManager em;
 
@@ -26,5 +30,15 @@ public class TypeFacade extends AbstractFacade<Type> {
     public TypeFacade() {
         super(Type.class);
     }
-    
+
+    public List<Type> findAllAlpha() {
+        Query query = em.createNamedQuery("Type.findAllAlpha");
+        List<Type> t = null;
+        try {
+            t = (List<Type>) query.getResultList();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+        return t;
+    }
 }

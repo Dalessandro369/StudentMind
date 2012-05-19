@@ -28,6 +28,33 @@ public abstract class ServicesLocator {
             return null;
         }
     }
+    public static DocumentFacade getDocumentFacade() {
+        try {
+            Context context = new InitialContext();
+            return (DocumentFacade) context.lookup("java:global/StudentMind/DocumentFacade");
+        } catch (NamingException ex) {
+            Logger.getLogger(ServicesLocator.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    public static TypeFacade getTypeFacade() {
+        try {
+            Context context = new InitialContext();
+            return (TypeFacade) context.lookup("java:global/StudentMind/TypeFacade");
+        } catch (NamingException ex) {
+            Logger.getLogger(ServicesLocator.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    public static CategorieFacade getCategorieFacade() {
+        try {
+            Context context = new InitialContext();
+            return (CategorieFacade) context.lookup("java:global/StudentMind/CategorieFacade");
+        } catch (NamingException ex) {
+            Logger.getLogger(ServicesLocator.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
       public static UtilisateurFacade getUtilisateurFacade() {
         try {
             Context context = new InitialContext();

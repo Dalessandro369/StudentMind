@@ -34,17 +34,16 @@
         <div id="page">
                 <div id="content">
                         <h2>Partager un document</h2>
-                        <form method="POST" action="\upload" enctype="multipart/form-data">
+                        <form method="POST" action="upload-document.html" enctype="multipart/form-data">
                                 <fieldset>
                                         <legend>Fiche technique à compléter</legend>
-                                        <label for="">Type de document :</label>
-                                        <select name="">
-                                                <option value="">Biographie</option>
-                                                <option value="">Exposé</option>
+                                        <label for="type">Type de document :</label>
+                                        <select name="type" id="type">
+                                            ${ListeType}
                                         </select><br/>
-                                        <label for="">Catégorie :</label>
-                                        <select name="">
-                                                <option value="">Anglais</option>
+                                        <label for="categorie">Catégorie :</label>
+                                        <select name="categorie" id="categorie">
+                                                ${ListeCategorie}
                                         </select><br/>
                                         <label for="">Titre :</label> <input type="text" name="" id="" class="titre_document" required /><br/>
                                         <label for="">Introduction :</label> <textarea></textarea><br/>

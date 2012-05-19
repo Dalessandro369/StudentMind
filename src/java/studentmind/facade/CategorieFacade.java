@@ -4,8 +4,11 @@
  */
 package studentmind.facade;
 
+import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import studentmind.model.Categorie;
 
@@ -15,6 +18,7 @@ import studentmind.model.Categorie;
  */
 @Stateless
 public class CategorieFacade extends AbstractFacade<Categorie> {
+
     @PersistenceContext(unitName = "StudentMindPU")
     private EntityManager em;
 
@@ -26,5 +30,15 @@ public class CategorieFacade extends AbstractFacade<Categorie> {
     public CategorieFacade() {
         super(Categorie.class);
     }
-    
+
+    public List<Categorie> findAllAlpha() {
+        Query query = em.createNamedQuery("Categorie.findAllAlpha");
+        List<Categorie> t = null;
+        try {
+            t = (List<Categorie>) query.getResultList();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+        return t;
+    }
 }
