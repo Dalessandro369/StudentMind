@@ -34,11 +34,11 @@
         <div id="page">
                 <div id="content">
                         <h2>Rechercher un document</h2>
-                        <form method="" action="">
+                        <form method="POST" action="rechercher-document.html">
                                 <fieldset>
                                         <legend>Informations générales</legend>
-                                        <label for="">Type de fichier :</label>
-                                        <select name="" id="">
+                                        <label for="extension">Type de fichier :</label>
+                                        <select name="extension" id="extension">
                                                 <optgroup label="Microsoft">
                                                         <option value="">.doc</option>
                                                         <option value="">.docx</option>
@@ -56,20 +56,16 @@
                                                         <option value="">.pdf</option>
                                                 </optgroup>
                                         </select><br/>
-                                        <label for="">Type de document :</label>
-                                        <select name="">
-                                                <option value="">Exposé</option>
-                                                <option value="">Rapport de stage</option>
-                                                <option value="">Synthèse de cours</option>
+                                        <label for="type">Type de document :</label>
+                                        <select name="type">
+                                               ${ListeType}
                                         </select><br/>
-                                        <label for="">Catégorie :</label>
-                                        <select name="" id="">
-                                                <optgroup label="">
-                                                        <option value="">Anglais</option>							
-                                                </optgroup>
+                                        <label for="categorie">Catégorie :</label>
+                                        <select name="categorie" id="categorie">
+                                                 ${ListeCategorie}
                                         </select><br/>
 
-                                        <label for="">Mots clés :</label> <input type="text" name="" id="" />
+                                        <label for="mot-cle">Mots clés :</label> <input type="text" name="mot-cle" id="mot-cle" />
                                 </fieldset>
 
                                 <input type="submit" value="Lancer la recherche !" />
