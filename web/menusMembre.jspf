@@ -1,0 +1,106 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<c:choose>
+    <c:when test='${servlet == "studentmind.controller.ConnexionServlet"}'>
+
+    </c:when>
+    <c:when test='${servlet == "studentmind.controller.ContactServlet"}'>
+
+    </c:when>
+    <c:when test='${servlet == "studentmind.controller.EcrireMessageServlet"}'>
+
+    </c:when>
+    <c:when test='${servlet == "studentmind.controller.GererAbusServlet"}'>
+
+    </c:when>        
+    <c:when test='${servlet == "studentmind.controller.GererCategorieServlet"}'>
+
+    </c:when>        
+    <c:when test='${servlet == "studentmind.controller.GererExtensionServlet"}'>
+
+    </c:when>        
+    <c:when test='${servlet == "studentmind.controller.GererTypeServlet"}'>
+
+    </c:when>        
+    <c:when test='${servlet == "studentmind.controller.GererUtilisateurServlet"}'>
+
+    </c:when>        
+    <c:when test='${servlet == "studentmind.controller.InboxServlet"}'>
+
+    </c:when>        
+    <c:when test='${servlet == "studentmind.controller.IndexServlet"}'>
+        <div id="left_menu">
+            <div class="menu">
+                <header><h3>Qu'est-ce que studentmind ?</h3></header>
+                <p>Bienvenue sur <strong>studentmind</strong>, la plateforme de référence en matière de partage de ressources numériques, principalement étudiantes.</p> 
+                <p>Notre communauté met à disposition de nombreux documents téléchargeables, tels que des synthèses de cours, des exposés, des dissertations, des rapports de stages, CV & lettre
+                    de motivation, et bien d'autres. Que vous soyez étudiants, à la recherche d'un emploi ou encore simple internaute, vous trouverez ce dont vous avez besoin sur studentmind.</p>
+                <p>Notre service est <strong>entièrement gratuit</strong> et propose de nombreux avantages à tous nos membres. Bonne visite !</p>
+            </div>
+
+            <div class="menu">
+                <header><h3>Statistiques du site</h3></header>
+                <ul>
+                    <li><strong><span class="">Nombre de membres :</span></strong></li>
+                    <li><strong><span class="">Nombre de documents :</span></strong></li>
+                </ul>	
+            </div>
+        </div>
+
+        <div id="right_menu">
+            <div class="menu">
+                <header><h3>${user.prenom} ${user.nom}</h3></header>
+                <div id="avatar">
+                    <img src="../img/avatar.jpg" title="" alt="" />
+                </div>
+                <ul>
+                    <li><a href="profil.html">Mon profil</a></li>
+                    <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
+                    <li><a href="mes-documents.html">Mes documents</a> (12)</li>
+                    <li><a href="deconnexion.html">Se déconnecter</a></li>
+                </ul>
+            </div>
+
+            <div class="menu">
+                <header><h3>Derniers documents</h3></header>
+                <ul>
+                    <li><a href="voir-document.html">Manier la trigonométrie</a> - Vous verrez que la trigo ne se résume pas à un ensemble de formules, c'est aussi une interprétation géométrique qui 
+                        a toute son importance. Et puis la trigo n'a pas été inventée pour rien : les applications sont nombreuses en physique.
+                    </li>
+                </ul>
+                <footer><a href="liste-documents.html">>> Vers tous les documents</a></footer>
+            </div>              
+        </div>
+    </c:when>        
+    <c:when test='${servlet == "studentmind.controller.InscriptionServlet"}'>
+
+    </c:when>        
+    <c:when test='${servlet == "studentmind.controller.LireMessageServlet"}'>
+
+    </c:when>        
+    <c:when test='${servlet == "studentmind.controller.ListeDocumentsServlet"}'>
+
+    </c:when>        
+    <c:when test='${servlet == "studentmind.controller.ProfilServlet"}'>
+
+    </c:when>        
+    <c:when test='${servlet == "studentmind.controller.RechercherDocumentServlet"}'>
+
+    </c:when>        
+    <c:when test='${servlet == "studentmind.controller.UploadDocumentServlet"}'>
+        <div id="right_menu">
+            <div class="menu">
+                <header><h3>Derniers documents</h3></header>
+                <ul>
+                    <li><a href="voir-document.html">Manier la trigonométrie</a> - Vous verrez que la trigo ne se résume pas à un ensemble de formules, c'est aussi une interprétation géométrique qui 
+                        a toute son importance. Et puis la trigo n'a pas été inventée pour rien : les applications sont nombreuses en physique.
+                    </li>
+                </ul>
+                <footer><a href="liste-documents.html">>> Vers tous les documents</a></footer>
+            </div>              
+        </div>
+    </c:when>        
+    <c:when test='${servlet == "studentmind.controller.VoirDocumentServlet"}'>
+
+    </c:when>            
+</c:choose>    

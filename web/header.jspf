@@ -3,55 +3,84 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 
-<header role="banner">
-    <span class="namepart1">student</span><span class="namepart2">mind</span>
-    
+<!DOCTYPE html>
+<html>
+    <head>        
+        <link href="css/www_default.css" rel="stylesheet" type="text/css" />
+        <link href="css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
+        <link href="css/jRating.jquery.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="css/tinytablesorter.css" rel="stylesheet" type="text/css" />        
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jRating.jquery.js"></script>
+        <script type="text/javascript" src="js/tinytablesorter/packed.js"></script> 
+        <script type="text/javascript" src="js/tinytablesorter/script.js"></script>        
+        <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+        <script type="text/javascript"> 
+            <!-- Captcha Google -->
+            var RecaptchaOptions = {theme : 'clean'};
+            
+            
+            $(function() {
+                $( "#progressbar" ).progressbar({
+                        value: 37
+                });
+            });
+        </script>
+        
+        <title>StudentMind</title>
+    </head>
+    <body>
+        <div>
+            ${test}
+        </div>
 
-        <c:choose>
+        <header role="banner">
+            <span class="namepart1">student</span><span class="namepart2">mind</span>
+            <c:choose>
+                <c:when test='${user == null}'>
+                    <div id="login">
+                        <form method="POST" action="connexion.html">
+                            <label for="">Adresse email :</label> <label for="">Mot de passe :</label><br/>
+                            <input type="email" name="email" for="email" placeholder="Adresse email" required /> <input type="password" name="mdp" for="mdp" placeholder="Mot de passe" required />
+                            <input type="submit" value="Connexion" /><br/>
+                        </form>
+                    </div>            
+                </c:when>
+            </c:choose>
+            <nav role="navigation">
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="rechercher-document.html">Rechercher un document</a></li>
+                    <c:choose>
+                        <c:when test="${user != null}">
+                            <li><a href="upload-document.html">Uploader un document</a></li>
+                        </c:when>
+                        <c:when test="${user == null}">
+                            <li><a href="inscription.html">S'inscrire</a></li>
+                        </c:when>
+                    </c:choose>
+                    <li><a href="contact.html">Contact</a></li>                  
+                    <c:choose>
+                        <c:when test='${rang == "3"}'> <!-- Administrateur -->
+                            <li><a href="admin.html">Administration</a></li>
+                        </c:when> 
+                    </c:choose>
+                </ul>
+            </nav>
+        </header>
+
+        <c:choose>   
             <c:when test='${rang == "1"}'> <!-- Membre -->
-                <nav role="navigation">
-                    <ul>
-                        <li><a href="index.html">Accueil</a></li>
-                        <li><a href="rechercher-document.html">Rechercher un document</a></li>
-                        <li><a href="upload-document.html">Uploader un document</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </nav>
+                <%@ include file="menusMembre.jspf"%>
             </c:when>
             <c:when test='${rang == "2"}'> <!-- Modérateur -->
-                <nav role="navigation">
-                    <ul>
-                        <li><a href="index.html">Accueil</a></li>
-                        <li><a href="rechercher-document.html">Rechercher un document</a></li>
-
-                    </ul>
-                </nav>
+                <%@ include file="menusModerateur.jspf"%>  
             </c:when>
-            <c:when test='${rang == "3"}'> <!-- Administrateur  -->
-                <nav role="navigation">
-                    <ul>
-                        <li><a href="index.html">Accueil</a></li>
-                        <li><a href="rechercher-document.html">Rechercher un document</a></li>
-                    </ul>
-                </nav>   
+            <c:when test='${rang == "3"}'> <!-- Administrateur -->
+                <%@ include file="menusAdmin.jspf"%>  
             </c:when>
             <c:otherwise> <!-- Visiteur -->
-                <div id="login">
-                        <form method="POST" action="connexion.html">
-                                <label for="email">Adresse email :</label> <label for="mdp">Mot de passe :</label><br/>
-                                <input type="email" name="email" for="email" placeholder="Adresse email"/> <input type="password" name="mdp" for="mdp" placeholder="Mot de passe"/>
-                                <input type="submit" name="" for="" value="Connexion" /><br/>
-                        </form>
-                </div>
-                
-                <nav role="navigation">
-                        <ul>
-                                <li><a href="index.html">Accueil</a></li>
-                                <li><a href="rechercher-document.html">Rechercher un document</a></li>
-                                <li><a href="contact.html">Contact</a></li>
-                                <li><a href="inscription.html">S'inscrire</a></li>
-                        </ul>
-                </nav>            
+                <%@ include file="menusVisiteur.jspf"%>       
             </c:otherwise>
         </c:choose>
-</header>

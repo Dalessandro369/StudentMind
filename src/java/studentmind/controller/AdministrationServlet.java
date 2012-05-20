@@ -16,22 +16,24 @@ import javax.servlet.http.HttpSession;
  *
  * @author ProjetJava
  */
-public class EcrireMessageServlet extends HttpServlet {
+public class AdministrationServlet extends HttpServlet {
     @Override
     public void init() throws ServletException{
     }
 
-    public EcrireMessageServlet() {
+    public AdministrationServlet() {
         super();
     }
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       
-        HttpSession session = request.getSession(false);
-        session.setAttribute("servlet", getClass().getName());    
         
-        request.getRequestDispatcher("ecrireMessage.jsp").forward(request,response); 
+        HttpSession session = request.getSession(true);
+        session.setAttribute("servlet", getClass().getName());
+        
+        /* faire une vérification qui dit que si le rang est différent de celui d'administrateur, alors on affiche pas la page ! */
+        
+        request.getRequestDispatcher("/admin.jsp").forward(request,response); 
     }
 
  

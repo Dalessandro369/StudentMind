@@ -16,27 +16,26 @@ import javax.servlet.http.HttpSession;
  *
  * @author ProjetJava
  */
-public class EcrireMessageServlet extends HttpServlet {
+public class ProfilServlet extends HttpServlet {
     @Override
     public void init() throws ServletException{
     }
 
-    public EcrireMessageServlet() {
+    public ProfilServlet() {
         super();
-    }
-    
+    }    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       
-        HttpSession session = request.getSession(false);
-        session.setAttribute("servlet", getClass().getName());    
         
-        request.getRequestDispatcher("ecrireMessage.jsp").forward(request,response); 
+        HttpSession session = request.getSession(false);
+        session.setAttribute("servlet", getClass().getName());        
+        
+        request.getRequestDispatcher("profil.jsp").forward(request,response);
     }
 
- 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-     
+
     }
 }

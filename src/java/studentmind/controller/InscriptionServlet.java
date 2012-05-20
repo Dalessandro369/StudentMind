@@ -6,11 +6,16 @@ package studentmind.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import studentmind.utilities.EmailSender;
 import studentmind.facade.EtatUtilisateurFacade;
 import studentmind.facade.ImageFacade;
 import studentmind.facade.PaysFacade;
@@ -18,6 +23,7 @@ import studentmind.facade.RangFacade;
 import studentmind.facade.ServicesLocator;
 import studentmind.facade.UtilisateurFacade;
 import studentmind.model.*;
+import studentmind.utilities.HashMD5;
 
 /**
  *
@@ -35,6 +41,9 @@ public class InscriptionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        HttpSession session = request.getSession(false);
+        session.setAttribute("servlet", getClass().getName());        
 
         // Affichage des pays dans la liste déroulante
 
@@ -147,8 +156,8 @@ public class InscriptionServlet extends HttpServlet {
             user.setPrenom(prenom); //ok
             user.setDateNaissance(dateNaissance); //ok
             user.setSexe(sexe); // ok
-            user.setEmail(email); // ok
-            user.setPassword(mdp); //ok
+            user.setEmail(HashMD5.encode(email)); // ok
+            user.setPassword(HashMD5.encode(mdp)); //ok
             user.setEcole(ecole);// ok
             user.setVille(ville); //ok    
             user.setSiteWeb(site); //ok
@@ -164,6 +173,17 @@ public class InscriptionServlet extends HttpServlet {
             //session.setAttribute("Utilisateur", user);
             
             request.setAttribute("test", "inscription ok");
+            
+            
+            EmailSender es = new EmailSender(
+                email, "Merci d'avoir rejoint la communauté estudiantine StudentMind", "Bonjour " + prenom + ",\n\nFélicitations ! Vous êtes maintenant inscrit sur notre "
+                    + "plateforme de partage de ressources étudiantes. Cependant, vous devez encore confirmer votre adresse email afin que votre compte soit activé. Pour"
+                    + "se faire, veuillez cliquer sur le lien suivant : http://localhost:8080/StudentMind/confirm.html?e="+HashMD5.encode(email)
+                    + "\nSi vous ne pouvez pas cliquer sur le lien ci-dessous, veuillez le copier-coller dans la barre d'adresse de votre navigateur."
+                    + "\n\n@ bientôt sur StudentMind. Nous vous souhaitons d'ores et déjà de bons partages !"
+                    + "\n\nL'équipe StudentMind"
+            );
+            
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } else {
             request.setAttribute("test", "erreur");

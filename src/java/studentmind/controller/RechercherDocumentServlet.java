@@ -34,6 +34,10 @@ public class RechercherDocumentServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        HttpSession session = request.getSession(false);
+        session.setAttribute("servlet", getClass().getName());
+        
         // Affichage des types dans la liste déroulante
 
         TypeFacade tFacade = ServicesLocator.getTypeFacade();

@@ -3,6 +3,7 @@
   <persistence-unit name="StudentMindPU" transaction-type="JTA">
     <jta-data-source>student_mind_connection</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <validation-mode>NONE</validation-mode>
     <properties/>
   </persistence-unit>
 </persistence>
