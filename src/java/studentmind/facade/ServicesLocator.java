@@ -108,4 +108,14 @@ public abstract class ServicesLocator {
             return null;
         }
     }
+    
+    public static FamilleFacade getFamilleFacade() {
+        try {
+            Context context = new InitialContext();
+            return (FamilleFacade) context.lookup("java:global/StudentMind/FamilleFacade");
+        } catch (NamingException ex) {
+            Logger.getLogger(ServicesLocator.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
 }

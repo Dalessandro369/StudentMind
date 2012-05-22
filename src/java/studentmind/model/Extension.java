@@ -43,6 +43,7 @@ public class Extension implements Serializable {
     @Column(name = "description_extension")
     private String descriptionExtension;
     @JoinColumn(name = "FK_id_famille", referencedColumnName = "id_famille")
+
     @ManyToOne(optional = false)
     private Famille fKidfamille;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fKidextension")

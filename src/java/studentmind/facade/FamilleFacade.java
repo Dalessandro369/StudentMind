@@ -4,9 +4,11 @@
  */
 package studentmind.facade;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import studentmind.model.Famille;
 
 /**
@@ -15,6 +17,7 @@ import studentmind.model.Famille;
  */
 @Stateless
 public class FamilleFacade extends AbstractFacade<Famille> {
+
     @PersistenceContext(unitName = "StudentMindPU")
     private EntityManager em;
 
@@ -26,5 +29,6 @@ public class FamilleFacade extends AbstractFacade<Famille> {
     public FamilleFacade() {
         super(Famille.class);
     }
-    
+
 }
+

@@ -6,20 +6,14 @@ package studentmind.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import studentmind.utilities.EmailSender;
-import studentmind.facade.EtatUtilisateurFacade;
 import studentmind.facade.ImageFacade;
 import studentmind.facade.PaysFacade;
-import studentmind.facade.RangFacade;
 import studentmind.facade.ServicesLocator;
 import studentmind.facade.UtilisateurFacade;
 import studentmind.model.*;
@@ -172,7 +166,7 @@ public class InscriptionServlet extends HttpServlet {
             //HttpSession session = request.getSession(true);
             //session.setAttribute("Utilisateur", user);
             
-            request.setAttribute("test", "inscription ok");
+            request.setAttribute("test", "inscription ok"+user.getPassword());
             
             
             EmailSender es = new EmailSender(

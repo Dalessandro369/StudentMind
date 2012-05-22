@@ -11,7 +11,7 @@
 <div id="page">
     <div id="content">
         <h2>Partager un document</h2>
-        <form method="POST" action="fileUpload" enctype="multipart/form-data">
+        <form method="POST" action="upload-document.html" enctype="multipart/form-data">
             <fieldset>
                 <legend>Fiche technique à compléter</legend>
                 <label for="type">Type de document :</label>

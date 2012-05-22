@@ -4,13 +4,13 @@
  */
 package studentmind.facade;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import studentmind.model.Extension;
-import studentmind.model.Utilisateur;
 
 /**
  *
@@ -41,4 +41,10 @@ public class ExtensionFacade extends AbstractFacade<Extension> {
         
         return ext;
     }
+    public List<Extension> find() {
+        String query = "SELECT e FROM  Extension e JOIN e.fKidfamille f ORDER BY f.nomFamille,e.nomExtension ASC";
+        Query q = em.createQuery(query);
+        return q.getResultList();
+    }
+      // tjs partir de l'objet qui a la clé etrangere
 }

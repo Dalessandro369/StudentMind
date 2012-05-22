@@ -6,12 +6,13 @@ package studentmind.facade;
 
 import java.util.List;
 import javax.ejb.Stateless;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import studentmind.model.Document;
-
+import studentmind.model.Extension;
 /**
  *
  * @author ProjetJava
@@ -30,14 +31,25 @@ public class DocumentFacade extends AbstractFacade<Document> {
         super(Document.class);
     }
    
+    @Override
     public List<Document> findAll() {
         Query query = em.createNamedQuery("Document.findAll");
         List<Document> p = null;
         try{
             p = (List<Document>)query.getResultList();
         }catch(NoResultException e){
-            e.printStackTrace();
+
         }
         return p;
+    }
+    
+    public List<Document> find(String requete,String motCle) {
+        String query = "SELECT d FROM Document d "+requete+"ORDER BY d.titreDocument ASC";
+        String motif = "%"+motCle+"%";
+        Query q = em.createQuery(query)
+                .setParameter("mot", motif.toUpperCase());
+                
+        //.setParameter("ext", Integer.parseInt(ext));
+        return q.getResultList();
     }
 }

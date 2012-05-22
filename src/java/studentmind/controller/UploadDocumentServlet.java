@@ -5,10 +5,7 @@
 package studentmind.controller;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-import java.util.StringTokenizer;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -102,7 +99,7 @@ public class UploadDocumentServlet extends HttpServlet {
        // String str1 = toc.nextToken();
        // String str2 = toc.nextToken();
        // Extension ext = eFacade.findExtensionNom(toc.nextToken());    
-        Extension ext = new Extension(1);
+        Extension ext = new Extension(2);
         if (champOk && session != null && ext!=null) {
             
             DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
@@ -114,9 +111,8 @@ public class UploadDocumentServlet extends HttpServlet {
             doc.setTaille(5);
             doc.setTitreDocument(titre);
             doc.setDescriptionDocument(description); 
-            
-            //Utilisateur user = (Utilisateur) session.getAttribute("user");
-            Utilisateur user = new Utilisateur(1);
+ 
+            Utilisateur user = (Utilisateur) session.getAttribute("user");
             doc.setFKidutilisateur(user); 
             doc.setFKidcategorie(new Categorie(Integer.parseInt(categorie)));
             doc.setFKidtype(new Type(Integer.parseInt(type)));
@@ -127,6 +123,6 @@ public class UploadDocumentServlet extends HttpServlet {
         }else {
             request.setAttribute("test", "upload remplir formulaire");
         }
-         request.getRequestDispatcher("uploadDocument.jsp").forward(request, response);
+         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 }

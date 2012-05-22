@@ -17,22 +17,7 @@
                 <label for="extension">Type de fichier :</label>
                 <select name="extension" id="extension">
                     ${ListeExtension}
-                    <!-- <optgroup label="Microsoft">
-                             <option value="">.doc</option>
-                             <option value="">.docx</option>
-                             <option value="">.ppt</option>
-                             <option value="">.pptx</option>	
-                             <option value="">.xls</option>	
-                             <option value="">.xlsx</option>									
-                     </optgroup>
-                     <optgroup label="OpenOffice / LibreOffice">
-                             <option value="">.odt</option>
-                             <option value="">.ods</option>
-                             <option value="">.odp</option>
-                     </optgroup>
-                     <optgroup label="Adobe Systems">
-                             <option value="">.pdf</option>
-                     </optgroup>-->
+                   
                 </select><br/>
                 <label for="type">Type de document :</label>
                 <select name="type">
