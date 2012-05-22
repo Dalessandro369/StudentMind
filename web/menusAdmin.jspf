@@ -15,9 +15,9 @@
             <div class="menu">
                 <header><h3>Gestion des documents</h3></header>
                 <ul>
-                    <li><a href="gerer-types.html">Gérer les types</a></li>
-                    <li><a href="gerer-categories.html">Gérer les catégories</a></li>
-                    <li><a href="gerer-extensions.html">Gérer les extensions</a></li>
+                    <li><a href="gerer-type.html">Gérer les types</a></li>
+                    <li><a href="gerer-categorie.html">Gérer les catégories</a></li>
+                    <li><a href="gerer-extension.html">Gérer les extensions</a></li>
                 </ul>
             </div>
 
