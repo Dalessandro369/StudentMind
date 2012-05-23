@@ -41,4 +41,16 @@ public class TypeFacade extends AbstractFacade<Type> {
         }
         return t;
     }
+        public Type find(int id){
+        Query query = em.createNamedQuery("Type.findByIdType");
+        query.setParameter("idType",id);
+        Type t = null;
+        try{
+            t = (Type)query.getSingleResult();
+        }catch(NoResultException e){
+            e.printStackTrace();
+        }
+        
+        return t;
+    }
 }

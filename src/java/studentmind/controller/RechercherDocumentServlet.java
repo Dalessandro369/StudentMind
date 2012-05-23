@@ -32,7 +32,7 @@ public class RechercherDocumentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-        session.setAttribute("servlet", getClass().getName());
+        session.setAttribute("servlet", this.getServletName());
 
         // Affichage des types dans la liste déroulante
 

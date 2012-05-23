@@ -41,4 +41,17 @@ public class CategorieFacade extends AbstractFacade<Categorie> {
         }
         return t;
     }
+        
+    public Categorie find(int id){
+        Query query = em.createNamedQuery("Categorie.findByIdCategorie");
+        query.setParameter("idCategorie",id);
+        Categorie c = null;
+        try{
+            c = (Categorie)query.getSingleResult();
+        }catch(NoResultException e){
+            e.printStackTrace();
+        }
+        
+        return c;
+    }
 }

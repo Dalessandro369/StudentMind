@@ -5,21 +5,52 @@
 
 
 function Editer(id) {
-            $(document).ready(function(){
-                $(".editer").hide();
-                $("#lineCafe"+id+" .annuler , #lineCafe"+id+" .modifier").show();
-                $("#cafeNom"+id).removeAttr("disabled");
-                $("#cafeDescription"+id).removeAttr("disabled");
-                $("#cafeType"+id).removeAttr("disabled");
-                $("#cafeStock"+id).removeAttr("disabled");
-                $("#cafePrix"+id).removeAttr("disabled");
-            });
+    $(document).ready(function(){
+        $(".editer").hide(); //tous ceu qui on la class editer son cacher .show pour montrer .-> class #->id   ,-> ou
+        $(".supprimer").hide();
+        $("#ligne"+id+" .annuler").show();
+        $("#ligne"+id+" .modifier").show();
+        $("#nom"+id).removeAttr("disabled");
+        $("#des"+id).removeAttr("disabled");
+    });
+     document.getElementById("id"+id).value = "Modifier"
 }
 
-function Supprimer() {
-    alert("e");
+
+function Supprimer(id) {
+     $(document).ready(function(){
+        $(".editer").hide();
+        $(".supprimer").hide();
+        $("#ligne"+id+" .annuler").show();
+        $("#ligne"+id+" .modifier").show();
+        $("#ligne"+id+" .suppresionConfirmation").show();     
+    });   
+     document.getElementById("id"+id).value = "Supprimer"
+    //
+}
+  
+    
+
+
+function Modifier(id) {
+    $(document).ready(function(){
+        $("form[name='ligne"+id+"']").submit();
+    }); 
 }
 
-function Modifier() {
- 
+function Ajouter() {
+    $(document).ready(function(){
+        $("form[name='ajouter']").submit();
+    }); 
+}
+
+function Annuler(id) {
+    $(document).ready(function(){        
+        $("#des"+id).attr("disabled","disabled");
+        $("#nom"+id).attr("disabled","disabled");
+        $(".annuler , .modifier").hide();   
+         $("#ligne"+id+" .suppresionConfirmation").hide();       
+        $(".editer").show();
+        $(".supprimer").show();
+    });
 }
