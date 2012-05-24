@@ -67,7 +67,7 @@ public class InscriptionServlet extends HttpServlet {
         String mesPays = "";
         String mesImage = "";
 
-        //Recuper le formulaire
+        // Récupération du formulaire
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String dateNaissance = request.getParameter("dateNaissance");
@@ -79,9 +79,9 @@ public class InscriptionServlet extends HttpServlet {
         String site = request.getParameter("site");
         String ville = request.getParameter("ville");
         String pays = request.getParameter("pays");
-        String urlimage = request.getParameter("image");
+       // String urlimage = request.getParameter("image");
 
-        //Teste des champs
+        // Contrôle de validité
         if (nom == null || nom.isEmpty()) {
             mesNom = "Veuillez à remplir correctement le nom";
             request.setAttribute("ErreurNom", mesNom);
@@ -122,11 +122,12 @@ public class InscriptionServlet extends HttpServlet {
             request.setAttribute("ErreurPays", mesPays);
             champOk = false;
         }
-        if (urlimage == null || urlimage.isEmpty()) {
+      /*  if (urlimage == null || urlimage.isEmpty()) {
             mesImage = "Veuillez sélectionner une image";
             request.setAttribute("ErreurImage", mesImage);
             champOk = false;
-        }
+        }*/
+        
         UtilisateurFacade uFacade1 = ServicesLocator.getUtilisateurFacade();
         Utilisateur userEmail = uFacade1.findEmail(email);
             
@@ -139,7 +140,7 @@ public class InscriptionServlet extends HttpServlet {
             Image img = null;
             //changer l'url de l'image pour le faire unique sinon sa ira pas pour le ftp
 
-            img = new Image(1, urlimage);
+            img = new Image(1, "1");
             iFacade.create(img);
             //affiche id image
             user.setFKidImage(img);
@@ -170,7 +171,7 @@ public class InscriptionServlet extends HttpServlet {
             
             
             EmailSender es = new EmailSender(
-                email, "Merci d'avoir rejoint la communauté estudiantine StudentMind", "Bonjour " + prenom + ",\n\nFélicitations ! Vous êtes maintenant inscrit sur notre "
+                "contact.studentmind@gmail.com", email, "Merci d'avoir rejoint la communauté estudiantine StudentMind", "Bonjour " + prenom + ",\n\nFélicitations ! Vous êtes maintenant inscrit sur notre "
                     + "plateforme de partage de ressources étudiantes. Cependant, vous devez encore confirmer votre adresse email afin que votre compte soit activé. Pour"
                     + "se faire, veuillez cliquer sur le lien suivant : http://localhost:8080/StudentMind/confirm.html?e="+HashMD5.encode(email)
                     + "\nSi vous ne pouvez pas cliquer sur le lien ci-dessous, veuillez le copier-coller dans la barre d'adresse de votre navigateur."

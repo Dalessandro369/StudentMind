@@ -11,13 +11,13 @@
 <div id="page">
     <div id="content">
         <h2>Vous êtes sur le point de contacter nos administrateurs</h2>			
-        <form method="" action="">
+        <form method="POST" action="contact.html">
             <fieldset>
                 <legend>Formulaire de contact</legend>
-                <label for="">Nom :</label> <input type="text" name="" id=""  required /><br/>
-                <label for="">Adresse e-mail :</label> <input type="text" name="" id=""  required /><br/>
-                <label for="">Objet :</label> <input type="text" name="" id=""  required /><br/>
-                <label for="">Message :</label> <textarea required ></textarea><br/>
+                <label for="nom">Nom :</label> <input type="text" name="nom" id="nom"  required /><br/>
+                <label for="email">Adresse e-mail :</label> <input type="text" name="email" id="email"  required /><br/>
+                <label for="objet">Objet :</label> <input type="text" name="objet" id="objet" required /><br/>
+                <label for="message">Message :</label> <textarea name="message" id="message" required ></textarea><br/>
             </fieldset>
 
             <fieldset>
@@ -32,7 +32,7 @@
                 </noscript>
             </fieldset>
 
-            <input type="button" value="Envoyer mon message" />
+            <input type="submit" value="Envoyer mon message" />
         </form>				
     </div>
 </div>

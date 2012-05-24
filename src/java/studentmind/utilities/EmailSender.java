@@ -18,7 +18,8 @@ import javax.mail.internet.MimeMessage;
  * @author ProjetJava
  */
 public class EmailSender {
-    public EmailSender(String emailDestinataire, String objetMessage, String contenuMessage) {
+    public EmailSender(String emailDestinataire, String emailExpediteur, String objetMessage, String contenuMessage) {
+        
         final String username = "contact.studentmind@gmail.com";
         final String password = "studentmind369";
 
@@ -38,12 +39,12 @@ public class EmailSender {
         try {
 
                 Message message = new MimeMessage(session);
-                message.setFrom(new InternetAddress("contact.studentmind@gmail.com"));
+                message.setFrom(new InternetAddress(emailDestinataire));
                 message.setRecipients(Message.RecipientType.TO,
-                        InternetAddress.parse(emailDestinataire));
+                        InternetAddress.parse(emailExpediteur));
                 message.setSubject(objetMessage);
                 message.setText(contenuMessage);
-
+                
                 Transport.send(message);
 
 
