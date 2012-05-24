@@ -45,21 +45,35 @@ public class GererUtilisateurServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String id = request.getParameter("tags");
+        String type = request.getParameter("type");
+        String idUtilisateur = request.getParameter("id");
+        String rang = request.getParameter("rang");
 
-        if (id != null && (!id.isEmpty())) {
-            request.setAttribute("ListeUtilisateur", afficherUtilisateur(Integer.parseInt(id)));
+        if (idUtilisateur != null && idUtilisateur.isEmpty()) {
+            UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
+            Utilisateur u = uFacade.find(new Utilisateur(Integer.parseInt(idUtilisateur)));
+            if (type.equals("Modifier")) {
+                u.setFKidrang(new Rang(Integer.parseInt(rang)));
+                uFacade.edit(u);
+
+            } else {
+                uFacade.remove(u);
+
+            }
+            //request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
         } else {
-            request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
 
-
+            if (id != null && (!id.isEmpty())) {
+                request.setAttribute("ListeUtilisateur", afficherUtilisateur(Integer.parseInt(id)));
+            } else {
+                request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
+            }
         }
 
         request.getRequestDispatcher("gererUtilisateur.jsp").forward(request, response);
     }
 
     public String afficherUtilisateur(int id) {
-
-        //String html = "<input type=\"text\" id=\"recherche\"  />";
 
         String html = "<table>"
                 + "<tr>"
@@ -86,8 +100,8 @@ public class GererUtilisateurServlet extends HttpServlet {
                 if (id == user.getIdUtilisateur()) {
                     u = user;
                 }
-            }}else {
-
+            }
+        } else {
             for (Utilisateur user : liste) {
                 html += "\"" + user.getIdUtilisateur() + " - " + user.getNom() + " " + user.getPrenom() + "\",";
                 if (id == user.getIdUtilisateur()) {
@@ -113,39 +127,35 @@ public class GererUtilisateurServlet extends HttpServlet {
             html += "</table>";
 
         } else {
-            html += "<td class=\"colonne_description\">" + u.getNom() +" "+ u.getPrenom() + "</td>";
+            html += "<form name=\"update\" method=\"POST\" action=\"./gerer-utilisateur.html\"> "
+                    + "<input type=\"hidden\" name=\"id\" id=\"id\" value=\"" + u.getIdUtilisateur() + "\" />"
+                    + "<input type=\"hidden\" name=\"type\" id=\"type\" />"
+                    + "<td class=\"colonne_description\">" + u.getNom() + " " + u.getPrenom() + "</td>";
             RangFacade rFacade = ServicesLocator.getRangFacade();
             List<Rang> listeRang = rFacade.findAllAlpha();
-
-            html += "<td><select name=\"rang\">";
+            html += "<td>"
+                  + "<select name=\"rang\">";
             for (Rang r : listeRang) {
-                if (u.getFKidrang().equals(r)){
+                if (u.getFKidrang().equals(r)) {
                     html += "<option value=\"" + r.getIdRang() + "\"selected='selected'>" + r.getNomRang() + "</option>";
-                }else html += "<option value=\"" + r.getIdRang() + "\">" + r.getNomRang() + "</option>";
+                } else {
+                    html += "<option value=\"" + r.getIdRang() + "\">" + r.getNomRang() + "</option>";
+                }
             }
             html += "</select>"
-                    + "</td>";
+                    + "</td>"
+                    + "</form>";
+                    
 
             html += "<td>" + u.getNbrSignal() + "</td>"
-                    + "<td>"+ u.getFKidetatutlisateur().getNomEtatUtilisateur() +"</td>"
-                    + "<td class=\"colonne_action\"> <img src=\"img/adduser.png\" title=\"Ajouter\" alt=\"Ajouter\" /> </td>"
-                    + "<td class=\"colonne_action\"> <img src=\"img/bannir.png\" title=\"Bannir\" alt=\"Bannir\" /> </td> </tr>"
+                    + "<td>" + u.getFKidetatutlisateur().getNomEtatUtilisateur() + "</td>"
+                    + "<td class=\"colonne_action\"> <img onclick=\"validerUser();\" src=\"img/accepter.png\" title=\"Ajouter\" alt=\"Ajouter\"/> </td>"
+                    + "<td class=\"colonne_action\"> <img onclick=\"bannirUser();\" src=\"img/bannir.png\" title=\"Bannir\" alt=\"Bannir\" /> </td> </tr>"
                     + "</table>";
+
         }
+
         return html;
-
-
-        //  <th>Nom d\'utilisateur</th>
-
-
-
-
-
-
-
-
-
-
 
     }
 }
