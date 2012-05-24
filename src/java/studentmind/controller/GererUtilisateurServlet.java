@@ -127,6 +127,7 @@ public class GererUtilisateurServlet extends HttpServlet {
             html += "</table>";
 
         } else {
+            //ici ma bicheeeeeee
             html += "<form name=\"update\" method=\"POST\" action=\"./gerer-utilisateur.html\"> "
                     + "<input type=\"hidden\" name=\"id\" id=\"id\" value=\"" + u.getIdUtilisateur() + "\" />"
                     + "<input type=\"hidden\" name=\"type\" id=\"type\" />"
