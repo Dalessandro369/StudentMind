@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Famille.findAll", query = "SELECT f FROM Famille f"),
+    @NamedQuery(name = "Famille.findAllAlpha", query = "SELECT f FROM Famille f ORDER BY f.nomFamille ASC"),    
     @NamedQuery(name = "Famille.findByIdFamille", query = "SELECT f FROM Famille f WHERE f.idFamille = :idFamille"),
     @NamedQuery(name = "Famille.findByNomFamille", query = "SELECT f FROM Famille f WHERE f.nomFamille = :nomFamille"),
     @NamedQuery(name = "Famille.findByDescriptionFamille", query = "SELECT f FROM Famille f WHERE f.descriptionFamille = :descriptionFamille")})

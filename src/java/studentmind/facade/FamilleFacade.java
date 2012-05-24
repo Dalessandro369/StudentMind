@@ -7,6 +7,7 @@ package studentmind.facade;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import studentmind.model.Famille;
@@ -28,6 +29,15 @@ public class FamilleFacade extends AbstractFacade<Famille> {
 
     public FamilleFacade() {
         super(Famille.class);
+    }
+        public List<Famille> findAllAlpha() {
+        Query query = em.createNamedQuery("Famille.findAllAlpha");
+        List<Famille> fam = null;
+        try {
+            fam = (List<Famille>) query.getResultList();
+        } catch (NoResultException e) {
+        }
+        return fam;
     }
 
 }

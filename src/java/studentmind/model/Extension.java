@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Extension.findAll", query = "SELECT e FROM Extension e"),
+    @NamedQuery(name = "Extension.findAllAlpha", query = "SELECT e FROM Extension e ORDER BY e.nomExtension ASC"),
     @NamedQuery(name = "Extension.findByIdExtension", query = "SELECT e FROM Extension e WHERE e.idExtension = :idExtension"),
     @NamedQuery(name = "Extension.findByNomExtension", query = "SELECT e FROM Extension e WHERE e.nomExtension = :nomExtension"),
     @NamedQuery(name = "Extension.findByDescriptionExtension", query = "SELECT e FROM Extension e WHERE e.descriptionExtension = :descriptionExtension")})

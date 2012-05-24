@@ -37,7 +37,6 @@ public class TypeFacade extends AbstractFacade<Type> {
         try {
             t = (List<Type>) query.getResultList();
         } catch (NoResultException e) {
-            e.printStackTrace();
         }
         return t;
     }

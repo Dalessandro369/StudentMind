@@ -17,6 +17,7 @@ import studentmind.model.Utilisateur;
  */
 @Stateless
 public class UtilisateurFacade extends AbstractFacade<Utilisateur> {
+
     @PersistenceContext(unitName = "StudentMindPU")
     private EntityManager em;
 
@@ -28,15 +29,27 @@ public class UtilisateurFacade extends AbstractFacade<Utilisateur> {
     public UtilisateurFacade() {
         super(Utilisateur.class);
     }
-     public Utilisateur findEmail(String name){
+
+    public Utilisateur findEmail(String name) {
         Query query = em.createNamedQuery("Utilisateur.findByEmail");
-        query.setParameter("email",name);
+        query.setParameter("email", name);
         Utilisateur u = null;
-        try{
-            u = (Utilisateur)query.getSingleResult();            
-        }catch(NoResultException e){
+        try {
+            u = (Utilisateur) query.getSingleResult();
+        } catch (NoResultException e) {
         }
-        
+
+        return u;
+    }
+
+    public Utilisateur find() {
+        Query query = em.createNamedQuery("Utilisateur.findAll");
+        Utilisateur u = null;
+        try {
+            u = (Utilisateur) query.getSingleResult();
+        } catch (NoResultException e) {
+        }
+
         return u;
     }
 }

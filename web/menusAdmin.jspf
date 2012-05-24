@@ -32,7 +32,7 @@
             <div class="menu">
                 <header><h3>Gestion des utilisateurs</h3></header>
                 <ul>
-                    <li><a href="gerer-user.html">Modifier rang / Bannir</a></li>
+                    <li><a href="gerer-utilisateur.html">Modifier rang / Bannir</a></li>
                 </ul>
             </div>			
         </div>

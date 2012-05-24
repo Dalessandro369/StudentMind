@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Rang.findAll", query = "SELECT r FROM Rang r"),
+    @NamedQuery(name = "Rang.findAllApha", query = "SELECT r FROM Rang r ORDER BY r.nomRang ASC"),
     @NamedQuery(name = "Rang.findByIdRang", query = "SELECT r FROM Rang r WHERE r.idRang = :idRang"),
     @NamedQuery(name = "Rang.findByNomRang", query = "SELECT r FROM Rang r WHERE r.nomRang = :nomRang")})
 public class Rang implements Serializable {
