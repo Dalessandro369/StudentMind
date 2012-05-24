@@ -60,15 +60,36 @@ function inputRecherche(){
     id = valeurRecherche.split('-')[0];
     id = id.split(' ')[0];
     
-    
-    
-   document.getElementById("tags").value = id;
-    
-    
+    var exp = new RegExp("^[0-9]*$","g");
+    if (exp.test(id)){
+        document.getElementById("tags").value = id;
+    }else  document.getElementById("tags").value = "";
     
     $(document).ready(function(){
         $("form[name='user']").submit();
     });  
-    
+}
 
+function validerUser(){
+    
+    document.getElementById("type").value = "Modifier";
+     
+    
+    $(document).ready(function(){
+        $("form[name='update']").submit();
+    }); 
+   
+
+}
+
+function bannirUser(){
+
+    document.getElementById("type").value = "Supprimer"
+    $(document).ready(function(){
+        $("form[name='update']").submit();
+    }); 
+  
+}
+function verifier(moi){
+    
 }

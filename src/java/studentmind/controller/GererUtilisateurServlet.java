@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import studentmind.facade.RangFacade;
 import studentmind.facade.ServicesLocator;
 import studentmind.facade.UtilisateurFacade;
+import studentmind.model.EtatUtilisateur;
 import studentmind.model.Rang;
 import studentmind.model.Utilisateur;
 
@@ -48,21 +49,19 @@ public class GererUtilisateurServlet extends HttpServlet {
         String type = request.getParameter("type");
         String idUtilisateur = request.getParameter("id");
         String rang = request.getParameter("rang");
-
-        if (idUtilisateur != null && idUtilisateur.isEmpty()) {
+         
+        if (idUtilisateur != null && (!idUtilisateur.isEmpty())) {
             UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
-            Utilisateur u = uFacade.find(new Utilisateur(Integer.parseInt(idUtilisateur)));
+            Utilisateur u = uFacade.findId(Integer.parseInt(idUtilisateur));
             if (type.equals("Modifier")) {
                 u.setFKidrang(new Rang(Integer.parseInt(rang)));
                 uFacade.edit(u);
-
             } else {
-                uFacade.remove(u);
-
+                u.setFKidetatutlisateur(new EtatUtilisateur(3));
+                uFacade.edit(u);;
             }
-            //request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
+            request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
         } else {
-
             if (id != null && (!id.isEmpty())) {
                 request.setAttribute("ListeUtilisateur", afficherUtilisateur(Integer.parseInt(id)));
             } else {
@@ -119,6 +118,8 @@ public class GererUtilisateurServlet extends HttpServlet {
                 + "</script>"
                 + " <div class=\"ui-widget\">"
                 + "<form name='user' method='POST' action='./gerer-utilisateur.html' >"
+   //--------------------------
+    //Verifier en js que lorsqu'on sort du champ que sa soit un nombre si oui ok si pas remettre le champ a blanc
                 + "<input class=\"nom_utilisateur\" type=\"text\" name=\"tags\" id=\"tags\" placeholder=\"Nom d\'utilisateur\" />"
                 + "</form>"
                 + "</div>"
@@ -127,14 +128,14 @@ public class GererUtilisateurServlet extends HttpServlet {
             html += "</table>";
 
         } else {
-            //ici ma bicheeeeeee
-            html += "<form name=\"update\" method=\"POST\" action=\"./gerer-utilisateur.html\"> "
-                    + "<input type=\"hidden\" name=\"id\" id=\"id\" value=\"" + u.getIdUtilisateur() + "\" />"
-                    + "<input type=\"hidden\" name=\"type\" id=\"type\" />"
-                    + "<td class=\"colonne_description\">" + u.getNom() + " " + u.getPrenom() + "</td>";
+                    
+                    html += "<td class=\"colonne_description\">" + u.getNom() + " " + u.getPrenom() + "</td>";
             RangFacade rFacade = ServicesLocator.getRangFacade();
             List<Rang> listeRang = rFacade.findAllAlpha();
             html += "<td>"
+                    +"<form name=\"update\" method=\"POST\" action=\"./gerer-utilisateur.html\"> "
+                    + "<input type=\"hidden\" name=\"id\" id=\"id\" value=\"" + u.getIdUtilisateur() + "\" />"
+                    + "<input type=\"hidden\" name=\"type\" id=\"type\" />"
                   + "<select name=\"rang\">";
             for (Rang r : listeRang) {
                 if (u.getFKidrang().equals(r)) {
@@ -143,9 +144,9 @@ public class GererUtilisateurServlet extends HttpServlet {
                     html += "<option value=\"" + r.getIdRang() + "\">" + r.getNomRang() + "</option>";
                 }
             }
-            html += "</select>"
-                    + "</td>"
-                    + "</form>";
+            html += "</select>"                    
+                    + "</form>"
+                    + "</td>";
                     
 
             html += "<td>" + u.getNbrSignal() + "</td>"

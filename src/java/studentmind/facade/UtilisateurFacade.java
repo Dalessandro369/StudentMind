@@ -52,4 +52,16 @@ public class UtilisateurFacade extends AbstractFacade<Utilisateur> {
 
         return u;
     }
+
+    public Utilisateur findId(int id) {
+        Query query = em.createNamedQuery("Utilisateur.findByIdUtilisateur");
+        query.setParameter("idUtilisateur",id);
+        Utilisateur u = null;
+        try {
+            u = (Utilisateur) query.getSingleResult();
+        } catch (NoResultException e) {
+        }
+
+        return u;
+    }
 }
