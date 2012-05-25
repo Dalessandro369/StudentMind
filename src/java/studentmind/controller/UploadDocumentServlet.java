@@ -14,10 +14,20 @@ import javax.servlet.http.HttpSession;
 import studentmind.facade.*;
 import studentmind.model.*;
 
+/* imports pour test Jean */
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.Scanner;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Part;
+
 /**
  *
  * @author ProjetJava
  */
+@MultipartConfig   
 public class UploadDocumentServlet extends HttpServlet {
     @Override
     public void init() throws ServletException{
@@ -56,7 +66,106 @@ public class UploadDocumentServlet extends HttpServlet {
     }
 
  
+    /* doPost pour test Jean */
     @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+        
+        boolean champOk = true;
+        String mesType = "";
+        String mesCategorie = "";
+        String mesTitre = "";
+        String mesDescription = "";
+        
+        //Recupérer le formulaire
+        String type = request.getParameter("type");
+        String categorie = request.getParameter("categorie");
+        String titre = request.getParameter("titre");   
+        String description = request.getParameter("description");
+        if (type == null || type.isEmpty()) {
+            mesType = "Veuillez à remplir correctement le type";
+            request.setAttribute("ErreurType", mesType);
+            champOk = false;
+        }
+        if (categorie == null || categorie.isEmpty()) {
+            mesCategorie = "Veuillez à remplir correctement la catégorie";
+            request.setAttribute("ErreurCategorie", mesCategorie);
+            champOk = false;
+        }
+        if (titre == null || titre.isEmpty()) {
+            mesTitre = "Veuillez à remplir correctement le titre";
+            request.setAttribute("ErreurTitre", mesTitre);
+            champOk = false;
+        }
+        if (description == null || description.isEmpty()) {
+            mesDescription = "Veuillez à remplir correctement la description";
+            request.setAttribute("ErreurDescription", mesDescription);
+            champOk = false;
+        }        
+ 
+        HttpSession session = request.getSession(false);
+        ExtensionFacade eFacade = ServicesLocator.getExtensionFacade();
+        Extension ext = new Extension(2);
+        if (champOk && session != null && ext!=null)
+        {
+        
+            DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+
+
+            Document doc = new Document();
+            doc.setIdDocument(1);
+            //Vérifier la taille document ici je mes 5Mo
+            doc.setTaille(5);
+            doc.setTitreDocument(titre);
+            doc.setDescriptionDocument(description); 
+ 
+            Utilisateur user = (Utilisateur) session.getAttribute("user");
+            doc.setFKidutilisateur(user); 
+            doc.setFKidcategorie(new Categorie(Integer.parseInt(categorie)));
+            doc.setFKidtype(new Type(Integer.parseInt(type)));
+            doc.setFKidetatdocument(new EtatDocument(1));
+            doc.setFKidextension(ext);
+            dFacade.create(doc);
+            request.setAttribute("test", "upload ok");
+        
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            try {
+                // on accède au fichier uploadé par le client
+                Part p1 = request.getPart("urlFichier");
+                InputStream is = p1.getInputStream();
+
+                // on lit le nom du fichier
+                Part p2  = request.getPart("titre");
+                Scanner s = new Scanner(p2.getInputStream());
+                String filename = s.nextLine();    // on le récupère ici
+
+                // on récupère le nom à utiliser sur le serveur
+                String outputfile = this.getServletContext().getRealPath(filename);  // on récupère le chemin sur le serveur
+                FileOutputStream os = new FileOutputStream (outputfile);
+
+                // on écrit les bytes du fichier de la source vers la destination
+                int ch = is.read();
+                while (ch != -1) {
+                    os.write(ch);
+                    ch = is.read();
+                }
+                os.close();
+                out.println("<h3>Fichier uploadé avec succès !</h3>");
+            }
+            catch(Exception ex) {
+            out.println("Exception -->" + ex.getMessage());
+            }
+            finally { 
+                out.close();
+            }
+        
+        }// fin du if
+        else {request.setAttribute("test", "upload remplir formulaire");}
+        
+    } 
+    
+    /*@Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         boolean champOk = true;
@@ -124,5 +233,5 @@ public class UploadDocumentServlet extends HttpServlet {
             request.setAttribute("test", "upload remplir formulaire");
         }
          request.getRequestDispatcher("index.jsp").forward(request, response);
-    }
+    }*/
 }
