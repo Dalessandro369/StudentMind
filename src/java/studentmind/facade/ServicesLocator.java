@@ -28,7 +28,15 @@ public abstract class ServicesLocator {
             return null;
         }
     }
-
+    public static TelechargementFacade getTelechargementFacade() {
+        try {
+            Context context = new InitialContext();
+            return (TelechargementFacade) context.lookup("java:global/StudentMind/TelechargementFacade");
+        } catch (NamingException ex) {
+            Logger.getLogger(ServicesLocator.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
     public static ExtensionFacade getExtensionFacade() {
         try {
             Context context = new InitialContext();

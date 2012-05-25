@@ -111,9 +111,9 @@ public class RechercherDocumentServlet extends HttpServlet {
         if (mot == null || mot.isEmpty()) {
             mot = "";
         }
-        if (champOk) {          
-            
-            requete += "WHERE UPPER(d.titreDocument) like :mot OR UPPER(d.descriptionDocument) like :mot ";            
+        if (champOk) {
+
+            requete += "WHERE UPPER(d.titreDocument) like :mot OR UPPER(d.descriptionDocument) like :mot ";
 
             DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
             List<Document> liste = dFacade.find(requete, mot);
@@ -132,14 +132,16 @@ public class RechercherDocumentServlet extends HttpServlet {
                 }
                 if (ok) {
                     listeHtml += "<div class=\"article_header_articles\"><header>"
-                            + "<h3><a href=\"voir-document.html?id="+doc.getIdDocument()+"\">"+doc.getTitreDocument()+"</a></h3></header></div>"
+                            + "<h3><a href=\"voir-document.html?id=" + doc.getIdDocument() + "\">" + doc.getTitreDocument() + "</a></h3></header></div>"
                             + "<div class=\"article_content_articles\">"
                             + "<ul>"
-                            + "<li><strong><span class=\"\">Type : </span></strong>"+doc.getFKidtype().getNomType()+"</li>"
-                            + "<li><strong><span class=\"\">Matière : </span></strong>"+ doc.getFKidcategorie().getNomCategorie()+"</li>"
-                            + "<li><strong><span class=\"\">Taille du fichier :< /span></strong>"+doc.getTaille()+" Mo</li>"
-                            + "<li><strong><span class=\"\">Type de fichier : </span></strong>"+doc.getFKidextension().getNomExtension()+ "( " + doc.getFKidextension().getFKidfamille().getNomFamille()+" ) </li>"
-                            + "<li><strong><span class=\"\">Téléchargé : /span></strong>217 fois</li>"
+                            + "<li><strong><span class=\"\">Type : </span></strong>" + doc.getFKidtype().getNomType() + "</li>"
+                            + "<li><strong><span class=\"\">Matière : </span></strong>" + doc.getFKidcategorie().getNomCategorie() + "</li>"
+                            + "<li><strong><span class=\"\">Taille du fichier : </span></strong>" + doc.getTaille() + " Mo</li>"
+                            + "<li><strong><span class=\"\">Type de fichier : </span></strong>" + doc.getFKidextension().getNomExtension() + " ( " + doc.getFKidextension().getFKidfamille().getNomFamille() + " ) </li>"
+                            + "<li><strong><span class=\"\">Téléchargé : </span></strong>";
+                    TelechargementFacade tFacade = ServicesLocator.getTelechargementFacade();
+                    listeHtml += tFacade.nbrTelecharger(doc.getIdDocument()) + " fois</li>"
                             + "<li><strong><span class=\"\">Note : </span></strong> 3.5/5</li>"
                             + "</ul>"
                             + "</div>"
@@ -149,12 +151,12 @@ public class RechercherDocumentServlet extends HttpServlet {
                 }
 
             }
-           
-            if (listeHtml .equals("")) {
+
+            if (listeHtml.equals("")) {
                 listeHtml = "Aucun résultat";
             }
             request.setAttribute("listeDocument", listeHtml);
-        } 
+        }
         request.getRequestDispatcher("listeDocuments.jsp").forward(request, response);
     }
 }
