@@ -52,4 +52,16 @@ public class DocumentFacade extends AbstractFacade<Document> {
         //.setParameter("ext", Integer.parseInt(ext));
         return q.getResultList();
     }
+        public Document findRang(int id) {
+        Query query = em.createNamedQuery("Document.findByIdDocument");
+        query.setParameter("idDocument", id);
+        Document r = null;
+        try {
+            r = (Document) query.getSingleResult();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+
+        return r;
+    }
 }
