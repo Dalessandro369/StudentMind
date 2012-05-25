@@ -38,6 +38,7 @@ public abstract class ServicesLocator {
             return null;
         }
     }
+
     public static CategorieFacade getCategorieFacade() {
         try {
             Context context = new InitialContext();
@@ -47,6 +48,17 @@ public abstract class ServicesLocator {
             return null;
         }
     }
+
+    public static CommentaireFacade getCommentaireFacade() {
+        try {
+            Context context = new InitialContext();
+            return (CommentaireFacade) context.lookup("java:global/StudentMind/CommentaireFacade");
+        } catch (NamingException ex) {
+            Logger.getLogger(ServicesLocator.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
     public static DocumentFacade getDocumentFacade() {
         try {
             Context context = new InitialContext();
@@ -66,7 +78,6 @@ public abstract class ServicesLocator {
             return null;
         }
     }
-
 
     public static UtilisateurFacade getUtilisateurFacade() {
         try {
@@ -107,7 +118,7 @@ public abstract class ServicesLocator {
             return null;
         }
     }
-    
+
     public static FamilleFacade getFamilleFacade() {
         try {
             Context context = new InitialContext();

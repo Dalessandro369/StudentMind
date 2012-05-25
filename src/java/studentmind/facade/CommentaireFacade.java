@@ -4,9 +4,11 @@
  */
 package studentmind.facade;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import studentmind.model.Commentaire;
 
 /**
@@ -15,6 +17,7 @@ import studentmind.model.Commentaire;
  */
 @Stateless
 public class CommentaireFacade extends AbstractFacade<Commentaire> {
+
     @PersistenceContext(unitName = "StudentMindPU")
     private EntityManager em;
 
@@ -26,5 +29,10 @@ public class CommentaireFacade extends AbstractFacade<Commentaire> {
     public CommentaireFacade() {
         super(Commentaire.class);
     }
-    
+
+    public List<Commentaire> findCom(int idDoc) {
+        String query = "SELECT c FROM  Commentaire c JOIN c.fKiddocument doc JOIN c.fKidetatcommentaire etat WHERE doc.idDocument = :idDoc AND (etat.idEtatCommentaire = 4 OR etat.idEtatCommentaire = 2)";
+        Query q = em.createQuery(query).setParameter("idDoc", idDoc);
+        return q.getResultList();
+    }
 }

@@ -5,8 +5,10 @@
 package studentmind.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -18,7 +20,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Commentaire.findAll", query = "SELECT c FROM Commentaire c"),
-    @NamedQuery(name = "Commentaire.findByIdCommentaire", query = "SELECT c FROM Commentaire c WHERE c.idCommentaire = :idCommentaire")})
+    @NamedQuery(name = "Commentaire.findByIdCommentaire", query = "SELECT c FROM Commentaire c WHERE c.idCommentaire = :idCommentaire"),
+    @NamedQuery(name = "Commentaire.findByDate", query = "SELECT c FROM Commentaire c WHERE c.date = :date")})
 public class Commentaire implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -27,6 +30,15 @@ public class Commentaire implements Serializable {
     @NotNull
     @Column(name = "id_commentaire")
     private Integer idCommentaire;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Size(min = 1, max = 65535)
+    @Column(name = "contenu")
+    private String contenu;
+    @Column(name = "Date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
     @JoinColumn(name = "FK_id_utilisateur", referencedColumnName = "id_utilisateur")
     @ManyToOne(optional = false)
     private Utilisateur fKidutilisateur;
@@ -47,12 +59,33 @@ public class Commentaire implements Serializable {
         this.idCommentaire = idCommentaire;
     }
 
+    public Commentaire(Integer idCommentaire, String contenu) {
+        this.idCommentaire = idCommentaire;
+        this.contenu = contenu;
+    }
+
     public Integer getIdCommentaire() {
         return idCommentaire;
     }
 
     public void setIdCommentaire(Integer idCommentaire) {
         this.idCommentaire = idCommentaire;
+    }
+
+    public String getContenu() {
+        return contenu;
+    }
+
+    public void setContenu(String contenu) {
+        this.contenu = contenu;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Utilisateur getFKidutilisateur() {

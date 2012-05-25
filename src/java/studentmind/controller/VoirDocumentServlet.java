@@ -5,14 +5,16 @@
 package studentmind.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import studentmind.facade.CommentaireFacade;
 import studentmind.facade.DocumentFacade;
 import studentmind.facade.ServicesLocator;
+import studentmind.model.Commentaire;
 import studentmind.model.Document;
 /**
  *
@@ -65,8 +67,20 @@ public class VoirDocumentServlet extends HttpServlet {
                 + "</div>"
                 + "<div class=\"article_footer\"><footer><strong>Catégorie : </strong>"+ doc.getFKidcategorie().getNomCategorie()+"</footer></div>";
         request.setAttribute("informationDoc", html);
-               
+        html = "";
+        CommentaireFacade cFacade = ServicesLocator.getCommentaireFacade();
+        List<Commentaire> liste = cFacade.findCom(Integer.parseInt(idDoc));
+        for(Commentaire com : liste){
+          
+            html = "<div class=\"commentaire_icon\"></div>"
+                    + "<div class=\"commentaire_header_article\"><header><strong>Auteur :</strong>"+com.getFKidutilisateur().getNom() + " " +com.getFKidutilisateur().getPrenom()+"</header></div>"
+                    + "<div class=\"commentaire_content_article\">"
+                    + "<blockquote>"+com.getContenu()+"</blockquote>"
+                    + "</div>"
+                    + " <div class=\"commentaire_footer_article\"><footer><strong>Posté le, à : </strong>"
         
+        12 décembre 2011, 15h12</footer></div>
+        }
         request.getRequestDispatcher("voirDocument.jsp").forward(request,response); 
     }
 
