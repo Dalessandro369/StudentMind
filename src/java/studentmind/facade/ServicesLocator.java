@@ -28,6 +28,15 @@ public abstract class ServicesLocator {
             return null;
         }
     }
+    public static NoteFacade getNoteFacade() {
+        try {
+            Context context = new InitialContext();
+            return (NoteFacade) context.lookup("java:global/StudentMind/NoteFacade");
+        } catch (NamingException ex) {
+            Logger.getLogger(ServicesLocator.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
     public static TelechargementFacade getTelechargementFacade() {
         try {
             Context context = new InitialContext();
@@ -37,6 +46,7 @@ public abstract class ServicesLocator {
             return null;
         }
     }
+
     public static ExtensionFacade getExtensionFacade() {
         try {
             Context context = new InitialContext();

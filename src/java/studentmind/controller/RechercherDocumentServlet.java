@@ -142,7 +142,11 @@ public class RechercherDocumentServlet extends HttpServlet {
                             + "<li><strong><span class=\"\">Téléchargé : </span></strong>";
                     TelechargementFacade tFacade = ServicesLocator.getTelechargementFacade();
                     listeHtml += tFacade.nbrTelecharger(doc.getIdDocument()) + " fois</li>"
-                            + "<li><strong><span class=\"\">Note : </span></strong> 3.5/5</li>"
+                            + "<li><strong><span class=\"\">Note : </span></strong>";
+                    
+                            NoteFacade nFacade = ServicesLocator.getNoteFacade();
+                            
+                       listeHtml += nFacade.moyenne(doc.getIdDocument()) +"/5</li>"
                             + "</ul>"
                             + "</div>"
                             + "<div class=\"article_footer\"><footer></footer></div>";

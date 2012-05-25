@@ -7,6 +7,7 @@ package studentmind.facade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import studentmind.model.Note;
 
 /**
@@ -26,5 +27,14 @@ public class NoteFacade extends AbstractFacade<Note> {
     public NoteFacade() {
         super(Note.class);
     }
-    
+    public double moyenne(int idDoc) {
+        String query = "SELECT AVG(n.note) FROM Note n JOIN n.document doc WHERE doc.idDocument = :idDoc";
+        Query q = em.createQuery(query).setParameter("idDoc", idDoc);
+        Double result =(Double)q.getSingleResult(); 
+        if (result == null){
+            return 0;
+        }else return result.doubleValue();
+        
+       
+    }    
 }
