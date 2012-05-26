@@ -42,8 +42,8 @@
             <div class="menu">
                 <header><h3>Statistiques du site</h3></header>
                 <ul>
-                    <li><strong><span class="">Nombre de membres : ${nbrMembre} </span></strong></li>
-                    <li><strong><span class="">Nombre de documents : ${nbrDoc}</span></strong></li>
+                    <li><strong><span class="">Nombre de membres : </span></strong>${nbrMembre}</li>
+                    <li><strong><span class="">Nombre de documents : </span></strong>${nbrDoc}</li>
                 </ul>	
             </div>
         </div>
@@ -51,12 +51,7 @@
         <div id="right_menu">
             <div class="menu">
                 <header><h3>Derniers documents</h3></header>
-                <ul>
-                    <li><a href="voir-document.html">Manier la trigonométrie</a> - Vous verrez que la trigo ne se résume pas à un ensemble de formules, c'est aussi une interprétation géométrique qui 
-                        a toute son importance. Et puis la trigo n'a pas été inventée pour rien : les applications sont nombreuses en physique.
-                    </li>
-                </ul>
-                <footer><a href="liste-documents.html">>> Vers tous les documents</a></footer>
+                ${top}
             </div>              
         </div>
     </c:when>        

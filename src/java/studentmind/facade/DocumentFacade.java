@@ -47,7 +47,12 @@ public class DocumentFacade extends AbstractFacade<Document> {
         Query q = em.createQuery(query).setParameter("mot", motif.toUpperCase());
         return q.getResultList();
     }
-
+    
+    public List<Document> top3() {
+        String query = "SELECT d FROM Document d JOIN d.fKidetatdocument etat WHERE etat.idEtatDocument = 2 ORDER BY d.idDocument DESC";
+        Query q = em.createQuery(query).setMaxResults(3);
+        return q.getResultList();
+    }
     public Document findRang(int id) {
         Query query = em.createNamedQuery("Document.findByIdDocument");
         query.setParameter("idDocument", id);
@@ -75,7 +80,7 @@ public class DocumentFacade extends AbstractFacade<Document> {
 
 
    public Document documentUne() {
-        Query query = em.createNamedQuery("Document.findDocumentUne");               
+        Query query = em.createQuery("SELECT d FROM Document d JOIN d.fKidetatdocument etat WHERE etat.idEtatDocument = 2 ORDER BY d.idDocument DESC").setMaxResults(1);               
         Document d = null;
         try {
             d = (Document) query.getSingleResult();

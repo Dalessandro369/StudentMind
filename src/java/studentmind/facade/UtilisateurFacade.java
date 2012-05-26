@@ -30,7 +30,7 @@ public class UtilisateurFacade extends AbstractFacade<Utilisateur> {
         super(Utilisateur.class);
     }
 
-    public int nbrDoc() {
+    public int nbrUser() {
         String query = "SELECT COUNT(u) FROM Utilisateur u JOIN u.fKidetatutlisateur etat WHERE etat.idEtatUtilisateur = 2";
         Query q = em.createQuery(query);
         return ((Long) q.getSingleResult()).intValue();

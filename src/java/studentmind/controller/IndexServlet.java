@@ -44,11 +44,21 @@ public class IndexServlet extends HttpServlet {
         request.setAttribute("DocumentUne", afficherDocument());
         request.setAttribute("nbrDoc", afficherNbrDoc());
         request.setAttribute("nbrMembre", afficherNbrMembre());
+        request.setAttribute("top", afficherTop());
         request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                HttpSession session = request.getSession(true);
+        session.setAttribute("servlet", getClass().getName());
+
+        request.setAttribute("ListeCategorie", afficherCategorie());
+        request.setAttribute("DocumentUne", afficherDocument());
+        request.setAttribute("nbrDoc", afficherNbrDoc());
+        request.setAttribute("nbrMembre", afficherNbrMembre());
+        request.setAttribute("top", afficherTop());
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 
     public String afficherCategorie() {
@@ -80,7 +90,7 @@ public class IndexServlet extends HttpServlet {
         
         String html = "";
         UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
-        html = ""+uFacade.count();        
+        html = ""+uFacade.nbrUser();        
         return html;      
         
     }
@@ -151,4 +161,23 @@ public class IndexServlet extends HttpServlet {
 
         return html;
     }
+    public String afficherTop(){
+        String html = "<ul>";
+        DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+        List<Document> liste = dFacade.top3();
+        for (Document doc :liste){
+            html += ""
+                    + "<li><strong>"+doc.getTitreDocument()+"</strong> - "+doc.getDescriptionDocument().substring(0, 150) +" <a href=\"voir-document.html?id=" + doc.getIdDocument()+"\"> Lire la suite</a>"
+                    + "</li>";
+        }
+        html += "</ul>";
+        return html;
+    }
 }
+
+                
+                    
+                        
+                    
+                
+               // <footer><a href="liste-documents.html">>> Vers tous les documents</a></footer>
