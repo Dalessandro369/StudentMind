@@ -113,7 +113,7 @@ public class RechercherDocumentServlet extends HttpServlet {
         }
         if (champOk) {
 
-            requete += "WHERE UPPER(d.titreDocument) like :mot OR UPPER(d.descriptionDocument) like :mot ";
+            requete += " WHERE (UPPER(d.titreDocument) like :mot OR UPPER(d.descriptionDocument) like :mot) AND etat.idEtatDocument = 2";
 
             DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
             List<Document> liste = dFacade.find(requete, mot);

@@ -56,15 +56,15 @@ public class VoirDocumentServlet extends HttpServlet {
                 + "<strong>Moyenne : </strong>"
                 + "<script type=\"text/javascript\">"
                 + "$(document).ready(function(){"
-                + " $(\".avg_note\").jRating({"
-                + "type:'small', // type of the rate.. can be set to 'small' or 'big'"
-                + "length : 5, // nb of stars"
-                + "decimalLength : 1, // number of decimal in the rate"
-                + "isDisabled : true"
-                + " });"
+                + "$(\".avg_note\").jRating({"
+                + "type:'small'," // type of the rate.. can be set to 'small' or 'big'
+                + "length : 5," // nb of stars
+                + "decimalLength : 1," // number of decimal in the rate
+                + "isDisabled : true,"
+                + "});"
                 + "});"
                 + "</script>"
-                + "<div class=\"avg_note\" data=\"2\"></div>"
+                + "<div class=\"avg_note\" data=\""+doc.getTaille()+"\"></div>"
                 + "</li>"
                 + "</ul>";
         request.setAttribute("infoDoc", html);

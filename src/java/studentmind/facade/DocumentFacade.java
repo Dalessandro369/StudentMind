@@ -44,7 +44,7 @@ public class DocumentFacade extends AbstractFacade<Document> {
     }
     
     public List<Document> find(String requete,String motCle) {
-        String query = "SELECT d FROM Document d "+requete+"ORDER BY d.titreDocument ASC";
+        String query = "SELECT d FROM Document d JOIN d.fKidetatdocument etat"+requete+"ORDER BY d.titreDocument ASC";
         String motif = "%"+motCle+"%";
         Query q = em.createQuery(query)
                 .setParameter("mot", motif.toUpperCase());
