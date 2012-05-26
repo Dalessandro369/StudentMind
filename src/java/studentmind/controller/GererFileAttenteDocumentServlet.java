@@ -40,37 +40,11 @@ public class GererFileAttenteDocumentServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-        String nom = request.getParameter("nom");
-        String description = request.getParameter("des");
-        String id = request.getParameter("id");
-        String typeGestion = request.getParameter("typeGestion");
-
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            TypeFacade tFacade = ServicesLocator.getTypeFacade();
-            Type type = null;
-            if (id.isEmpty()) {
-                if ((!nom.equals("")) && (!description.equals(""))){
-                type = new Type(0);
-                type.setNomType(nom);
-                type.setDescriptionType(description);
-                tFacade.create(type);
-                }
-            } else {
-
-                type = tFacade.find(Integer.parseInt(id));
-                if (typeGestion.equals("Modifier")) {
-                    type.setDescriptionType(description);
-                    type.setNomType(nom);
-                    tFacade.edit(type);
-                } else {
-                    tFacade.remove(type);
-                }
-            }
-            request.setAttribute("ListeType", afficheFileAttenteDocument());
-            request.getRequestDispatcher("gererType.jsp").forward(request, response);
-        }
+           HttpSession session = request.getSession(false);
+        session.setAttribute("servlet", getClass().getName());    
+        request.setAttribute("ListeFileAttente", afficheFileAttenteDocument());
+        request.getRequestDispatcher("gererFileAttenteDocument.jsp").forward(request,response);
+       
     }
     
     public String afficheFileAttenteDocument() {

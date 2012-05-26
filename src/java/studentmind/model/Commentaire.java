@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "commentaire")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Commentaire.findAll", query = "SELECT c FROM Commentaire c"),
+    @NamedQuery(name = "Commentaire.findAll", query = "SELECT c FROM Commentaire c"),    
     @NamedQuery(name = "Commentaire.findByIdCommentaire", query = "SELECT c FROM Commentaire c WHERE c.idCommentaire = :idCommentaire"),
     @NamedQuery(name = "Commentaire.findByDate", query = "SELECT c FROM Commentaire c WHERE c.date = :date")})
 public class Commentaire implements Serializable {

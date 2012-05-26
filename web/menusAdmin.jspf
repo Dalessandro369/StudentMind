@@ -21,8 +21,8 @@
             <div class="menu">
                 <header><h3>Gestion des demandes</h3></header>
                 <ul>
-                    <li><a href="gerer-abus.html">Gérer les signalements d'abus</a> (2)</li>
-                    <li><a href="">Gérer la file d'attente des documents</a> (4)</li>
+                    <li><a href="gerer-abus.html">Gérer les signalements d'abus</a> ${nbrCom}</li>
+                    <li><a href="gerer-file-attente-document.html">Gérer la file d'attente des documents</a> (4)</li>
                 </ul>
             </div>
 

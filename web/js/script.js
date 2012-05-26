@@ -93,3 +93,16 @@ function bannirUser(){
 function verifier(moi){
     
 }
+function ValiderAbus(){
+  document.getElementById("type").value = "Valider"
+      $(document).ready(function(){
+        $("form").submit();
+    });
+}
+function RetirerAbus(){
+    document.getElementById("type").value = "Supprimer"
+         $(document).ready(function(){
+        $("form").submit();
+    });
+    alert(document.getElementById("type").value);
+}
