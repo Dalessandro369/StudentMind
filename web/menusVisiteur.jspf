@@ -1,4 +1,5 @@
 <%-- any content can be specified here e.g.: --%>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
 <%@ page pageEncoding="UTF-8" %>
 <c:choose>
     <c:when test='${servlet == "studentmind.controller.ConnexionServlet"}'>
@@ -41,8 +42,8 @@
             <div class="menu">
                 <header><h3>Statistiques du site</h3></header>
                 <ul>
-                    <li><strong><span class="">Nombre de membres :</span></strong></li>
-                    <li><strong><span class="">Nombre de documents :</span></strong></li>
+                    <li><strong><span class="">Nombre de membres : ${nbrMembre} </span></strong></li>
+                    <li><strong><span class="">Nombre de documents : ${nbrDoc}</span></strong></li>
                 </ul>	
             </div>
         </div>

@@ -6,6 +6,7 @@ package studentmind.model;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -21,10 +22,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Document.findAll", query = "SELECT d FROM Document d"),
+    @NamedQuery(name = "Document.findDocumentUne", query = "SELECT d FROM Document d JOIN d.fKidetatdocument etat WHERE etat.idEtatDocument = 2 ORDER BY d.idDocument DESC"),    
     @NamedQuery(name = "Document.findByIdDocument", query = "SELECT d FROM Document d WHERE d.idDocument = :idDocument"),
     @NamedQuery(name = "Document.findByTitreDocument", query = "SELECT d FROM Document d WHERE d.titreDocument = :titreDocument"),
     @NamedQuery(name = "Document.findByDescriptionDocument", query = "SELECT d FROM Document d WHERE d.descriptionDocument = :descriptionDocument"),
-    @NamedQuery(name = "Document.findByTaille", query = "SELECT d FROM Document d WHERE d.taille = :taille")})
+    @NamedQuery(name = "Document.findByTaille", query = "SELECT d FROM Document d WHERE d.taille = :taille"),
+    @NamedQuery(name = "Document.findByDate", query = "SELECT d FROM Document d WHERE d.date = :date")})
 public class Document implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,6 +50,11 @@ public class Document implements Serializable {
     @NotNull
     @Column(name = "taille")
     private float taille;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
     @JoinColumn(name = "FK_id_type", referencedColumnName = "id_type")
     @ManyToOne(optional = false)
     private Type fKidtype;
@@ -76,11 +84,12 @@ public class Document implements Serializable {
         this.idDocument = idDocument;
     }
 
-    public Document(Integer idDocument, String titreDocument, String descriptionDocument, float taille) {
+    public Document(Integer idDocument, String titreDocument, String descriptionDocument, float taille, Date date) {
         this.idDocument = idDocument;
         this.titreDocument = titreDocument;
         this.descriptionDocument = descriptionDocument;
         this.taille = taille;
+        this.date = date;
     }
 
     public Integer getIdDocument() {
@@ -113,6 +122,14 @@ public class Document implements Serializable {
 
     public void setTaille(float taille) {
         this.taille = taille;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Type getFKidtype() {

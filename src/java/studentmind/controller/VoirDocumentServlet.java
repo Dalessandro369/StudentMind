@@ -13,10 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import studentmind.facade.CommentaireFacade;
-import studentmind.facade.DocumentFacade;
-import studentmind.facade.ServicesLocator;
-import studentmind.facade.TelechargementFacade;
+import studentmind.facade.*;
 import studentmind.model.Commentaire;
 import studentmind.model.Document;
 
@@ -51,11 +48,14 @@ public class VoirDocumentServlet extends HttpServlet {
                 + "<li><strong>Type de fichier : </strong>" + doc.getFKidextension().getNomExtension() + "( " + doc.getFKidextension().getFKidfamille().getNomFamille() + " )</li>"
                 + "<li><strong>Téléchargé : </strong> ";
         TelechargementFacade tFacade = ServicesLocator.getTelechargementFacade();
+        NoteFacade nFacade = ServicesLocator.getNoteFacade();
+        
         html += tFacade.nbrTelecharger(doc.getIdDocument()) + " fois</li>"
                 + "<li>"
                 + "<strong>Moyenne : </strong>"
+                + "<div class=\"avg_note\" data=\"" + nFacade.moyenne(doc.getIdDocument()) + "\"></div>"
                 + "<script type=\"text/javascript\">"
-                + "$(document).ready(function(){"
+                + "$(document).ready(function(){"              
                 + "$(\".avg_note\").jRating({"
                 + "type:'small'," // type of the rate.. can be set to 'small' or 'big'
                 + "length : 5," // nb of stars
@@ -64,7 +64,7 @@ public class VoirDocumentServlet extends HttpServlet {
                 + "});"
                 + "});"
                 + "</script>"
-                + "<div class=\"avg_note\" data=\""+doc.getTaille()+"\"></div>"
+              
                 + "</li>"
                 + "</ul>";
         request.setAttribute("infoDoc", html);

@@ -30,6 +30,12 @@ public class UtilisateurFacade extends AbstractFacade<Utilisateur> {
         super(Utilisateur.class);
     }
 
+    public int nbrDoc() {
+        String query = "SELECT COUNT(u) FROM Utilisateur u JOIN u.fKidetatutlisateur etat WHERE etat.idEtatUtilisateur = 2";
+        Query q = em.createQuery(query);
+        return ((Long) q.getSingleResult()).intValue();
+    }
+
     public Utilisateur findEmail(String name) {
         Query query = em.createNamedQuery("Utilisateur.findByEmail");
         query.setParameter("email", name);
@@ -55,7 +61,7 @@ public class UtilisateurFacade extends AbstractFacade<Utilisateur> {
 
     public Utilisateur findId(int id) {
         Query query = em.createNamedQuery("Utilisateur.findByIdUtilisateur");
-        query.setParameter("idUtilisateur",id);
+        query.setParameter("idUtilisateur", id);
         Utilisateur u = null;
         try {
             u = (Utilisateur) query.getSingleResult();
