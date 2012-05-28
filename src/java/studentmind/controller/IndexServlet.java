@@ -163,10 +163,13 @@ public class IndexServlet extends HttpServlet {
     }
     public String afficherTop(){
         String html = "<ul>";
+        int longeur = 0;
         DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
         List<Document> liste = dFacade.top3();
         for (Document doc :liste){
+            if (doc.getDescriptionDocument().length() >= 150)
             html += "<li><strong>"+doc.getTitreDocument()+"</strong> - "+doc.getDescriptionDocument().substring(0, 150) +" <a href=\"voir-document.html?id=" + doc.getIdDocument()+"\"> Lire la suite</a></li>";
+            else html += "<li><strong>"+doc.getTitreDocument()+"</strong> - "+doc.getDescriptionDocument().substring(0, doc.getDescriptionDocument().length()) +" <a href=\"voir-document.html?id=" + doc.getIdDocument()+"\"> Lire la suite</a></li>";
         }
         html += "</ul>";
         return html;
