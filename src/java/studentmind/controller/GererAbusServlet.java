@@ -62,6 +62,7 @@ public class GererAbusServlet extends HttpServlet {
             //Commentaire supprime et auteur perd de point et signaleur gagne des point
             userSignaleur.setPoints(userSignaleur.getPoints()+10);
             userAuteur.setPoints(userAuteur.getPoints()-10);
+            userAuteur.setNbrSignal(userAuteur.getNbrSignal()+1);
             uFacade.edit(userAuteur);
             uFacade.edit(userSignaleur);
             com.setFKidetatcommentaire(new EtatCommentaire(1));
@@ -103,9 +104,9 @@ public class GererAbusServlet extends HttpServlet {
                     + "<input type='hidden' value='"+com.getFKidutilisateursignaleur().getIdUtilisateur()+"' name='idSignaleur'/>"
                     + "<input type='hidden' value='"+com.getFKidutilisateur().getIdUtilisateur()+"' name='idAuteur'/>"
                     + "<input type='hidden' name='type' id='type'/>"
-                                      + "</td>"
+                    + "</td>"
                     + "</tr>"
-                      + "</form>";
+                    + "</form>";
         }
              html+="</table>";
         return html;

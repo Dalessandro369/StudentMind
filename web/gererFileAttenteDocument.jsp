@@ -11,7 +11,7 @@
 <div id="page">
     <div id="content">
         <h2>Gérer la file d'attente des documents</h2>
-        ${ListeDocument}
+        ${ListeFileAttente}
     </div>
 </div>
 

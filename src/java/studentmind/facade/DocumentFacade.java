@@ -94,5 +94,15 @@ public class DocumentFacade extends AbstractFacade<Document> {
         Query q = em.createQuery(query);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
+   
+    public List<Document> listDocAttente() {
+        String query = "SELECT d FROM  Document d JOIN d.fKidetatdocument etat WHERE etat.idEtatDocument = 1";
+        Query q = em.createQuery(query);
+        return q.getResultList();
+    }
+    public List<Document> listDocUser(int idUser) {
+        String query = "SELECT d FROM  Document d JOIN d.fKidutilisateur user JOIN d.fKidetatdocument etat WHERE user.idUtilisateur = :idUser AND etat.idEtatDocument = 2";
+        Query q = em.createQuery(query).setParameter("idUser", idUser);
+        return q.getResultList();
+    }      
 }

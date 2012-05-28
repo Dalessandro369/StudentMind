@@ -72,13 +72,11 @@ function inputRecherche(){
 
 function validerUser(){
     
-    document.getElementById("type").value = "Modifier";
-     
+    document.getElementById("type").value = "Modifier";     
     
     $(document).ready(function(){
         $("form[name='update']").submit();
-    }); 
-   
+    });    
 
 }
 
@@ -90,9 +88,7 @@ function bannirUser(){
     }); 
   
 }
-function verifier(moi){
-    
-}
+
 function ValiderAbus(){
   document.getElementById("type").value = "Valider"
       $(document).ready(function(){
@@ -104,5 +100,17 @@ function RetirerAbus(){
          $(document).ready(function(){
         $("form").submit();
     });
-    alert(document.getElementById("type").value);
+}
+
+function ValiderDoc(){
+  document.getElementById("type").value = "Valider"
+      $(document).ready(function(){
+        $("form").submit();
+    });
+}
+function RetirerDoc(){
+   document.getElementById("type").value = "Supprimer"
+         $(document).ready(function(){
+        $("form").submit();
+    });
 }
