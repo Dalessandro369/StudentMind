@@ -252,6 +252,30 @@ div#page{
 			padding-left:5px;
 			padding-top:3px;
 		}
+                
+                div#page div#content .management{
+                   margin:auto;
+                   text-align:center;
+                }
+                
+                    div#page div#content figure{
+                        display:inline-block;
+                        margin-bottom:10px;
+                        margin-left:10px;
+                        margin-right:10px;
+                        margin-top:10px;
+                        width:130px;
+                    }
+                
+                div#page div#content figure figcaption{
+                    /*background-color:white;
+                    border-top:1px solid #e5e5e5;*/
+                    font-family:Verdana, serif;
+                    font-size:0.6em;
+                    padding-top:5px;
+                    padding-bottom:5px;
+                    text-align:center;
+                }
 		
 		div#page div#content table{
 			background-color:#f4f5f5;
@@ -720,3 +744,7 @@ nav[role="navigation"]{
 				color:#66cc66;
 				text-decoration:none;
 			}
+                        
+.clear{
+    clear:both;
+}

@@ -11,7 +11,7 @@
 <div id="page">
     <div id="content">
         <h2>Rechercher un document</h2>
-        <form method="POST" action="rechercher-document.html">
+        <form method="POST" action="liste-documents.html">
             <fieldset>
                 <legend>Informations générales</legend>
                 <label for="extension">Type de fichier :</label>

@@ -6,36 +6,38 @@ package studentmind.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import studentmind.facade.*;
+import studentmind.model.Commentaire;
+import studentmind.model.Document;
 
 /**
  *
  * @author ProjetJava
  */
-public class DeconnexionServlet extends HttpServlet {
-    @Override
-    public void init() throws ServletException{
+public class AjouterCommentaireServlet extends HttpServlet {
+     @Override
+    public void init() throws ServletException {
     }
 
-    public DeconnexionServlet() {
+    public AjouterCommentaireServlet() {
         super();
-    }    
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-        HttpSession session = request.getSession(false);
-        session.invalidate();
-        
-        request.getRequestDispatcher("index.jsp").forward(request,response);
+  
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("index.jsp").forward(request,response);
+        
     }
 }

@@ -31,7 +31,7 @@ public class ConnexionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/index.jsp").forward(request, response);   
+        request.getRequestDispatcher("index.jsp").forward(request, response);   
     }
 
     @Override
@@ -69,6 +69,6 @@ public class ConnexionServlet extends HttpServlet {
                 request.setAttribute("test", "Rien de bon");
             }
         }
-        request.getRequestDispatcher("/index.jsp").forward(request, response);   
+        request.getRequestDispatcher("index.jsp").forward(request, response);   
     }
 }

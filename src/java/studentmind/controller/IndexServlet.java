@@ -166,18 +166,9 @@ public class IndexServlet extends HttpServlet {
         DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
         List<Document> liste = dFacade.top3();
         for (Document doc :liste){
-            html += ""
-                    + "<li><strong>"+doc.getTitreDocument()+"</strong> - "+doc.getDescriptionDocument().substring(0, 150) +" <a href=\"voir-document.html?id=" + doc.getIdDocument()+"\"> Lire la suite</a>"
-                    + "</li>";
+            html += "<li><strong>"+doc.getTitreDocument()+"</strong> - "+doc.getDescriptionDocument().substring(0, 150) +" <a href=\"voir-document.html?id=" + doc.getIdDocument()+"\"> Lire la suite</a></li>";
         }
         html += "</ul>";
         return html;
     }
 }
-
-                
-                    
-                        
-                    
-                
-               // <footer><a href="liste-documents.html">>> Vers tous les documents</a></footer>

@@ -36,12 +36,13 @@ public class VoirDocumentServlet extends HttpServlet {
 
         HttpSession session = request.getSession(false);
         session.setAttribute("servlet", getClass().getName());
-
+        
         String idDoc = request.getParameter("id");
 
         String html = "<ul>";
         DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
         Document doc = dFacade.findRang(Integer.parseInt(idDoc));
+        session.setAttribute("typeFamille", doc.getFKidextension().getFKidfamille().getNomFamille());
         html += " <li><strong>Type : </strong>" + doc.getFKidtype().getNomType() + "</li>"
                 + "<li><strong>Matière : </strong>" + doc.getFKidcategorie().getNomCategorie() + "</li>"
                 + "<li><strong>Taille du fichier : </strong>" + doc.getTaille() + " Mo</li>"
@@ -135,10 +136,21 @@ public class VoirDocumentServlet extends HttpServlet {
 
         }
         request.setAttribute("ListeCommentaire", html);
+        request.setAttribute("top",afficherTop());
         request.getRequestDispatcher("voirDocument.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    }
+    public String afficherTop(){
+        String html = "<ul>";
+        DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+        List<Document> liste = dFacade.top3();
+        for (Document doc :liste){
+            html += "<li><strong>"+doc.getTitreDocument()+"</strong> - "+doc.getDescriptionDocument().substring(0, 150) +" <a href=\"voir-document.html?id=" + doc.getIdDocument()+"\"> Lire la suite</a></li>";
+        }
+        html += "</ul>";
+        return html;
     }
 }

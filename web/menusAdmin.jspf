@@ -1,4 +1,5 @@
 <%-- any content can be specified here e.g.: --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page pageEncoding="UTF-8" %>
 <c:choose>
     <c:when test='${servlet == "studentmind.controller.AdministrationServlet"   or
@@ -6,8 +7,7 @@
                     servlet == "studentmind.controller.GererCategorieServlet"   or
                     servlet == "studentmind.controller.GererExtensionServlet"   or
                     servlet == "studentmind.controller.GererAbusServlet"        or
-                    servlet == "studentmind.controller.GererUtilisateurServlet"                  
-        }'>
+                    servlet == "studentmind.controller.GererUtilisateurServlet"}'>
         <div id="left_menu">
             <div class="menu">
                 <header><h3>Gestion des documents</h3></header>
@@ -48,19 +48,7 @@
                 </ul>
             </div>		
         </div>
-    </c:when>    
-    <c:when test='${servlet == "studentmind.controller.ConnexionServlet"}'>
-
-    </c:when>
-    <c:when test='${servlet == "studentmind.controller.ContactServlet"}'>
-
-    </c:when>
-    <c:when test='${servlet == "studentmind.controller.EcrireMessageServlet"}'>
-
-    </c:when>                              
-    <c:when test='${servlet == "studentmind.controller.InboxServlet"}'>
-
-    </c:when>        
+    </c:when>          
     <c:when test='${servlet == "studentmind.controller.IndexServlet"}'>
         <div id="left_menu">
             <div class="menu">
@@ -96,54 +84,119 @@
 
             <div class="menu">
                 <header><h3>Derniers documents</h3></header>
-                <ul>
-                    <li><a href="voir-document.html">Manier la trigonométrie</a> - Vous verrez que la trigo ne se résume pas à un ensemble de formules, c'est aussi une interprétation géométrique qui 
-                        a toute son importance. Et puis la trigo n'a pas été inventée pour rien : les applications sont nombreuses en physique.
-                    </li>
-                </ul>
-                <footer><a href="liste-documents.html">>> Vers tous les documents</a></footer>
-            </div>              
+                ${top}
+            </div>           
         </div>
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.InscriptionServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.LireMessageServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.ListeDocumentsServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.ProfilServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.RechercherDocumentServlet"}'>
+    </c:when>               
+    <c:when test='${servlet == "studentmind.controller.ListeDocumentsServlet"       or
+                    servlet == "studentmind.controller.RechercherDocumentServlet"   or
+                    servlet == "studentmind.controller.UploadDocumentServlet"}' >
         <div id="right_menu">
             <div class="menu">
-                <header><h3>Derniers documents</h3></header>
+                <header><h3>${user.prenom} ${user.nom}</h3></header>
+                <div id="avatar">
+                    <img src="../img/avatar.jpg" title="" alt="" />
+                </div>
                 <ul>
-                    <li><a href="voir-document.html">Manier la trigonométrie</a> - Vous verrez que la trigo ne se résume pas à un ensemble de formules, c'est aussi une interprétation géométrique qui 
-                        a toute son importance. Et puis la trigo n'a pas été inventée pour rien : les applications sont nombreuses en physique.
-                    </li>
+                    <li><a href="profil.html">Mon profil</a></li>
+                    <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
+                    <li><a href="mes-documents.html">Mes documents</a> (12)</li>
+                    <li><a href="deconnexion.html">Se déconnecter</a></li>
                 </ul>
-                <footer><a href="liste-documents.html">>> Vers tous les documents</a></footer>
             </div>              
-        </div>
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.UploadDocumentServlet"}'>
-        <div id="right_menu">
+            
             <div class="menu">
                 <header><h3>Derniers documents</h3></header>
-                <ul>
-                    <li><a href="voir-document.html">Manier la trigonométrie</a> - Vous verrez que la trigo ne se résume pas à un ensemble de formules, c'est aussi une interprétation géométrique qui 
-                        a toute son importance. Et puis la trigo n'a pas été inventée pour rien : les applications sont nombreuses en physique.
-                    </li>
-                </ul>
-                <footer><a href="liste-documents.html">>> Vers tous les documents</a></footer>
-            </div>              
+                ${top}
+            </div>
         </div>
-    </c:when>        
+    </c:when>
     <c:when test='${servlet == "studentmind.controller.VoirDocumentServlet"}'>
+        <div id="right_menu">
+            <div class="menu">
+                <header><h3>${user.prenom} ${user.nom}</h3></header>
+                <div id="avatar">
+                    <img src="../img/avatar.jpg" title="" alt="" />
+                </div>
+                <ul>
+                    <li><a href="profil.html">Mon profil</a></li>
+                    <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
+                    <li><a href="mes-documents.html">Mes documents</a> (12)</li>
+                    <li><a href="deconnexion.html">Se déconnecter</a></li>
+                </ul>
+            </div>              
+            
+            <div class="menu">
+                <header><h3>Derniers documents</h3></header>
+                ${top}
+            </div>
+            
+            <div class="menu">
+                <header><h3>Téléchargement du document</h3></header>
+                <p><strong>Attention :</strong> il est strictement interdit de vendre, de distribuer ou de modifier le document ci-joint sans l'accord préalable de son auteur. 
+                Si vous reconnaissez l'une de vos oeuvres et que le propriétaire n'est pas en droit de la posséder, contactez notre équipe via ce 
+                <a href="contact.html">formulaire de contact</a> pour y déposer votre réclamation.</p>
 
-    </c:when>            
+                <figure> 
+                    <a href="">
+                        <c:choose>
+                            <c:when test='${typeFamille == "Microsoft Office"}'>
+                                <img src="img/extensions/office.png" title="Téléchargement du document" alt="Téléchargement"> 
+                            </c:when>
+                            <c:when test='${typeFamille == "Libre Office"}'>
+                                <img src="img/extensions/openoffice.png" title="Téléchargement du document" alt="Téléchargement"> 
+                            </c:when>
+                            <c:when test='${typeFamille == "Adobe"}'>
+                                <img src="img/extensions/adobe.png" title="Téléchargement du document" alt="Téléchargement"> 
+                            </c:when>
+                        </c:choose>
+                        <figcaption>Télécharger</figcaption>
+                    </a>
+                </figure> 
+            </div>
+
+            <div class="menu">
+                    <header><h3>Poster un commentaire</h3></header>
+                    <textarea class="textarea_commentaire" name="comm" id="comm"></textarea>
+                    <input type="button" id="comm_button" value="Poster commentaire" />
+                    <script type="text/javascript">
+                        document.getElementById("comm_button").addEventListener('click', function(){
+                            var comm = document.getElementById("comm").value;
+                            var xhr = null;
+
+                            if (window.XMLHttpRequest)      xhr = new XMLHttpRequest();
+                            else if (window.ActiveXObject)  xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                            
+                            // On définit l'appel de la fonction retour au serveur
+                            xhr.onreadystatechange = function(){ 
+                                traitement_reponse(xhr); 
+                            };
+
+                            // On appelle la Servlet de traitement
+                            xhr.open("POST", "ajouter-commentaire.html", true);
+                            xhr.send("comm="+comm);
+
+                            function traitement_reponse(xhr){
+                                alert("réponse reçue");
+                            }
+                        }, false);
+                    </script>
+            </div>
+
+            <div class="menu">
+                    <header><h3>Noter le document</h3></header>
+                    <script type="text/javascript">
+                        $(document).ready(function(){
+                            $(".note").jRating({
+                                step:true,
+                                length : 5, // nb of stars
+                                decimalLength:0, // number of decimal in the rate
+                                showRateInfo : false
+                            });
+                        });
+                    </script>
+                    <div class="note" id="vote" data="0"></div>
+            </div>
+        </div>
+    </c:when>
 </c:choose>    

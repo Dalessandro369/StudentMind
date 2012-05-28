@@ -61,7 +61,7 @@ public class UploadDocumentServlet extends HttpServlet {
             listeHtml += "<option value=\"" + cat.getIdCategorie()+ "\">" + cat.getNomCategorie() + "</option>";
         }
         request.setAttribute("ListeCategorie", listeHtml);
-        
+        request.setAttribute("top", afficherTop());
         request.getRequestDispatcher("uploadDocument.jsp").forward(request,response); 
     }
 
@@ -162,76 +162,16 @@ public class UploadDocumentServlet extends HttpServlet {
         
         }// fin du if
         else {request.setAttribute("test", "upload remplir formulaire");}
-        
-    } 
+    }
     
-    /*@Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-        boolean champOk = true;
-        String mesType = "";
-        String mesCategorie = "";
-        String mesTitre = "";
-        String mesDescription = "";
-        
-        //Recupérer le formulaire
-        String type = request.getParameter("type");
-        String categorie = request.getParameter("categorie");
-        String titre = request.getParameter("titre");     
-        String description = request.getParameter("description");
-        
-        if (type == null || type.isEmpty()) {
-            mesType = "Veuillez à remplir correctement le type";
-            request.setAttribute("ErreurType", mesType);
-            champOk = false;
+    public String afficherTop(){
+        String html = "<ul>";
+        DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+        List<Document> liste = dFacade.top3();
+        for (Document doc :liste){
+            html += "<li><strong>"+doc.getTitreDocument()+"</strong> - "+doc.getDescriptionDocument().substring(0, 150) +" <a href=\"voir-document.html?id=" + doc.getIdDocument()+"\"> Lire la suite</a></li>";
         }
-        if (categorie == null || categorie.isEmpty()) {
-            mesCategorie = "Veuillez à remplir correctement la catégorie";
-            request.setAttribute("ErreurCategorie", mesCategorie);
-            champOk = false;
-        }
-        if (titre == null || titre.isEmpty()) {
-            mesTitre = "Veuillez à remplir correctement le titre";
-            request.setAttribute("ErreurTitre", mesTitre);
-            champOk = false;
-        }
-        if (description == null || description.isEmpty()) {
-            mesDescription = "Veuillez à remplir correctement la description";
-            request.setAttribute("ErreurDescription", mesDescription);
-            champOk = false;
-        }        
- 
-        HttpSession session = request.getSession(false);
-        ExtensionFacade eFacade = ServicesLocator.getExtensionFacade();
-       // StringTokenizer toc = new StringTokenizer(file,".");
-         //pour ne pas prendre la premiere partie
-       // String str1 = toc.nextToken();
-       // String str2 = toc.nextToken();
-       // Extension ext = eFacade.findExtensionNom(toc.nextToken());    
-        Extension ext = new Extension(2);
-        if (champOk && session != null && ext!=null) {
-            
-            DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
-
-
-            Document doc = new Document();
-            doc.setIdDocument(1);
-            //Vérifier la taille document ici je mes 5Mo
-            doc.setTaille(5);
-            doc.setTitreDocument(titre);
-            doc.setDescriptionDocument(description); 
- 
-            Utilisateur user = (Utilisateur) session.getAttribute("user");
-            doc.setFKidutilisateur(user); 
-            doc.setFKidcategorie(new Categorie(Integer.parseInt(categorie)));
-            doc.setFKidtype(new Type(Integer.parseInt(type)));
-            doc.setFKidetatdocument(new EtatDocument(1));
-            doc.setFKidextension(ext);
-            dFacade.create(doc);
-            request.setAttribute("test", "upload ok");
-        }else {
-            request.setAttribute("test", "upload remplir formulaire");
-        }
-         request.getRequestDispatcher("index.jsp").forward(request, response);
-    }*/
+        html += "</ul>";
+        return html;
+    }
 }

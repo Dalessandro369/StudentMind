@@ -32,7 +32,7 @@ public class RechercherDocumentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-        session.setAttribute("servlet", this.getServletName());
+        session.setAttribute("servlet", getClass().getName());
 
         // Affichage des types dans la liste déroulante
 
@@ -70,13 +70,16 @@ public class RechercherDocumentServlet extends HttpServlet {
             }
         }
         request.setAttribute("ListeExtension", listeHtml);
-
+        
+        request.setAttribute("top", afficherTop());
         request.getRequestDispatcher("rechercherDocument.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        HttpSession session = request.getSession(false);
+        session.setAttribute("servlet", this.getServletName());
 
         boolean champOk = true;
         String mesType = "";
@@ -159,8 +162,21 @@ public class RechercherDocumentServlet extends HttpServlet {
             if (listeHtml.equals("")) {
                 listeHtml = "Aucun résultat";
             }
+            request.setAttribute("top", afficherTop());
             request.setAttribute("listeDocument", listeHtml);
         }
-        request.getRequestDispatcher("listeDocuments.jsp").forward(request, response);
+
+        request.getRequestDispatcher("rechercherDocument.jsp").forward(request, response);
+    }
+    
+    public String afficherTop(){
+        String html = "<ul>";
+        DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+        List<Document> liste = dFacade.top3();
+        for (Document doc :liste){
+            html += "<li><strong>"+doc.getTitreDocument()+"</strong> - "+doc.getDescriptionDocument().substring(0, 150) +" <a href=\"voir-document.html?id=" + doc.getIdDocument()+"\"> Lire la suite</a></li>";
+        }
+        html += "</ul>";
+        return html;
     }
 }

@@ -88,6 +88,10 @@
         <servlet-name>GererFileAttenteDocumentServlet</servlet-name>
         <servlet-class>studentmind.controller.GererFileAttenteDocumentServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AjouterCommentaireServlet</servlet-name>
+        <servlet-class>studentmind.controller.AjouterCommentaireServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IndexServlet</servlet-name>
         <url-pattern>/index.html</url-pattern>
@@ -171,6 +175,10 @@
     <servlet-mapping>
         <servlet-name>GererFileAttenteDocumentServlet</servlet-name>
         <url-pattern>/gerer-file-attente-document.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjouterCommentaireServlet</servlet-name>
+        <url-pattern>/ajouter-commentaire.html</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

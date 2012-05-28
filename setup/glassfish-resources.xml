@@ -10,7 +10,7 @@
         <property name="URL" value="jdbc:mysql://localhost:3306/student_mind"/>
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
     </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="student_mind_connection" object-type="user" pool-name="mysql_student_mind_rootPool"/>
+    <jdbc-resource enabled="true" jndi-name="student_mind_pool" object-type="user" pool-name="mysql_student_mind_rootPool"/>
      <admin-object-resource enabled="true" jndi-name="jms/NotificationQueue"  res-type="javax.jms.Queue"  res-adapter="jmsra">
         <property name="Name" value="PhysicalQueue"/>
     </admin-object-resource>
