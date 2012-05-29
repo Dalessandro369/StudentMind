@@ -31,6 +31,7 @@
                 <input type="file" name="urlFichier" id="urlFichier" required />
             </fieldset>
 
+            <input type="hidden" value="uploadDoc" name="typeUpload" />
             <input type="submit" value="Uploader" />
         </form>
     </div>

@@ -171,7 +171,7 @@ public class InscriptionServlet extends HttpServlet {
             
             
             EmailSender es = new EmailSender(
-                "contact.studentmind@gmail.com", email, "Merci d'avoir rejoint la communauté estudiantine StudentMind", "Bonjour " + prenom + ",\n\nFélicitations ! Vous êtes maintenant inscrit sur notre "
+                email, "contact.studentmind@gmail.com", "Merci d'avoir rejoint la communauté estudiantine StudentMind", "Bonjour " + prenom + ",\n\nFélicitations ! Vous êtes maintenant inscrit sur notre "
                     + "plateforme de partage de ressources étudiantes. Cependant, vous devez encore confirmer votre adresse email afin que votre compte soit activé. Pour"
                     + "se faire, veuillez cliquer sur le lien suivant : http://localhost:8080/StudentMind/confirm.html?e="+HashMD5.encode(email)
                     + "\nSi vous ne pouvez pas cliquer sur le lien ci-dessous, veuillez le copier-coller dans la barre d'adresse de votre navigateur."

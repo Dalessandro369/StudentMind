@@ -58,7 +58,7 @@ public class ModifierProfilServlet extends HttpServlet {
         String ecole = request.getParameter("ecole");
         String site = request.getParameter("site");
         String ville = request.getParameter("ville");
-        String pays = request.getParameter("pays");
+        
         
         UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
         Utilisateur u = (Utilisateur) session.getAttribute("user");
@@ -68,7 +68,7 @@ public class ModifierProfilServlet extends HttpServlet {
         u.setEcole(ecole);
         u.setSiteWeb(site);
         u.setVille(ville);
-        u.setFKidpays(new Pays(Integer.parseInt(pays)));
+        
         uFacade.edit(u);
         request.setAttribute("information", afficherInformation());
         request.getRequestDispatcher("profil.jsp").forward(request, response);
@@ -87,6 +87,7 @@ public class ModifierProfilServlet extends HttpServlet {
                 + "<label for=\"prenom\">Prénom :</label><span class=\"\">" + user.getPrenom() + "</span><br/>"
                 + "<label for=\"dateNaissance\">Date de naissance :</label><span class=\"\">" + user.getDateNaissance() + "</span><br/>"
                 + "<label for=\"sexe\">Sexe :</label><span class=\"\">" + user.getSexe() + "</span><br/>"
+                + "<label for=\"pays\">Pays :</label><span class=\"\">" + user.getFKidpays().getNomPays() + "</span>"
                 + " </fieldset>";
 
         html += "<fieldset>"
@@ -94,25 +95,10 @@ public class ModifierProfilServlet extends HttpServlet {
                 + "<label for=\"image\">Avatar :</label> <input type=\"file\" name=\"image\" id=\"image\"/><br/>"
                 + "<label for=\"ecole\">Ecole / Université :</label> <input type=\"text\" name=\"ecole\" value='"+user.getEcole()+"' id=\"ecole\"  /><br/>"
                 + "<label for=\"site\">Site Web :</label> <input type=\"text\" name=\"site\" value='"+user.getSiteWeb()+"' id=\"site\" /><br/>"
-                + "<label for=\"ville\">Ville :</label> <input type=\"text\" name=\"ville\" value='"+user.getVille()+"' id=\"ville\" /><br/>"
-                + "<label for=\"pays\" required>Pays :</label>"
-                + "<select name=\"pays\" id=\"pays\">";
+                + "<label for=\"ville\">Ville :</label> <input type=\"text\" name=\"ville\" value='"+user.getVille()+"' id=\"ville\" /><br/>";
 
-
-
-        PaysFacade paysFacade = ServicesLocator.getPaysFacade();
-        List<Pays> listPays = paysFacade.findAllAlpha();
         
-        for (Pays pays : listPays) {
-            if (user.getFKidpays().getIdPays() == pays.getIdPays()) {
-                html += "<option value=\"" + pays.getIdPays() + "\" selected='selected'>" + pays.getNomPays() + "</option>";
-            }else html += "<option value=\"" + pays.getIdPays() + "\">" + pays.getNomPays() + "</option>";
-           
-        }
-        
-        
-        html += "</select>"
-                + "</fieldset>"
+        html += "</fieldset>"
                 + "<input type=\"submit\" id=\"submit\" value=\"Je modifie!\" />"
                 + " </form>";
         return html;

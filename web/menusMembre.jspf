@@ -1,30 +1,12 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
 <c:choose>
-    <c:when test='${servlet == "studentmind.controller.ConnexionServlet"}'>
-
-    </c:when>
     <c:when test='${servlet == "studentmind.controller.ContactServlet"}'>
 
     </c:when>
     <c:when test='${servlet == "studentmind.controller.EcrireMessageServlet"}'>
 
-    </c:when>
-    <c:when test='${servlet == "studentmind.controller.GererAbusServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.GererCategorieServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.GererExtensionServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.GererTypeServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.GererUtilisateurServlet"}'>
-
-    </c:when>        
+    </c:when>                   
     <c:when test='${servlet == "studentmind.controller.InboxServlet"}'>
 
     </c:when>        
@@ -71,36 +53,35 @@
                 <footer><a href="liste-documents.html">>> Vers tous les documents</a></footer>
             </div>              
         </div>
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.InscriptionServlet"}'>
-
-    </c:when>        
+    </c:when>              
     <c:when test='${servlet == "studentmind.controller.LireMessageServlet"}'>
 
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.ListeDocumentsServlet"}'>
-
-    </c:when>        
+    </c:when>              
     <c:when test='${servlet == "studentmind.controller.ProfilServlet"}'>
 
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.RechercherDocumentServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.UploadDocumentServlet"}'>
+    </c:when>               
+    <c:when test='${servlet == "studentmind.controller.ListeDocumentsServlet"       or
+                    servlet == "studentmind.controller.RechercherDocumentServlet"   or
+                    servlet == "studentmind.controller.UploadDocumentServlet"       or
+                    servlet == "studentmind.controller.VoirDocumentServlet" }' >
         <div id="right_menu">
             <div class="menu">
-                <header><h3>Derniers documents</h3></header>
+                <header><h3>${user.prenom} ${user.nom}</h3></header>
+                <div id="avatar">
+                    <img src="../img/avatar.jpg" title="" alt="" />
+                </div>
                 <ul>
-                    <li><a href="voir-document.html">Manier la trigonométrie</a> - Vous verrez que la trigo ne se résume pas à un ensemble de formules, c'est aussi une interprétation géométrique qui 
-                        a toute son importance. Et puis la trigo n'a pas été inventée pour rien : les applications sont nombreuses en physique.
-                    </li>
+                    <li><a href="modifier-profil.html">Mon profil</a></li>
+                    <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
+                    <li><a href="mes-documents.html">Mes documents</a> (12)</li>
+                    <li><a href="deconnexion.html">Se déconnecter</a></li>
                 </ul>
-                <footer><a href="liste-documents.html">>> Vers tous les documents</a></footer>
             </div>              
+            
+            <div class="menu">
+                <header><h3>Derniers documents</h3></header>
+                ${top}
+            </div>
         </div>
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.VoirDocumentServlet"}'>
-
-    </c:when>            
+    </c:when>          
 </c:choose>    

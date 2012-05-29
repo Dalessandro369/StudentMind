@@ -62,6 +62,7 @@
                 </noscript>
             </fieldset>
 
+            <input type="hidden" value="uploadAvatar" name="typeUpload" />
             <input type="submit" id="submit" value="Je m'inscris !" />
         </form>
     </div>

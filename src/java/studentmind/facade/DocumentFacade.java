@@ -29,8 +29,7 @@ public class DocumentFacade extends AbstractFacade<Document> {
     public DocumentFacade() {
         super(Document.class);
     }
-
-    @Override
+        @Override
     public List<Document> findAll() {
         Query query = em.createNamedQuery("Document.findAll");
         List<Document> p = null;

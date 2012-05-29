@@ -22,10 +22,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Document.findAll", query = "SELECT d FROM Document d"),
-    @NamedQuery(name = "Document.findDocumentUne", query = "SELECT d FROM Document d JOIN d.fKidetatdocument etat WHERE etat.idEtatDocument = 2 ORDER BY d.idDocument DESC"),    
+    @NamedQuery(name = "Document.findDocumentUne", query = "SELECT d FROM Document d JOIN d.fKidetatdocument etat WHERE etat.idEtatDocument = 2 ORDER BY d.idDocument DESC"),     
     @NamedQuery(name = "Document.findByIdDocument", query = "SELECT d FROM Document d WHERE d.idDocument = :idDocument"),
     @NamedQuery(name = "Document.findByTitreDocument", query = "SELECT d FROM Document d WHERE d.titreDocument = :titreDocument"),
     @NamedQuery(name = "Document.findByDescriptionDocument", query = "SELECT d FROM Document d WHERE d.descriptionDocument = :descriptionDocument"),
+    @NamedQuery(name = "Document.findByNomFichier", query = "SELECT d FROM Document d WHERE d.nomFichier = :nomFichier"),
     @NamedQuery(name = "Document.findByTaille", query = "SELECT d FROM Document d WHERE d.taille = :taille"),
     @NamedQuery(name = "Document.findByDate", query = "SELECT d FROM Document d WHERE d.date = :date")})
 public class Document implements Serializable {
@@ -46,6 +47,11 @@ public class Document implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "description_document")
     private String descriptionDocument;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "nomFichier")
+    private String nomFichier;
     @Basic(optional = false)
     @NotNull
     @Column(name = "taille")
@@ -84,10 +90,11 @@ public class Document implements Serializable {
         this.idDocument = idDocument;
     }
 
-    public Document(Integer idDocument, String titreDocument, String descriptionDocument, float taille, Date date) {
+    public Document(Integer idDocument, String titreDocument, String descriptionDocument, String nomFichier, float taille, Date date) {
         this.idDocument = idDocument;
         this.titreDocument = titreDocument;
         this.descriptionDocument = descriptionDocument;
+        this.nomFichier = nomFichier;
         this.taille = taille;
         this.date = date;
     }
@@ -114,6 +121,14 @@ public class Document implements Serializable {
 
     public void setDescriptionDocument(String descriptionDocument) {
         this.descriptionDocument = descriptionDocument;
+    }
+
+    public String getNomFichier() {
+        return nomFichier;
+    }
+
+    public void setNomFichier(String nomFichier) {
+        this.nomFichier = nomFichier;
     }
 
     public float getTaille() {

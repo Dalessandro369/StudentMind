@@ -2,34 +2,17 @@
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
 <%@ page pageEncoding="UTF-8" %>
 <c:choose>
-    <c:when test='${servlet == "studentmind.controller.ConnexionServlet"}'>
-
-    </c:when>
     <c:when test='${servlet == "studentmind.controller.ContactServlet"}'>
-
-    </c:when>
-    <c:when test='${servlet == "studentmind.controller.EcrireMessageServlet"}'>
-
-    </c:when>
-    <c:when test='${servlet == "studentmind.controller.GererAbusServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.GererCategorieServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.GererExtensionServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.GererTypeServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.GererUtilisateurServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.InboxServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.IndexServlet"}'>
+        <div id="right_menu">
+            <div class="menu">
+                <header><h3>Contactez-nous !</h3></header>        
+                <p>Vous souhaitez contacter notre équipe technique ? N'hésitez pas à compléter le formulaire ci-joint. Nous tâcherons de vous répondre dans les plus brefs
+                délais.</p>
+            </div>
+        </div>
+    </c:when>                         
+    <c:when test='${servlet == "studentmind.controller.DeconnexionServlet" or
+                    servlet == "studentmind.controller.IndexServlet"}'>
         <div id="left_menu">
             <div class="menu">
                 <header><h3>Qu'est-ce que studentmind ?</h3></header>
@@ -67,30 +50,15 @@
                 </ul>
             </div>
         </div>
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.LireMessageServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.ListeDocumentsServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.ProfilServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.RechercherDocumentServlet"}'>
+    </c:when>                        
+    <c:when test='${servlet == "studentmind.controller.VoirDocumentServlet"         or
+                    servlet == "studentmind.controller.ListeDocumentsServlet"       or
+                    servlet == "studentmind.controller.RechercherDocumentServlet"}'>
         <div id="right_menu">
             <div class="menu">
                 <header><h3>Derniers documents</h3></header>
-                <ul>
-                    <li><a href="voir-document.html">Manier la trigonométrie</a> - Vous verrez que la trigo ne se résume pas à un ensemble de formules, c'est aussi une interprétation géométrique qui 
-                        a toute son importance. Et puis la trigo n'a pas été inventée pour rien : les applications sont nombreuses en physique.
-                    </li>
-                </ul>
-                <footer><a href="liste-documents.html">>> Vers tous les documents</a></footer>
-            </div>              
+                ${top}
+            </div>               
         </div>
-    </c:when>               
-    <c:when test='${servlet == "studentmind.controller.VoirDocumentServlet"}'>
-
-    </c:when>            
+    </c:when>                      
 </c:choose>    
