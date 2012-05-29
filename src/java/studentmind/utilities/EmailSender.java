@@ -40,8 +40,9 @@ public class EmailSender {
 
                 Message message = new MimeMessage(session);
                 message.setFrom(new InternetAddress(emailDestinataire));
-                message.setRecipients(Message.RecipientType.TO,
-                        InternetAddress.parse(emailExpediteur));
+                InternetAddress[] internetAddresses = new InternetAddress[1];
+                internetAddresses[0] = new InternetAddress(emailExpediteur); 
+                message.setRecipients(Message.RecipientType.TO,internetAddresses);
                 message.setSubject(objetMessage);
                 message.setText(contenuMessage);
                 
