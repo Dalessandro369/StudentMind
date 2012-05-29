@@ -70,8 +70,7 @@ public class GererAbusServlet extends HttpServlet {
         }else {
             com.setFKidetatcommentaire(new EtatCommentaire(4));
             cFacade.edit(com);            
-        }
-                
+        }            
                 
                 
                 

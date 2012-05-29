@@ -77,10 +77,6 @@
         <servlet-class>studentmind.controller.DeconnexionServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ProfilServlet</servlet-name>
-        <servlet-class>studentmind.controller.ProfilServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>AdministrationServlet</servlet-name>
         <servlet-class>studentmind.controller.AdministrationServlet</servlet-class>
     </servlet>
@@ -91,6 +87,10 @@
     <servlet>
         <servlet-name>AjouterCommentaireServlet</servlet-name>
         <servlet-class>studentmind.controller.AjouterCommentaireServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ModifierProfilServlet</servlet-name>
+        <servlet-class>studentmind.controller.ModifierProfilServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>IndexServlet</servlet-name>
@@ -165,10 +165,6 @@
         <url-pattern>/deconnexion.html</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ProfilServlet</servlet-name>
-        <url-pattern>/profil.html</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>AdministrationServlet</servlet-name>
         <url-pattern>/admin.html</url-pattern>
     </servlet-mapping>
@@ -180,9 +176,14 @@
         <servlet-name>AjouterCommentaireServlet</servlet-name>
         <url-pattern>/ajouter-commentaire.html</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModifierProfilServlet</servlet-name>
+        <url-pattern>/modifier-profil.html</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
            30
         </session-timeout>
     </session-config>
-</web-app>
+
+    </web-app>

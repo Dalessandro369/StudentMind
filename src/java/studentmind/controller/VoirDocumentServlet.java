@@ -135,6 +135,7 @@ public class VoirDocumentServlet extends HttpServlet {
                     + jour + " " + moisDate + " " + annee + " à " + h + "h" + m + "</div>";
 
         }
+        session.setAttribute("idDocument", idDoc);
         request.setAttribute("ListeCommentaire", html);
         request.setAttribute("top",afficherTop());
         request.getRequestDispatcher("voirDocument.jsp").forward(request, response);
@@ -144,11 +145,14 @@ public class VoirDocumentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
     public String afficherTop(){
-        String html = "<ul>";
+       String html = "<ul>";
+        int longeur = 0;
         DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
         List<Document> liste = dFacade.top3();
         for (Document doc :liste){
-            html += "<li><strong>"+doc.getTitreDocument()+"</strong> - "+doc.getDescriptionDocument().substring(0, 150) +" <a href=\"voir-document.html?id=" + doc.getIdDocument()+"\"> Lire la suite</a></li>";
+            longeur = doc.getDescriptionDocument().length();
+            if (longeur >= 150) longeur = 150;           
+            html += "<li><strong>"+doc.getTitreDocument()+"</strong> - "+doc.getDescriptionDocument().substring(0, longeur) +" <a href=\"voir-document.html?id=" + doc.getIdDocument()+"\"> Lire la suite</a></li>";
         }
         html += "</ul>";
         return html;
