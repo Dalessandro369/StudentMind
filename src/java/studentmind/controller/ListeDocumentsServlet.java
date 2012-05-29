@@ -16,6 +16,7 @@ import studentmind.facade.NoteFacade;
 import studentmind.facade.ServicesLocator;
 import studentmind.facade.TelechargementFacade;
 import studentmind.model.Document;
+import studentmind.model.Utilisateur;
 
 /**
  *
@@ -36,13 +37,17 @@ public class ListeDocumentsServlet extends HttpServlet {
 
         HttpSession session = request.getSession(false);
         session.setAttribute("servlet", getClass().getName());
-        
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
         request.setAttribute("top", afficherTop());
         
         String idCat = request.getParameter("idCategorie");
+     
         String html = "";
         DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
-        List<Document> liste = dFacade.listDocCat(Integer.parseInt(idCat));
+        List<Document> liste;
+        if (idCat!=null && (!idCat.isEmpty())) {
+        liste = dFacade.listDocCat(Integer.parseInt(idCat));
+        }else liste = dFacade.listDocUser(user.getIdUtilisateur());
         for (Document doc : liste) {
             html += "<div class=\"article_header_articles\"><header>"
                     + "<h3><a href=\"voir-document.html?id=" + doc.getIdDocument() + "\">" + doc.getTitreDocument() + "</a></h3></header></div>"

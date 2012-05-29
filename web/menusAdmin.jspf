@@ -43,7 +43,7 @@
                 <ul>
                     <li><a href="modifier-profil.html">Mon profil</a></li>
                     <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
-                    <li><a href="mes-documents.html">Mes documents</a> (12)</li>
+                    <li><a href="liste-documents.html">Mes documents</a> (12)</li>
                     <li><a href="deconnexion.html">Se déconnecter</a></li>
                 </ul>
             </div>		
@@ -79,7 +79,7 @@
                 <ul>
                     <li><a href="modifier-profil.html">Mon profil</a></li>
                     <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
-                    <li><a href="mes-documents.html">Mes documents</a> (12)</li>
+                    <li><a href="liste-documents.html">Mes documents</a> (12)</li>
                     <li><a href="deconnexion.html">Se déconnecter</a></li>
                 </ul>
             </div>
@@ -102,7 +102,7 @@
                 <ul>
                     <li><a href="modifier-profil.html">Mon profil</a></li>
                     <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
-                    <li><a href="mes-documents.html">Mes documents</a> (12)</li>
+                    <li><a href="liste-documents.html">Mes documents</a> (12)</li>
                     <li><a href="deconnexion.html">Se déconnecter</a></li>
                 </ul>
             </div>              
@@ -123,7 +123,7 @@
                 <ul>
                     <li><a href="modifier-profil.html">Mon profil</a></li>
                     <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
-                    <li><a href="mes-documents.html">Mes documents</a> (12)</li>
+                    <li><a href="liste-documents.html">Mes documents</a> (12)</li>
                     <li><a href="deconnexion.html">Se déconnecter</a></li>
                 </ul>
             </div>              
