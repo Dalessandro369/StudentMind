@@ -45,12 +45,13 @@ public class IndexServlet extends HttpServlet {
         request.setAttribute("nbrDoc", afficherNbrDoc());
         request.setAttribute("nbrMembre", afficherNbrMembre());
         request.setAttribute("top", afficherTop());
-        request.getRequestDispatcher("/index.jsp").forward(request, response);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-                HttpSession session = request.getSession(true);
+        
+        HttpSession session = request.getSession(false);
         session.setAttribute("servlet", getClass().getName());
 
         request.setAttribute("ListeCategorie", afficherCategorie());

@@ -49,7 +49,9 @@
             </div>		
         </div>
     </c:when>          
-    <c:when test='${servlet == "studentmind.controller.IndexServlet"}'>
+    <c:when test='${servlet == "studentmind.controller.IndexServlet" or
+                    servlet == "studentmind.controller.ConnexionServlet" or
+                    servlet == "studentmind.controller.DeconnexionServlet"}'>
         <div id="left_menu">
             <div class="menu">
                 <header><h3>Qu'est-ce que studentmind ?</h3></header>
