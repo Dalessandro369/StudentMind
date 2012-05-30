@@ -55,19 +55,18 @@ public class VoirDocumentServlet extends HttpServlet {
         
         html += tFacade.nbrTelecharger(doc.getIdDocument()) + " fois</li>"
                 + "<li>"
-                + "<strong>Moyenne : </strong>"                
+                + "<strong>Moyenne : </strong>"  
+                + "<div class=\"avg_note\" data=\"" + nFacade.moyenne(doc.getIdDocument()) + "\"></div>"              
                 + "<script type=\"text/javascript\">"
-                + "alert(\"e\");"
                 + "$(document).ready(function(){"              
                 + "$(\".avg_note\").jRating({"
-                + "type:\"small\"," // type of the rate.. can be set to 'small' or 'big'
+                + " type:'small'," // type of the rate.. can be set to 'small' or 'big'
                 + "length : 5," // nb of stars
                 + "decimalLength : 1," // number of decimal in the rate
-                + "isDisabled : true,"
+                + "isDisabled : true"
                 + "});"
                 + "});"
                 + "</script>"
-                + "<div class=\"avg_note\" data=\"" + nFacade.moyenne(doc.getIdDocument()) + "\"></div>"              
                 + "</li>"
                 + "</ul>";
         request.setAttribute("infoDoc", html);
