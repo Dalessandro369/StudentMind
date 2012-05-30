@@ -92,6 +92,10 @@
         <servlet-name>ModifierProfilServlet</servlet-name>
         <servlet-class>studentmind.controller.ModifierProfilServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SignalerCommentaireServlet</servlet-name>
+        <servlet-class>studentmind.controller.SignalerCommentaireServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IndexServlet</servlet-name>
         <url-pattern>/index.html</url-pattern>
@@ -180,10 +184,13 @@
         <servlet-name>ModifierProfilServlet</servlet-name>
         <url-pattern>/modifier-profil.html</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignalerCommentaireServlet</servlet-name>
+        <url-pattern>/signaler-commentaire.html</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
            30
         </session-timeout>
     </session-config>
-
-    </web-app>
+</web-app>

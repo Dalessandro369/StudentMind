@@ -89,28 +89,30 @@ function bannirUser(){
   
 }
 
-function ValiderAbus(){
+function ValiderAbus(id){
+    alert(id);
   document.getElementById("type").value = "Valider"
       $(document).ready(function(){
-        $("form").submit();
+        $("form[name='ligne"+id+"']").submit();
     });
 }
-function RetirerAbus(){
+function RetirerAbus(id){
+   
     document.getElementById("type").value = "Supprimer"
          $(document).ready(function(){
-        $("form").submit();
+        $("form[name='ligne"+id+"']").submit();
     });
 }
 
-function ValiderDoc(){
+function ValiderDoc(id){
   document.getElementById("type").value = "Valider"
       $(document).ready(function(){
-        $("form").submit();
+        $("form[name='ligne"+id+"']").submit();
     });
 }
-function RetirerDoc(){
+function RetirerDoc(id){
    document.getElementById("type").value = "Supprimer"
          $(document).ready(function(){
-        $("form").submit();
+        $("form[name='ligne"+id+"']").submit();
     });
 }

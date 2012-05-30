@@ -19,12 +19,15 @@ import studentmind.facade.ServicesLocator;
 import studentmind.facade.UtilisateurFacade;
 import studentmind.model.Categorie;
 import studentmind.model.Document;
+import studentmind.model.Utilisateur;
 
 /**
  *
  * @author ProjetJava
  */
 public class IndexServlet extends HttpServlet {
+
+    HttpSession session;
 
     @Override
     public void init() throws ServletException {
@@ -37,23 +40,29 @@ public class IndexServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession(true);
+        session = request.getSession(true);
+
         session.setAttribute("servlet", getClass().getName());
+        request.setAttribute("nbrDocUser", afficherNombreDocUser());
+
 
         request.setAttribute("ListeCategorie", afficherCategorie());
         request.setAttribute("DocumentUne", afficherDocument());
         request.setAttribute("nbrDoc", afficherNbrDoc());
         request.setAttribute("nbrMembre", afficherNbrMembre());
         request.setAttribute("top", afficherTop());
+
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-        HttpSession session = request.getSession(false);
-        session.setAttribute("servlet", getClass().getName());
 
+        session = request.getSession(false);
+        if (session != null) {
+            session.setAttribute("servlet", getClass().getName());
+            request.setAttribute("nbrDocUser", afficherNombreDocUser());
+        }
         request.setAttribute("ListeCategorie", afficherCategorie());
         request.setAttribute("DocumentUne", afficherDocument());
         request.setAttribute("nbrDoc", afficherNbrDoc());
@@ -79,21 +88,23 @@ public class IndexServlet extends HttpServlet {
         }
         return html;
     }
-    public String afficherNbrDoc(){
-        
+
+    public String afficherNbrDoc() {
+
         String html = "";
         DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
-        html = ""+dFacade.nbrDoc();
+        html = "" + dFacade.nbrDoc();
         return html;
-        
+
     }
-    public String afficherNbrMembre(){
-        
+
+    public String afficherNbrMembre() {
+
         String html = "";
         UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
-        html = ""+uFacade.nbrUser();        
-        return html;      
-        
+        html = "" + uFacade.nbrUser();
+        return html;
+
     }
 
     public String afficherDocument() {
@@ -162,17 +173,34 @@ public class IndexServlet extends HttpServlet {
 
         return html;
     }
-    public String afficherTop(){
+
+    public String afficherTop() {
         String html = "<ul>";
         int longeur = 0;
         DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
         List<Document> liste = dFacade.top3();
-        for (Document doc :liste){
+        for (Document doc : liste) {
             longeur = doc.getDescriptionDocument().length();
-            if (longeur >= 150) longeur = 150;           
-            html += "<li><strong>"+doc.getTitreDocument()+"</strong> - "+doc.getDescriptionDocument().substring(0, longeur) +" <a href=\"voir-document.html?id=" + doc.getIdDocument()+"\"> Lire la suite</a></li>";
+            if (longeur >= 150) {
+                longeur = 150;
+            }
+            html += "<li><strong>" + doc.getTitreDocument() + "</strong> - " + doc.getDescriptionDocument().substring(0, longeur) + " <a href=\"voir-document.html?id=" + doc.getIdDocument() + "\"> Lire la suite</a></li>";
         }
         html += "</ul>";
         return html;
+    }
+
+    public String afficherNombreDocUser() {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        int i = 0;
+        if (user != null) {
+            DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+            i = dFacade.nbrDocUser(user.getIdUtilisateur());
+        }
+        if (i >= 1) {
+            return "(" + i + ")";
+        } else {
+            return "";
+        }
     }
 }

@@ -61,7 +61,8 @@ public class GererAbusServlet extends HttpServlet {
         if (type.equals("Valider")){
             //Commentaire supprime et auteur perd de point et signaleur gagne des point
             userSignaleur.setPoints(userSignaleur.getPoints()+10);
-            userAuteur.setPoints(userAuteur.getPoints()-10);
+            if (userAuteur.getPoints() >= 10) userAuteur.setPoints(userAuteur.getPoints()-10);
+            else userAuteur.setPoints(0);
             userAuteur.setNbrSignal(userAuteur.getNbrSignal()+1);
             uFacade.edit(userAuteur);
             uFacade.edit(userSignaleur);
@@ -90,15 +91,14 @@ public class GererAbusServlet extends HttpServlet {
         CommentaireFacade cFacade = ServicesLocator.getCommentaireFacade();
         List<Commentaire> liste = cFacade.findComSignaler();
         for (Commentaire com : liste){
-            html +="<form method='POST' action='./gerer-abus.html' >"
-                    + "<tr>"                    
+            html +=  "<tr>"                    
                     + "<td class=\"colonne_nom\">"+com.getFKidutilisateur().getNom()+" "+com.getFKidutilisateur().getPrenom()+"</td>"               
                     + "<td>"+com.getFKidutilisateursignaleur().getNom()+" "+com.getFKidutilisateursignaleur().getPrenom()+"</td>"
                     + "<td class=\"colonne_description\">"+com.getContenu()+"</td>"
                     + "<td class=\"colonne_action\">"
-                   
-                    + "<input type='image' src=\"img/accepter.png\" title=\"Valider\" alt=\"Valider\" onclick='ValiderAbus();'/>"
-                    + "<input type='image'src=\"img/delete.png\" title=\"Supprimer\" alt=\"Supprimer\" onclick='RetirerAbus();'/>"
+                    + "<form name='ligne" + com.getIdCommentaire() + "' method='POST' action='./gerer-abus.html' >"
+                    + "<input type='image' src=\"img/accepter.png\" title=\"Valider\" alt=\"Valider\" onclick='ValiderAbus(" + com.getIdCommentaire() + ");'/>"
+                    + "<input type='image'src=\"img/delete.png\" title=\"Supprimer\" alt=\"Supprimer\" onclick='RetirerAbus(" + com.getIdCommentaire() + ");'/>"
                     + "<input type='hidden' value='"+com.getIdCommentaire()+"' name='id'/>"
                     + "<input type='hidden' value='"+com.getFKidutilisateursignaleur().getIdUtilisateur()+"' name='idSignaleur'/>"
                     + "<input type='hidden' value='"+com.getFKidutilisateur().getIdUtilisateur()+"' name='idAuteur'/>"

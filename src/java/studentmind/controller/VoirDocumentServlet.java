@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import studentmind.facade.*;
 import studentmind.model.Commentaire;
 import studentmind.model.Document;
+import studentmind.model.Utilisateur;
 
 /**
  *
@@ -23,6 +24,7 @@ import studentmind.model.Document;
  */
 public class VoirDocumentServlet extends HttpServlet {
 
+    HttpSession session;
     @Override
     public void init() throws ServletException {
     }
@@ -34,7 +36,7 @@ public class VoirDocumentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
+        session = request.getSession(false);
         session.setAttribute("servlet", getClass().getName());
         
         String idDoc = request.getParameter("id");
@@ -132,21 +134,26 @@ public class VoirDocumentServlet extends HttpServlet {
             int h = cal.get(Calendar.HOUR_OF_DAY);
             int m = cal.get(Calendar.MINUTE);
             html += "<div class=\"commentaire_footer_article\"><footer><strong>Posté le : </strong>"
-                    + jour + " " + moisDate + " " + annee + " à " + h + "h" + m + "</div>";
-
+                    + jour + " " + moisDate + " " + annee + " à " + h + "h" + m ;
+            if (com.getFKidetatcommentaire().getIdEtatCommentaire() == 2)html +=" - <img src=\"img/signaler.png\" title=\"Signaler un abus\" alt=\"\" /><a href=\"signaler-commentaire.html?c="+com.getIdCommentaire()+"\">Signaler le commentaire</a>";
+            else html += " - Commentaire approuvé";
+                   html += "</div>";
         }
         session.setAttribute("idDocument", idDoc);
         request.setAttribute("ListeCommentaire", html);
         request.setAttribute("top",afficherTop());
+        request.setAttribute("nbrDocUser",afficherNombreDocUser());
+       
         request.getRequestDispatcher("voirDocument.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
+    
     public String afficherTop(){
        String html = "<ul>";
-        int longeur = 0;
+        int longeur;
         DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
         List<Document> liste = dFacade.top3();
         for (Document doc :liste){
@@ -156,5 +163,18 @@ public class VoirDocumentServlet extends HttpServlet {
         }
         html += "</ul>";
         return html;
+    }
+    public String afficherNombreDocUser() {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        int i = 0;
+        if (user != null) {
+            DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+            i = dFacade.nbrDocUser(user.getIdUtilisateur());
+        }
+        if (i >= 1) {
+            return "(" + i + ")";
+        } else {
+            return "";
+        }
     }
 }
