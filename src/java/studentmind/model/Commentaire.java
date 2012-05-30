@@ -36,6 +36,7 @@ public class Commentaire implements Serializable {
     @Size(min = 1, max = 65535)
     @Column(name = "contenu")
     private String contenu;
+    @NotNull
     @Column(name = "Date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
