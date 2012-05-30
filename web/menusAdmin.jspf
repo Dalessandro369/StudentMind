@@ -184,7 +184,7 @@
                                     + "<div class=\"commentaire_content_article\">"
                                     + "<blockquote>" + XMLDocument.getElementsByTagName('contenu')[0].firstChild.nodeValue + "</blockquote>"
                                     + "</div>"
-                                    + "<div class=\"commentaire_footer_article\"><footer><strong>Posté le : </strong>" + XMLDocument.getElementsByTagName('date')[0].firstChild.nodeValue + "</div>";
+                                    + "<div class=\"commentaire_footer_article\"><footer><strong>Posté le : </strong>" + XMLDocument.getElementsByTagName('date')[0].firstChild.nodeValue+"</div>";
                                     
                                 }
                             };
