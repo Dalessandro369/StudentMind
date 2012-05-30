@@ -57,7 +57,6 @@ public class VoirDocumentServlet extends HttpServlet {
                 + "<li>"
                 + "<strong>Moyenne : </strong>"                
                 + "<script type=\"text/javascript\">"
-                + "alert(\"e\");"
                 + "$(document).ready(function(){"              
                 + "$(\".avg_note\").jRating({"
                 + "type:\"small\"," // type of the rate.. can be set to 'small' or 'big'

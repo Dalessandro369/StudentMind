@@ -21,6 +21,7 @@
         ${informationDoc}
         
         <h2>Commentaires</h2>
+        <div id="output_new_comm"></div>
         ${ListeCommentaire}
     </div>
 </div>

@@ -168,23 +168,27 @@
                     <script type="text/javascript">
                         document.getElementById("comm_button").addEventListener('click', function(){
                             var comm = document.getElementById("comm").value;
-                            var xhr = null;
-
-                            if (window.XMLHttpRequest)      xhr = new XMLHttpRequest();
-                            else if (window.ActiveXObject)  xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                            var req = null;
                             
-                            // On définit l'appel de la fonction retour au serveur
-                            xhr.onreadystatechange = function(){ 
-                                traitement_reponse(xhr); 
+                            if(window.XMLHttpRequest)   req = new XMLHttpRequest();
+                            else                        req = new ActiveXObject("Microsoft.XMLHTTP");
+
+                            req.open("GET", "http://localhost:8080/StudentMind/ajouter-commentaire.html?comm="+comm, true);
+                            req.onreadystatechange = function(){ 
+                                if (req.readyState == 4 && req.status == 200) {
+                                    XMLDocument = req.responseXML;
+                                   
+                                    
+                                    document.getElementById("output_new_comm").innerHTML = "<div class=\"commentaire_icon\"></div>"
+                                    + "<div class=\"commentaire_header_article\"><header><strong>Auteur : </strong>" + XMLDocument.getElementsByTagName('auteur')[0].firstChild.nodeValue + "</header></div>"
+                                    + "<div class=\"commentaire_content_article\">"
+                                    + "<blockquote>" + XMLDocument.getElementsByTagName('contenu')[0].firstChild.nodeValue + "</blockquote>"
+                                    + "</div>"
+                                    + "<div class=\"commentaire_footer_article\"><footer><strong>Posté le : </strong>" + XMLDocument.getElementsByTagName('date')[0].firstChild.nodeValue + "</div>";
+                                    
+                                }
                             };
-
-                            // On appelle la Servlet de traitement
-                            xhr.open("POST", "ajouter-commentaire.html", true);
-                            xhr.send("comm="+comm);
-
-                            function traitement_reponse(xhr){
-                                alert("réponse reçue");
-                            }
+                            req.send();
                         }, false);
                     </script>
             </div>
