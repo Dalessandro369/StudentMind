@@ -32,7 +32,7 @@ public class CommentaireFacade extends AbstractFacade<Commentaire> {
     }
 
     public List<Commentaire> findCom(int idDoc) {
-        String query = "SELECT c FROM  Commentaire c JOIN c.fKiddocument doc JOIN c.fKidetatcommentaire etat WHERE doc.idDocument = :idDoc AND (etat.idEtatCommentaire = 4 OR etat.idEtatCommentaire = 2)";
+        String query = "SELECT c FROM  Commentaire c JOIN c.fKiddocument doc JOIN c.fKidetatcommentaire etat WHERE doc.idDocument = :idDoc AND (etat.idEtatCommentaire = 4 OR etat.idEtatCommentaire = 2) ORDER BY c.date DESC";
         Query q = em.createQuery(query).setParameter("idDoc", idDoc);
         return q.getResultList();
     }
