@@ -4,7 +4,6 @@
  */
 
 
-
 function Editer(id) {
     $(document).ready(function(){
         $(".editer").hide(); //tous ceu qui on la class editer son cacher .show pour montrer .-> class #->id   ,-> ou
@@ -91,27 +90,33 @@ function bannirUser(){
 
 function ValiderAbus(id){
     document.getElementById("type").value = "Valider"
-      $(document).ready(function(){
+    $(document).ready(function(){
         $("form[name='ligne"+id+"']").submit();
     });
 }
 function RetirerAbus(id){
    
     document.getElementById("type").value = "Supprimer"
-         $(document).ready(function(){
+    $(document).ready(function(){
         $("form[name='ligne"+id+"']").submit();
     });
 }
 
 function ValiderDoc(id){
-  document.getElementById("type").value = "Valider"
-      $(document).ready(function(){
+    document.getElementById("type").value = "Valider"
+    $(document).ready(function(){
         $("form[name='ligne"+id+"']").submit();
     });
 }
 function RetirerDoc(id){
-   document.getElementById("type").value = "Supprimer"
-         $(document).ready(function(){
+    document.getElementById("type").value = "Supprimer"
+    $(document).ready(function(){
         $("form[name='ligne"+id+"']").submit();
     });
+}
+function SupprimerMes(id){
+    $(document).ready(function(){
+        $("form[name='ligne"+id+"']").submit();
+    });    
+    
 }

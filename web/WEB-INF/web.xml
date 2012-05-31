@@ -96,6 +96,10 @@
         <servlet-name>SignalerCommentaireServlet</servlet-name>
         <servlet-class>studentmind.controller.SignalerCommentaireServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>inboxEnvoyerServlet</servlet-name>
+        <servlet-class>studentmind.controller.inboxEnvoyerServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IndexServlet</servlet-name>
         <url-pattern>/index.html</url-pattern>
@@ -187,6 +191,10 @@
     <servlet-mapping>
         <servlet-name>SignalerCommentaireServlet</servlet-name>
         <url-pattern>/signaler-commentaire.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>inboxEnvoyerServlet</servlet-name>
+        <url-pattern>/inbox-envoyer.html</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

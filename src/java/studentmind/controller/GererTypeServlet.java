@@ -6,6 +6,7 @@ package studentmind.controller;
 
 import java.io.IOException;
 import java.util.List;
+import javax.ejb.EJBException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -64,7 +65,12 @@ public class GererTypeServlet extends HttpServlet {
                     type.setNomType(nom);
                     tFacade.edit(type);
                 } else {
-                    tFacade.remove(type);
+                     try{
+                       tFacade.remove(type);
+                    }catch(EJBException e){
+                        
+                    }
+                    
                 }
             }
             request.setAttribute("ListeType", afficheType());

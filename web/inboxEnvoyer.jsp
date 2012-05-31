@@ -1,6 +1,6 @@
 <%-- 
-    Document   : inbox
-    Created on : 13-mai-2012, 19:43:38
+    Document   : inboxEnvoyer
+    Created on : 31-mai-2012, 15:32:00
     Author     : ProjetJava
 --%>
 
@@ -11,7 +11,7 @@
 <div id="page">
     <div id="content">			
         <h2>Ma boîte de réception</h2>
-        ${ListeMessageReception}
+        ${ListeMessageEnvoyer}
         <!-- Ne surtout pas déplacer le script qui suit ! -->
         <script type="text/javascript">
             var sorter = new TINY.table.sorter("sorter");
