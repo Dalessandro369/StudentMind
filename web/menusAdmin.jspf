@@ -39,20 +39,21 @@
         </div>
 
         <div id="right_menu">			
-            <div class="menu">
-                <header><h3>${user.prenom} ${user.nom}</h3></header>
-                <div id="avatar">
-                    <img src="../img/avatar.jpg" title="" alt="" />
-                </div>
-                <ul>
-                    <li><a href="modifier-profil.html">Mon profil</a></li>
-                    <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
-                    <li><a href="liste-documents.html">Mes documents</a> ${nbrDocUser}</li>
-                    <li><a href="deconnexion.html">Se déconnecter</a></li>
-                </ul>
-            </div>		
+            <%@ include file="profil_messagerie.jspf"%>		
         </div>
-    </c:when>          
+    </c:when>
+    <c:when test='${servlet == "studentmind.controller.EcrireMessageServlet"    or
+                    servlet == "studentmind.controller.InboxServlet"            or
+                    servlet == "studentmind.controller.LireMessageServlet"}'>
+        <div id="right_menu">
+            <%@ include file="profil_messagerie.jspf"%>         
+        </div>
+    </c:when>  
+    <c:when test='${servlet == "studentmind.controller.ModifierProfilServlet"}'>
+        <div id="right_menu">
+            <%@ include file="profil_messagerie.jspf"%>       
+        </div>
+    </c:when>
     <c:when test='${servlet == "studentmind.controller.IndexServlet" or
                     servlet == "studentmind.controller.ConnexionServlet" or
                     servlet == "studentmind.controller.DeconnexionServlet"}'>
@@ -68,26 +69,14 @@
             <div class="menu">
                 <header><h3>Statistiques du site</h3></header>
                 <ul>
-                    <li><strong><span class="">Nombre de membres :</span></strong></li>
-                    <li><strong><span class="">Nombre de documents :</span></strong></li>
+                    <li><strong><span class="">Nombre de membres :</span></strong>${nbrMembre}</li>
+                    <li><strong><span class="">Nombre de documents :</span></strong>${nbrDoc}</li>
                 </ul>	
             </div>
         </div>
 
         <div id="right_menu">
-            <div class="menu">
-                <header><h3>${user.prenom} ${user.nom}</h3></header>
-                <div id="avatar">
-                    <img src="../img/avatar.jpg" title="" alt="" />
-                </div>
-                <ul>
-                    <li><a href="modifier-profil.html">Mon profil</a></li>
-                    <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
-                    <li><a href="liste-documents.html">Mes documents </a>${nbrDocUser}</li>
-                    <li><a href="deconnexion.html">Se déconnecter</a></li>
-                </ul>
-            </div>
-
+            <%@ include file="profil_messagerie.jspf"%>
             <div class="menu">
                 <header><h3>Derniers documents</h3></header>
                 ${top}
@@ -98,19 +87,7 @@
                     servlet == "studentmind.controller.RechercherDocumentServlet"   or
                     servlet == "studentmind.controller.UploadDocumentServlet"}' >
         <div id="right_menu">
-            <div class="menu">
-                <header><h3>${user.prenom} ${user.nom}</h3></header>
-                <div id="avatar">
-                    <img src="../img/avatar.jpg" title="" alt="" />
-                </div>
-                <ul>
-                    <li><a href="modifier-profil.html">Mon profil</a></li>
-                    <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
-                    <li><a href="liste-documents.html">Mes documents </a> ${nbrDocUser}</li>
-                    <li><a href="deconnexion.html">Se déconnecter</a></li>
-                </ul>
-            </div>              
-            
+            <%@ include file="profil_messagerie.jspf"%>            
             <div class="menu">
                 <header><h3>Derniers documents</h3></header>
                 ${top}
@@ -119,19 +96,7 @@
     </c:when>
     <c:when test='${servlet == "studentmind.controller.VoirDocumentServlet"}'>
         <div id="right_menu">
-            <div class="menu">
-                <header><h3>${user.prenom} ${user.nom}</h3></header>
-                <div id="avatar">
-                    <img src="../img/avatar.jpg" title="" alt="" />
-                </div>
-                <ul>
-                    <li><a href="modifier-profil.html">Mon profil</a></li>
-                    <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
-                    <li><a href="liste-documents.html">Mes documents </a>${nbrDocUser}</li>
-                    <li><a href="deconnexion.html">Se déconnecter</a></li>
-                </ul>
-            </div>              
-            
+            <%@ include file="profil_messagerie.jspf"%>            
             <div class="menu">
                 <header><h3>Derniers documents</h3></header>
                 ${top}
@@ -178,14 +143,15 @@
                                 if (req.readyState == 4 && req.status == 200) {
                                     XMLDocument = req.responseXML;
                                    
-                                    
+                                    var str = document.getElementById("output_new_comm").innerHTML; 
                                     document.getElementById("output_new_comm").innerHTML = "<div class=\"commentaire_icon\"></div>"
                                     + "<div class=\"commentaire_header_article\"><header><strong>Auteur : </strong>" + XMLDocument.getElementsByTagName('auteur')[0].firstChild.nodeValue + "</header></div>"
                                     + "<div class=\"commentaire_content_article\">"
                                     + "<blockquote>" + XMLDocument.getElementsByTagName('contenu')[0].firstChild.nodeValue + "</blockquote>"
                                     + "</div>"
-                                    + "<div class=\"commentaire_footer_article\"><footer><strong>Posté le : </strong>" + XMLDocument.getElementsByTagName('date')[0].firstChild.nodeValue+"</div>";
-                                    
+                                    + "<div class=\"commentaire_footer_article\"><footer><strong>Posté le : </strong>" + XMLDocument.getElementsByTagName('date')[0].firstChild.nodeValue+"</div>"
+                                    + str;
+                                    document.getElementById("comm").value = "";
                                 }
                             };
                             req.send();

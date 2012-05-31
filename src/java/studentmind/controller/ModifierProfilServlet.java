@@ -83,11 +83,11 @@ public class ModifierProfilServlet extends HttpServlet {
         html += "<form method=\"POST\" action=\"modifier-profil.html\" enctype=\"multipart/form-data\">"
                 + " <fieldset>"
                 + "<legend>Informations générales</legend>"
-                + "<label for=\"nom\">Nom :</label><span class=\"\">" + user.getNom() + "</span><br/>"
-                + "<label for=\"prenom\">Prénom :</label><span class=\"\">" + user.getPrenom() + "</span><br/>"
-                + "<label for=\"dateNaissance\">Date de naissance :</label><span class=\"\">" + user.getDateNaissance() + "</span><br/>"
-                + "<label for=\"sexe\">Sexe :</label><span class=\"\">" + user.getSexe() + "</span><br/>"
-                + "<label for=\"pays\">Pays :</label><span class=\"\">" + user.getFKidpays().getNomPays() + "</span>"
+                + "<label for=\"nom\">Nom :</label><span class=\"profilNom\">" + user.getNom() + "</span><br/>"
+                + "<label for=\"prenom\">Prénom :</label><span class=\"profilPrenom\">" + user.getPrenom() + "</span><br/>"
+                + "<label for=\"dateNaissance\">Date de naissance :</label><span class=\"profilDOB\">" + user.getDateNaissance() + "</span><br/>"
+                + "<label for=\"sexe\">Sexe :</label><span class=\"profilSexe\">" + user.getSexe() + "</span><br/>"
+                + "<label for=\"pays\">Pays :</label><span class=\"profilPays\">" + user.getFKidpays().getNomPays() + "</span>"
                 + " </fieldset>";
 
         html += "<fieldset>"

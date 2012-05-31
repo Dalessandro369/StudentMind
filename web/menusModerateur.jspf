@@ -1,34 +1,47 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
 <c:choose>
-    <c:when test='${servlet == "studentmind.controller.ConnexionServlet"}'>
-
-    </c:when>
     <c:when test='${servlet == "studentmind.controller.ContactServlet"}'>
-
+        <div id="right_menu">
+            <div class="menu">
+                <header><h3>Contactez-nous !</h3></header>        
+                <p>Vous souhaitez contacter notre équipe technique ? N'hésitez pas à compléter le formulaire ci-joint. Nous tâcherons de vous répondre dans les plus brefs
+                délais.</p>
+            </div>
+        </div>
     </c:when>
-    <c:when test='${servlet == "studentmind.controller.EcrireMessageServlet"}'>
+    <c:when test='${servlet == "studentmind.controller.AdministrationServlet"           or
+                    servlet == "studentmind.controller.GererFileAttenteDocumentServlet" or
+                    servlet == "studentmind.controller.GererAbusServlet"}'>
+        <div id="left_menu">
+            <div class="menu">
+                <header><h3>Gestion des demandes</h3></header>
+                <ul>
+                    <li><a href="gerer-abus.html">Gérer les signalements d'abus</a> ${nbrCom}</li>
+                    <li><a href="gerer-file-attente-document.html">Gérer la file d'attente des documents</a> ${nbrDocFile}</li>
+                </ul>
+            </div>	
+        </div>
 
-    </c:when>
-    <c:when test='${servlet == "studentmind.controller.GererAbusServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.GererCategorieServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.GererExtensionServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.GererTypeServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.GererUtilisateurServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.InboxServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.IndexServlet"}'>
+        <div id="right_menu">			
+            <%@ include file="profil_messagerie.jspf"%>
+        </div>
+    </c:when>  
+    <c:when test='${servlet == "studentmind.controller.EcrireMessageServlet"    or
+                    servlet == "studentmind.controller.InboxServlet"            or
+                    servlet == "studentmind.controller.LireMessageServlet"}'>
+        <div id="right_menu">
+            <%@ include file="profil_messagerie.jspf"%>
+        </div>
+    </c:when>  
+    <c:when test='${servlet == "studentmind.controller.ModifierProfilServlet"}'>
+        <div id="right_menu">
+            <%@ include file="profil_messagerie.jspf"%>
+        </div>
+    </c:when>  
+    <c:when test='${servlet == "studentmind.controller.DeconnexionServlet"  or
+                    servlet == "studentmind.controller.ConnexionServlet"    or
+                    servlet == "studentmind.controller.IndexServlet"}'>
         <div id="left_menu">
             <div class="menu">
                 <header><h3>Qu'est-ce que studentmind ?</h3></header>
@@ -41,66 +54,110 @@
             <div class="menu">
                 <header><h3>Statistiques du site</h3></header>
                 <ul>
-                    <li><strong><span class="">Nombre de membres :</span></strong></li>
-                    <li><strong><span class="">Nombre de documents :</span></strong></li>
+                    <li><strong><span class="">Nombre de membres :</span></strong>${nbrMembre}</li>
+                    <li><strong><span class="">Nombre de documents :</span></strong${nbrDoc}></li>
                 </ul>	
             </div>
         </div>
 
         <div id="right_menu">
+            <%@ include file="profil_messagerie.jspf"%>
             <div class="menu">
-                <header><h3>${user.prenom} ${user.nom}</h3></header>
-                <div id="avatar">
-                    <img src="../img/avatar.jpg" title="" alt="" />
-                </div>
-                <ul>
-                    <li><a href="profil.html">Mon profil</a></li>
-                    <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
-                    <li><a href="mes-documents.html">Mes documents</a> (12)</li>
-                    <li><a href="deconnexion.html">Se déconnecter</a></li>
-                </ul>
+                <header><h3>Derniers documents</h3></header>
+                ${top}
+            </div>           
+        </div>
+    </c:when>                 
+    <c:when test='${servlet == "studentmind.controller.ListeDocumentsServlet"       or
+                    servlet == "studentmind.controller.RechercherDocumentServlet"   or
+                    servlet == "studentmind.controller.UploadDocumentServlet"}' >
+        <div id="right_menu">
+            <%@ include file="profil_messagerie.jspf"%>
+            <div class="menu">
+                <header><h3>Derniers documents</h3></header>
+                ${top}
+            </div>
+        </div>
+    </c:when>                     
+    <c:when test='${servlet == "studentmind.controller.VoirDocumentServlet"}'>
+        <div id="right_menu">
+            <%@ include file="profil_messagerie.jspf"%>            
+            <div class="menu">
+                <header><h3>Derniers documents</h3></header>
+                ${top}
+            </div>
+            
+            <div class="menu">
+                <header><h3>Téléchargement du document</h3></header>
+                <p><strong>Attention :</strong> il est strictement interdit de vendre, de distribuer ou de modifier le document ci-joint sans l'accord préalable de son auteur. 
+                Si vous reconnaissez l'une de vos oeuvres et que le propriétaire n'est pas en droit de la posséder, contactez notre équipe via ce 
+                <a href="contact.html">formulaire de contact</a> pour y déposer votre réclamation.</p>
+
+                <figure> 
+                    <a href="">
+                        <c:choose>
+                            <c:when test='${typeFamille == "Microsoft Office"}'>
+                                <img src="img/extensions/office.png" title="Téléchargement du document" alt="Téléchargement"> 
+                            </c:when>
+                            <c:when test='${typeFamille == "Libre Office"}'>
+                                <img src="img/extensions/openoffice.png" title="Téléchargement du document" alt="Téléchargement"> 
+                            </c:when>
+                            <c:when test='${typeFamille == "Adobe"}'>
+                                <img src="img/extensions/adobe.png" title="Téléchargement du document" alt="Téléchargement"> 
+                            </c:when>
+                        </c:choose>
+                                <figcaption>Télécharger</figcaption>
+                    </a>
+                </figure> 
             </div>
 
             <div class="menu">
-                <header><h3>Derniers documents</h3></header>
-                <ul>
-                    <li><a href="voir-document.html">Manier la trigonométrie</a> - Vous verrez que la trigo ne se résume pas à un ensemble de formules, c'est aussi une interprétation géométrique qui 
-                        a toute son importance. Et puis la trigo n'a pas été inventée pour rien : les applications sont nombreuses en physique.
-                    </li>
-                </ul>
-                <footer><a href="liste-documents.html">>> Vers tous les documents</a></footer>
-            </div>              
-        </div>
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.InscriptionServlet"}'>
+                    <header><h3>Poster un commentaire</h3></header>
+                    <textarea class="textarea_commentaire" name="comm" id="comm"></textarea>
+                    <input type="button" id="comm_button" value="Poster commentaire" />
+                    <script type="text/javascript">
+                        document.getElementById("comm_button").addEventListener('click', function(){
+                            var comm = document.getElementById("comm").value;
+                            var req = null;
+                            
+                            if(window.XMLHttpRequest)   req = new XMLHttpRequest();
+                            else                        req = new ActiveXObject("Microsoft.XMLHTTP");
 
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.LireMessageServlet"}'>
+                            req.open("GET", "http://localhost:8080/StudentMind/ajouter-commentaire.html?comm="+comm, true);
+                            req.onreadystatechange = function(){ 
+                                if (req.readyState == 4 && req.status == 200) {
+                                    XMLDocument = req.responseXML;
+                                   
+                                    var str = document.getElementById("output_new_comm").innerHTML; 
+                                    document.getElementById("output_new_comm").innerHTML = "<div class=\"commentaire_icon\"></div>"
+                                    + "<div class=\"commentaire_header_article\"><header><strong>Auteur : </strong>" + XMLDocument.getElementsByTagName('auteur')[0].firstChild.nodeValue + "</header></div>"
+                                    + "<div class=\"commentaire_content_article\">"
+                                    + "<blockquote>" + XMLDocument.getElementsByTagName('contenu')[0].firstChild.nodeValue + "</blockquote>"
+                                    + "</div>"
+                                    + "<div class=\"commentaire_footer_article\"><footer><strong>Posté le : </strong>" + XMLDocument.getElementsByTagName('date')[0].firstChild.nodeValue+"</div>"
+                                    + str;
+                                    document.getElementById("comm").value = "";
+                                }
+                            };
+                            req.send();
+                        }, false);
+                    </script>
+            </div>
 
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.ListeDocumentsServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.ProfilServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.RechercherDocumentServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.UploadDocumentServlet"}'>
-        <div id="right_menu">
             <div class="menu">
-                <header><h3>Derniers documents</h3></header>
-                <ul>
-                    <li><a href="voir-document.html">Manier la trigonométrie</a> - Vous verrez que la trigo ne se résume pas à un ensemble de formules, c'est aussi une interprétation géométrique qui 
-                        a toute son importance. Et puis la trigo n'a pas été inventée pour rien : les applications sont nombreuses en physique.
-                    </li>
-                </ul>
-                <footer><a href="liste-documents.html">>> Vers tous les documents</a></footer>
-            </div>              
+                    <header><h3>Noter le document</h3></header>
+                    <script type="text/javascript">
+                        $(document).ready(function(){
+                            $(".note").jRating({
+                                step:true,
+                                length : 5, // nb of stars
+                                decimalLength:0, // number of decimal in the rate
+                                showRateInfo : false
+                            });
+                        });
+                    </script>
+                    <div class="note" id="vote" data="0"></div>
+            </div>
         </div>
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.VoirDocumentServlet"}'>
-
-    </c:when>            
+    </c:when>          
 </c:choose>    

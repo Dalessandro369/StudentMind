@@ -2,15 +2,29 @@
 <%@ page pageEncoding="UTF-8" %>
 <c:choose>
     <c:when test='${servlet == "studentmind.controller.ContactServlet"}'>
-
+        <div id="right_menu">
+            <div class="menu">
+                <header><h3>Contactez-nous !</h3></header>        
+                <p>Vous souhaitez contacter notre équipe technique ? N'hésitez pas à compléter le formulaire ci-joint. Nous tâcherons de vous répondre dans les plus brefs
+                délais.</p>
+            </div>
+        </div>
     </c:when>
-    <c:when test='${servlet == "studentmind.controller.EcrireMessageServlet"}'>
-
-    </c:when>                   
-    <c:when test='${servlet == "studentmind.controller.InboxServlet"}'>
-
-    </c:when>        
-    <c:when test='${servlet == "studentmind.controller.IndexServlet"}'>
+    <c:when test='${servlet == "studentmind.controller.EcrireMessageServlet"    or
+                    servlet == "studentmind.controller.InboxServlet"            or
+                    servlet == "studentmind.controller.LireMessageServlet"}'>
+        <div id="right_menu">
+            <%@ include file="profil_messagerie.jspf"%>       
+        </div>
+    </c:when>                               
+    <c:when test='${servlet == "studentmind.controller.ModifierProfilServlet"}'>
+        <div id="right_menu">
+            <%@ include file="profil_messagerie.jspf"%>        
+        </div>
+    </c:when>
+    <c:when test='${servlet == "studentmind.controller.IndexServlet" or
+                    servlet == "studentmind.controller.ConnexionServlet" or
+                    servlet == "studentmind.controller.DeconnexionServlet"}'>
         <div id="left_menu">
             <div class="menu">
                 <header><h3>Qu'est-ce que studentmind ?</h3></header>
@@ -23,60 +37,26 @@
             <div class="menu">
                 <header><h3>Statistiques du site</h3></header>
                 <ul>
-                    <li><strong><span class="">Nombre de membres :</span></strong></li>
-                    <li><strong><span class="">Nombre de documents :</span></strong></li>
+                    <li><strong><span class="">Nombre de membres :</span></strong>${nbrMembre}</li>
+                    <li><strong><span class="">Nombre de documents :</span></strong>${nbrDoc}</li>
                 </ul>	
             </div>
         </div>
 
         <div id="right_menu">
-            <div class="menu">
-                <header><h3>${user.prenom} ${user.nom}</h3></header>
-                <div id="avatar">
-                    <img src="../img/avatar.jpg" title="" alt="" />
-                </div>
-                <ul>
-                    <li><a href="profil.html">Mon profil</a></li>
-                    <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
-                    <li><a href="mes-documents.html">Mes documents</a> (12)</li>
-                    <li><a href="deconnexion.html">Se déconnecter</a></li>
-                </ul>
-            </div>
-
+            <%@ include file="profil_messagerie.jspf"%>
             <div class="menu">
                 <header><h3>Derniers documents</h3></header>
-                <ul>
-                    <li><a href="voir-document.html">Manier la trigonométrie</a> - Vous verrez que la trigo ne se résume pas à un ensemble de formules, c'est aussi une interprétation géométrique qui 
-                        a toute son importance. Et puis la trigo n'a pas été inventée pour rien : les applications sont nombreuses en physique.
-                    </li>
-                </ul>
-                <footer><a href="liste-documents.html">>> Vers tous les documents</a></footer>
-            </div>              
+                ${top}
+            </div>           
         </div>
-    </c:when>              
-    <c:when test='${servlet == "studentmind.controller.LireMessageServlet"}'>
-
-    </c:when>              
-    <c:when test='${servlet == "studentmind.controller.ProfilServlet"}'>
-
-    </c:when>               
+    </c:when>                  
     <c:when test='${servlet == "studentmind.controller.ListeDocumentsServlet"       or
                     servlet == "studentmind.controller.RechercherDocumentServlet"   or
                     servlet == "studentmind.controller.UploadDocumentServlet"       or
                     servlet == "studentmind.controller.VoirDocumentServlet" }' >
         <div id="right_menu">
-            <div class="menu">
-                <header><h3>${user.prenom} ${user.nom}</h3></header>
-                <div id="avatar">
-                    <img src="../img/avatar.jpg" title="" alt="" />
-                </div>
-                <ul>
-                    <li><a href="modifier-profil.html">Mon profil</a></li>
-                    <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
-                    <li><a href="mes-documents.html">Mes documents</a> (12)</li>
-                    <li><a href="deconnexion.html">Se déconnecter</a></li>
-                </ul>
-            </div>              
+            <%@ include file="profil_messagerie.jspf"%>            
             
             <div class="menu">
                 <header><h3>Derniers documents</h3></header>
