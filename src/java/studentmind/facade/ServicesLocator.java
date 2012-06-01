@@ -28,6 +28,26 @@ public abstract class ServicesLocator {
             return null;
         }
     }
+
+    public static MessageFacade getMessageFacade() {
+        try {
+            Context context = new InitialContext();
+            return (MessageFacade) context.lookup("java:global/StudentMind/MessageFacade");
+        } catch (NamingException ex) {
+            Logger.getLogger(ServicesLocator.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    public static EtatMessageFacade getEtatMessageFacade() {
+        try {
+            Context context = new InitialContext();
+            return (EtatMessageFacade) context.lookup("java:global/StudentMind/EtatMessageFacade");
+        } catch (NamingException ex) {
+            Logger.getLogger(ServicesLocator.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }   
+
     public static NoteFacade getNoteFacade() {
         try {
             Context context = new InitialContext();
@@ -37,6 +57,7 @@ public abstract class ServicesLocator {
             return null;
         }
     }
+
     public static TelechargementFacade getTelechargementFacade() {
         try {
             Context context = new InitialContext();

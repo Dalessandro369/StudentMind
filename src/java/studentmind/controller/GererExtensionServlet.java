@@ -6,6 +6,7 @@ package studentmind.controller;
 
 import java.io.IOException;
 import java.util.List;
+import javax.ejb.EJBException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -73,7 +74,12 @@ public class GererExtensionServlet extends HttpServlet {
                     ext.setFKidfamille(new Famille(Integer.parseInt(famille)));
                     eFacade.edit(ext);
                 } else {
-                    eFacade.remove(ext);
+                           try{
+                       eFacade.remove(ext);
+                    }catch(EJBException e){
+                        
+                    }
+                    
                 }
             }
             request.setAttribute("ListeExtension", afficheExtension());

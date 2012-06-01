@@ -49,7 +49,7 @@ public class GererUtilisateurServlet extends HttpServlet {
         String type = request.getParameter("type");
         String idUtilisateur = request.getParameter("id");
         String rang = request.getParameter("rang");
-         
+
         if (idUtilisateur != null && (!idUtilisateur.isEmpty())) {
             UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
             Utilisateur u = uFacade.findId(Integer.parseInt(idUtilisateur));
@@ -62,11 +62,14 @@ public class GererUtilisateurServlet extends HttpServlet {
             }
             request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
         } else {
-            if (id != null && (!id.isEmpty())) {
-                request.setAttribute("ListeUtilisateur", afficherUtilisateur(Integer.parseInt(id)));
-            } else {
-                request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
-            }
+            
+                try {
+                    int i = Integer.parseInt(id);
+                    request.setAttribute("ListeUtilisateur", afficherUtilisateur(Integer.parseInt(id)));
+                } catch (Exception e) {
+                   request.setAttribute("ListeUtilisateur", afficherUtilisateur(0)); 
+                }           
+            
         }
 
         request.getRequestDispatcher("gererUtilisateur.jsp").forward(request, response);
@@ -118,8 +121,8 @@ public class GererUtilisateurServlet extends HttpServlet {
                 + "</script>"
                 + " <div class=\"ui-widget\">"
                 + "<form name='user' method='POST' action='./gerer-utilisateur.html' >"
-   //--------------------------
-    //Verifier en js que lorsqu'on sort du champ que sa soit un nombre si oui ok si pas remettre le champ a blanc
+                //--------------------------
+                //Verifier en js que lorsqu'on sort du champ que sa soit un nombre si oui ok si pas remettre le champ a blanc
                 + "<input class=\"nom_utilisateur\" type=\"text\" name=\"tags\" id=\"tags\" placeholder=\"Nom d\'utilisateur\" />"
                 + "</form>"
                 + "</div>"
@@ -128,15 +131,19 @@ public class GererUtilisateurServlet extends HttpServlet {
             html += "</table>";
 
         } else {
-                    
-                    html += "<td class=\"colonne_description\">" + u.getNom() + " " + u.getPrenom() + "</td>";
+
+            html += "<td class=\"colonne_description\">" + u.getNom() + " " + u.getPrenom() + "</td>";
             RangFacade rFacade = ServicesLocator.getRangFacade();
             List<Rang> listeRang = rFacade.findAllAlpha();
             html += "<td>"
-                    +"<form name=\"update\" method=\"POST\" action=\"./gerer-utilisateur.html\"> "
+                    + "<form name=\"update\" method=\"POST\" action=\"./gerer-utilisateur.html\"> "
                     + "<input type=\"hidden\" name=\"id\" id=\"id\" value=\"" + u.getIdUtilisateur() + "\" />"
-                    + "<input type=\"hidden\" name=\"type\" id=\"type\" />"
-                  + "<select name=\"rang\">";
+                    + "<input type=\"hidden\" name=\"type\" id=\"type\" />";
+            if (u.getFKidrang().getIdRang() != 3) {
+                html += "<select name=\"rang\">";
+            } else {
+                html += "<select name=\"rang\" disabled='disabled'>";
+            }
             for (Rang r : listeRang) {
                 if (u.getFKidrang().equals(r)) {
                     html += "<option value=\"" + r.getIdRang() + "\"selected='selected'>" + r.getNomRang() + "</option>";
@@ -144,10 +151,10 @@ public class GererUtilisateurServlet extends HttpServlet {
                     html += "<option value=\"" + r.getIdRang() + "\">" + r.getNomRang() + "</option>";
                 }
             }
-            html += "</select>"                    
+            html += "</select>"
                     + "</form>"
                     + "</td>";
-                    
+
 
             html += "<td>" + u.getNbrSignal() + "</td>"
                     + "<td>" + u.getFKidetatutlisateur().getNomEtatUtilisateur() + "</td>"

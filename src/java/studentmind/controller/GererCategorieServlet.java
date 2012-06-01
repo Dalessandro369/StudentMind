@@ -6,6 +6,7 @@ package studentmind.controller;
 
 import java.io.IOException;
 import java.util.List;
+import javax.ejb.EJBException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -67,7 +68,12 @@ public class GererCategorieServlet extends HttpServlet {
                     cat.setNomCategorie(nom);
                     cFacade.edit(cat);
                 } else {
-                    cFacade.remove(cat);
+                    try{
+                        cFacade.remove(cat);
+                    }catch(EJBException e){
+                        
+                    }
+                    
                 }
             }
             request.setAttribute("ListeCategorie", afficheCategorie());
