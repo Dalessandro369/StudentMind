@@ -119,4 +119,5 @@ public class DocumentFacade extends AbstractFacade<Document> {
         Query q = em.createQuery(query);
         return ((Long) q.getSingleResult()).intValue();
     }
+
 }

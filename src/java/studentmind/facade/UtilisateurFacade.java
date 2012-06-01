@@ -4,6 +4,7 @@
  */
 package studentmind.facade;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -69,5 +70,11 @@ public class UtilisateurFacade extends AbstractFacade<Utilisateur> {
         }
 
         return u;
+    }
+
+    public List<Utilisateur> topUitlisateur() {
+        String query = "SELECT u FROM Utilisateur u JOIN u.fKidetatutlisateur etat WHERE etat.idEtatUtilisateur = 2 ORDER BY u.points DESC";
+        Query q = em.createQuery(query).setMaxResults(3);
+        return q.getResultList();
     }
 }

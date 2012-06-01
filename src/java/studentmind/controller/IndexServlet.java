@@ -5,20 +5,16 @@
 package studentmind.controller;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import studentmind.facade.CategorieFacade;
-import studentmind.facade.DocumentFacade;
-import studentmind.facade.ServicesLocator;
-import studentmind.facade.UtilisateurFacade;
+import studentmind.facade.*;
 import studentmind.model.Categorie;
 import studentmind.model.Document;
+import studentmind.model.Note;
 import studentmind.model.Utilisateur;
 
 /**
@@ -51,7 +47,8 @@ public class IndexServlet extends HttpServlet {
         request.setAttribute("nbrDoc", afficherNbrDoc());
         request.setAttribute("nbrMembre", afficherNbrMembre());
         request.setAttribute("top", afficherTop());
-
+        request.setAttribute("topUser", afficherTopUser());
+       // request.setAttribute("topDoc", afficherTopDoc());
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
@@ -68,6 +65,8 @@ public class IndexServlet extends HttpServlet {
         request.setAttribute("nbrDoc", afficherNbrDoc());
         request.setAttribute("nbrMembre", afficherNbrMembre());
         request.setAttribute("top", afficherTop());
+        request.setAttribute("topUser", afficherTopUser());
+        //request.setAttribute("topDoc", afficherTopDoc());
         request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 
@@ -111,70 +110,71 @@ public class IndexServlet extends HttpServlet {
 
         DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
         Document doc = dFacade.documentUne();
-        if (doc!= null){
-        Calendar cal = new GregorianCalendar();
-        cal.setTimeInMillis(doc.getDate().getTime());
-        int jour = cal.get(Calendar.DAY_OF_MONTH);
-        int mois = cal.get(Calendar.MONTH) + 1;
-        String moisDate = "";
-        switch (mois) {
-            case 1:
-                moisDate = "Janvier";
-                break;
-            case 2:
-                moisDate = "Février";
-                break;
-            case 3:
-                moisDate = "Mars";
-                break;
-            case 4:
-                moisDate = "Avril";
-                break;
-            case 5:
-                moisDate = "Mai";
-                break;
-            case 6:
-                moisDate = "Juin";
-                break;
-            case 7:
-                moisDate = "Juillet";
-                break;
-            case 8:
-                moisDate = "Août";
-                break;
-            case 9:
-                moisDate = "Septembre";
-                break;
-            case 10:
-                moisDate = "Octobre";
-                break;
-            case 11:
-                moisDate = "Novembre";
-                break;
-            default:
-                moisDate = "Décembre";
-                break;
+        if (doc != null) {
+            Calendar cal = new GregorianCalendar();
+            cal.setTimeInMillis(doc.getDate().getTime());
+            int jour = cal.get(Calendar.DAY_OF_MONTH);
+            int mois = cal.get(Calendar.MONTH) + 1;
+            String moisDate = "";
+            switch (mois) {
+                case 1:
+                    moisDate = "Janvier";
+                    break;
+                case 2:
+                    moisDate = "Février";
+                    break;
+                case 3:
+                    moisDate = "Mars";
+                    break;
+                case 4:
+                    moisDate = "Avril";
+                    break;
+                case 5:
+                    moisDate = "Mai";
+                    break;
+                case 6:
+                    moisDate = "Juin";
+                    break;
+                case 7:
+                    moisDate = "Juillet";
+                    break;
+                case 8:
+                    moisDate = "Août";
+                    break;
+                case 9:
+                    moisDate = "Septembre";
+                    break;
+                case 10:
+                    moisDate = "Octobre";
+                    break;
+                case 11:
+                    moisDate = "Novembre";
+                    break;
+                default:
+                    moisDate = "Décembre";
+                    break;
+            }
+            int annee = cal.get(Calendar.YEAR);
+            int h = cal.get(Calendar.HOUR_OF_DAY);
+            int m = cal.get(Calendar.MINUTE);
+            String html = "<div class=\"article_header\"><header><h3>" + doc.getTitreDocument() + "</h3></header></div>"
+                    + "<div class=\"article_content\">"
+                    + "<p>" + doc.getDescriptionDocument() + "</p>"
+                    + "</div>"
+                    + "<div class=\"article_footer\">"
+                    + "<footer><strong>Ajouté le</strong> "
+                    + jour + " " + moisDate + " " + annee
+                    + "<strong> par</strong> "
+                    + doc.getFKidutilisateur().getNom() + " " + doc.getFKidutilisateur().getPrenom()
+                    + "</footer></div>"
+                    + ""
+                    + ""
+                    + "";
+
+            return html;
+        } else {
+            return "";
         }
-        int annee = cal.get(Calendar.YEAR);
-        int h = cal.get(Calendar.HOUR_OF_DAY);
-        int m = cal.get(Calendar.MINUTE);
-        String html = "<div class=\"article_header\"><header><h3>" + doc.getTitreDocument() + "</h3></header></div>"
-                + "<div class=\"article_content\">"
-                + "<p>" + doc.getDescriptionDocument() + "</p>"
-                + "</div>"
-                + "<div class=\"article_footer\">"
-                + "<footer><strong>Ajouté le</strong> "
-                + jour + " " + moisDate + " " + annee
-                + "<strong> par</strong> "
-                + doc.getFKidutilisateur().getNom() + " " + doc.getFKidutilisateur().getPrenom()
-                + "</footer></div>"
-                + ""
-                + ""
-                + "";
-        
-        return html;
-        }
-        else return "";
     }
 
     public String afficherTop() {
@@ -206,4 +206,56 @@ public class IndexServlet extends HttpServlet {
             return "";
         }
     }
+
+    public String afficherTopUser() {
+        UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
+        String html = "<ul>";
+
+        List<Utilisateur> liste = uFacade.topUitlisateur();
+        for (Utilisateur user : liste) {
+            html += "<li><a href=\"\">" + user.getNom() + " " + user.getPrenom() + "</a> (" + user.getPoints() + " pts.)</li>";
+        }
+        html += "</ul>";
+        return html;
+
+    }
+
+  /*  public String afficherTopDoc() {
+
+        NoteFacade nFacade = ServicesLocator.getNoteFacade();
+
+        String html = "";
+
+
+
+        List<Note> listeNote = nFacade.topDocNote();
+        
+        
+        if (listeNote != null) {
+            
+            ArrayList<Integer> listeNoteInteger =;
+            ArrayList<Integer> listeNoteIntegerId = new ArrayList<Integer>();
+            int i = 0;
+            int j = 0;
+            int cmp = 0;
+            int[] c;
+            int prec = listeNoteArrayId;
+            for (Note note : listeNote) {
+                if (note.getDocument().getIdDocument() == prec){
+                    listeNoteArray.set(j, note);
+                    cmp++;                    
+                }else j++;
+            }
+
+
+            for (Note note : listeNote) {
+
+                html += "<a href=\"voir-document.html?id=" + note.getDocument().getIdDocument() + "\">" + note.getDocument().getTitreDocument() +"</a><br/>";
+
+                i++;
+            }
+        }
+        return html;
+
+    }*/
 }

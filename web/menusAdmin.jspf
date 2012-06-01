@@ -73,6 +73,16 @@
                     <li><strong><span class="">Nombre de documents :</span></strong>${nbrDoc}</li>
                 </ul>	
             </div>
+                
+            <div class="menu">
+                <header><h3>Top 3 des utilisateurs</h3></header>
+                ${topUser}	
+            </div> 
+            
+            <div class="menu">
+                <header><h3>Top des documents les mieux notés</h3></header>
+                ${topDoc}	
+            </div>             
         </div>
 
         <div id="right_menu">

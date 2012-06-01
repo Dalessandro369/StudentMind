@@ -62,14 +62,14 @@ public class GererUtilisateurServlet extends HttpServlet {
             }
             request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
         } else {
-            
-                try {
-                    int i = Integer.parseInt(id);
-                    request.setAttribute("ListeUtilisateur", afficherUtilisateur(Integer.parseInt(id)));
-                } catch (Exception e) {
-                   request.setAttribute("ListeUtilisateur", afficherUtilisateur(0)); 
-                }           
-            
+
+            try {
+                int i = Integer.parseInt(id);
+                request.setAttribute("ListeUtilisateur", afficherUtilisateur(Integer.parseInt(id)));
+            } catch (Exception e) {
+                request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
+            }
+
         }
 
         request.getRequestDispatcher("gererUtilisateur.jsp").forward(request, response);
@@ -157,10 +157,12 @@ public class GererUtilisateurServlet extends HttpServlet {
 
 
             html += "<td>" + u.getNbrSignal() + "</td>"
-                    + "<td>" + u.getFKidetatutlisateur().getNomEtatUtilisateur() + "</td>"
-                    + "<td class=\"colonne_action\"> <img onclick=\"validerUser();\" src=\"img/accepter.png\" title=\"Ajouter\" alt=\"Ajouter\"/> </td>"
-                    + "<td class=\"colonne_action\"> <img onclick=\"bannirUser();\" src=\"img/bannir.png\" title=\"Bannir\" alt=\"Bannir\" /> </td> </tr>"
-                    + "</table>";
+                    + "<td>" + u.getFKidetatutlisateur().getNomEtatUtilisateur() + "</td>";
+            if (u.getFKidrang().getIdRang() != 3) {
+                html += "<td class=\"colonne_action\"> <img onclick=\"validerUser();\" src=\"img/accepter.png\" title=\"Ajouter\" alt=\"Ajouter\"/> </td>"
+                        + "<td class=\"colonne_action\"> <img onclick=\"bannirUser();\" src=\"img/bannir.png\" title=\"Bannir\" alt=\"Bannir\" /> </td> </tr>";
+            }
+            html += "</table>";
 
         }
 

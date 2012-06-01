@@ -56,12 +56,13 @@ public class GererFileAttenteDocumentServlet extends HttpServlet {
                 Utilisateur user = uFacade.findId(doc.getFKidutilisateur().getIdUtilisateur());
                 user.setPoints(user.getPoints()+50);
                 uFacade.edit(user);
-                doc.setFKidetatdocument(new EtatDocument(2));
-                dFacade.edit(doc);
-            }else{
-                 doc.setFKidetatdocument(new EtatDocument(3));
-                dFacade.edit(doc);                
+                doc.setFKidetatdocument(new EtatDocument(2));                
             }
+            if (type.equals("Supprimer")){      
+                doc.setFKidetatdocument(new EtatDocument(3));                               
+            }
+             System.out.println(doc.getFKidetatdocument()+" "+doc.getDescriptionDocument()+" "+type);
+            dFacade.edit(doc);
         }
         request.setAttribute("ListeFileAttente", afficheFileAttenteDocument());
         request.getRequestDispatcher("gererFileAttenteDocument.jsp").forward(request,response);
@@ -97,7 +98,7 @@ public class GererFileAttenteDocumentServlet extends HttpServlet {
                     + "<input type='image' src=\"img/accepter.png\" title=\"Valider\" alt=\"Valider\" onclick='ValiderDoc(" + doc.getIdDocument() + ");'/>"
                     + "<input type='image'src=\"img/delete.png\" title=\"Supprimer\" alt=\"Supprimer\" onclick='RetirerDoc(" + doc.getIdDocument() + ");'/>"
                     + "<input type='hidden' value='"+doc.getIdDocument()+"' name='id'/>"            
-                    + "<input type='hidden' name='type' id='type'/>"
+                    + "<input type='hidden' name='type' id='type"+doc.getIdDocument()+"'/>"
                     + "</form>"
                     + "</td>"
                     + "</tr>";            

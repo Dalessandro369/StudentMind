@@ -81,38 +81,44 @@ function validerUser(){
 }
 
 function bannirUser(){
-    document.getElementById("type").value = "Supprimer"
+    document.getElementById("type").value = "Supprimer";
     $(document).ready(function(){
         $("form[name='update']").submit();
     }); 
+     
   
 }
 
 function ValiderAbus(id){
-    document.getElementById("type").value = "Valider"
+    document.getElementById("type"+id).value = "Valider";
     $(document).ready(function(){
         $("form[name='ligne"+id+"']").submit();
     });
+ 
 }
 function RetirerAbus(id){
    
-    document.getElementById("type").value = "Supprimer"
+    document.getElementById("type"+id).value = "Supprimer";
     $(document).ready(function(){
         $("form[name='ligne"+id+"']").submit();
     });
+  
 }
 
 function ValiderDoc(id){
-    document.getElementById("type").value = "Valider"
+    document.getElementById("type"+id).value = "Valider";
     $(document).ready(function(){
         $("form[name='ligne"+id+"']").submit();
     });
+   
 }
 function RetirerDoc(id){
-    document.getElementById("type").value = "Supprimer"
+    document.getElementById("type"+id).value = "Supprimer";
+   
     $(document).ready(function(){
         $("form[name='ligne"+id+"']").submit();
     });
+   
 }
 function SupprimerMes(id){
     $(document).ready(function(){
