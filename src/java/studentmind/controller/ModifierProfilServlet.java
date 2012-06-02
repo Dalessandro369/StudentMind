@@ -4,18 +4,15 @@
  */
 package studentmind.controller;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
+import java.io.InputStream;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import studentmind.facade.PaysFacade;
+import javax.servlet.http.*;
+import studentmind.facade.ImageFacade;
 import studentmind.facade.ServicesLocator;
 import studentmind.facade.UtilisateurFacade;
 import studentmind.model.Image;
-import studentmind.model.Pays;
 import studentmind.model.Utilisateur;
 
 /**
@@ -54,7 +51,7 @@ public class ModifierProfilServlet extends HttpServlet {
         session = request.getSession(false);
         session.setAttribute("servlet", getClass().getName());  
         
-        String image = request.getParameter("image");
+        //String image = request.getParameter("image");
         String ecole = request.getParameter("ecole");
         String site = request.getParameter("site");
         String ville = request.getParameter("ville");
@@ -62,9 +59,59 @@ public class ModifierProfilServlet extends HttpServlet {
         
         UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
         Utilisateur u = (Utilisateur) session.getAttribute("user");
-        Image img = new Image(1, "1");
-        //changer ici quand l'uplaod marchera
-        u.setFKidImage(img);
+        
+        String extensionFichier = "";
+        // on lit le nom du fichier
+        extensionFichier = request.getPart("image").toString();
+        int p = extensionFichier.indexOf(",");
+        if(p != 10)
+        {
+            extensionFichier = extensionFichier.substring(10, p);
+
+            int pos = extensionFichier.lastIndexOf("."); // on récupère la position du . en partant de la fin
+            if(pos != -1) // si on trouve
+            {
+                extensionFichier = extensionFichier.substring(pos).toLowerCase();
+                if(".jpg".equals(extensionFichier) || ".jpeg".equals(extensionFichier) || ".png".equals(extensionFichier))
+                {                                     
+                    ImageFacade iFacade = ServicesLocator.getImageFacade();
+                    try 
+                    {
+                        // on accède au fichier uploadé par le client
+                        Part p1 = request.getPart("image");
+                        InputStream is = p1.getInputStream();
+
+                        // on récupère le timestamp
+                        long fn = System.currentTimeMillis();
+                        String filename = Long.toString(fn);
+
+                        // on récupère le nom à utiliser sur le serveur
+                        //String outputfile = "../../../web/upload/avatars/" + filename + extensionFichier;
+                        String outputfile = this.getServletContext().getRealPath("/upload/avatars/" + filename + extensionFichier);
+                        // <img src="./img/accepter.png" alt="test" title="test" />
+                        // String outputfile = "upload\\avatars\\"+filename+extensionFichier;
+                        //System.out.println("" + filename + extensionFichier);
+                        FileOutputStream os = new FileOutputStream (outputfile);
+
+                        // on écrit les bytes du fichier de la source vers la destination
+                        int ch = is.read();
+                        while (ch != -1) {
+                            os.write(ch);
+                            ch = is.read();
+                        }
+                        os.close();  
+                        Image img = new Image(1, filename + extensionFichier);
+                        iFacade.create(img);
+                        u.setFKidImage(img);
+                    }
+                    catch(Exception ex) {
+                    //out.println("Exception -->" + ex.getMessage());
+                    }
+                }
+            }
+        }      
+        
+        
         u.setEcole(ecole);
         u.setSiteWeb(site);
         u.setVille(ville);
@@ -83,11 +130,11 @@ public class ModifierProfilServlet extends HttpServlet {
         html += "<form method=\"POST\" action=\"modifier-profil.html\" enctype=\"multipart/form-data\">"
                 + " <fieldset>"
                 + "<legend>Informations générales</legend>"
-                + "<label for=\"nom\">Nom :</label><span class=\"\">" + user.getNom() + "</span><br/>"
-                + "<label for=\"prenom\">Prénom :</label><span class=\"\">" + user.getPrenom() + "</span><br/>"
-                + "<label for=\"dateNaissance\">Date de naissance :</label><span class=\"\">" + user.getDateNaissance() + "</span><br/>"
-                + "<label for=\"sexe\">Sexe :</label><span class=\"\">" + user.getSexe() + "</span><br/>"
-                + "<label for=\"pays\">Pays :</label><span class=\"\">" + user.getFKidpays().getNomPays() + "</span>"
+                + "<label for=\"nom\">Nom :</label><span class=\"profilNom\">" + user.getNom() + "</span><br/>"
+                + "<label for=\"prenom\">Prénom :</label><span class=\"profilPrenom\">" + user.getPrenom() + "</span><br/>"
+                + "<label for=\"dateNaissance\">Date de naissance :</label><span class=\"profilDOB\">" + user.getDateNaissance() + "</span><br/>"
+                + "<label for=\"sexe\">Sexe :</label><span class=\"profilSexe\">" + user.getSexe() + "</span><br/>"
+                + "<label for=\"pays\">Pays :</label><span class=\"profilPays\">" + user.getFKidpays().getNomPays() + "</span>"
                 + " </fieldset>";
 
         html += "<fieldset>"

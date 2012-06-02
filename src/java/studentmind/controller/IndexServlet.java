@@ -51,7 +51,7 @@ public class IndexServlet extends HttpServlet {
         request.setAttribute("nbrDoc", afficherNbrDoc());
         request.setAttribute("nbrMembre", afficherNbrMembre());
         request.setAttribute("top", afficherTop());
-
+        request.setAttribute("afficherAvatar", afficherImage());
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
@@ -61,13 +61,15 @@ public class IndexServlet extends HttpServlet {
         session = request.getSession(false);
         if (session != null) {
             session.setAttribute("servlet", getClass().getName());
-            request.setAttribute("nbrDocUser", afficherNombreDocUser());
+            request.setAttribute("nbrDocUser", afficherNombreDocUser());        
+            request.setAttribute("afficherAvatar", afficherImage());
         }
         request.setAttribute("ListeCategorie", afficherCategorie());
         request.setAttribute("DocumentUne", afficherDocument());
         request.setAttribute("nbrDoc", afficherNbrDoc());
         request.setAttribute("nbrMembre", afficherNbrMembre());
         request.setAttribute("top", afficherTop());
+
         request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 
@@ -202,5 +204,19 @@ public class IndexServlet extends HttpServlet {
         } else {
             return "";
         }
+    }
+    public String afficherImage(){
+        
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        String html = "";
+        
+        if (user != null){
+              
+           //html = "<img src=\""+user.getFKidImage().getUrlImage()+"\" title=\"avatar\" alt=\"avatar\" />";alt=\"avatar\"
+            html = "<img src=\"upload/avatars/" + user.getFKidImage().getUrlImage()+"\" title=\"avatar\" alt=\"avatar\" height=\"80\" width=\"80\" />";
+            //System.out.println(user.getFKidImage().getUrlImage());
+        }
+       
+        return html;
     }
 }
