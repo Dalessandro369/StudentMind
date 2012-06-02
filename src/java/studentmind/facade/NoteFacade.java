@@ -41,6 +41,26 @@ public class NoteFacade extends AbstractFacade<Note> {
             return result.doubleValue();
         }
     }
+   public int NoteTest(int idDoc) {
+        String query = "SELECT COUNT(n) FROM Note n JOIN n.document doc WHERE doc.idDocument = :idDoc";
+        Query q = em.createQuery(query).setParameter("idDoc", idDoc);        
+        Long result = (Long) q.getSingleResult();
+          if (result == null) {
+            return 0;
+        } else {
+            return result.intValue();
+        }
+    }
+      public int verifNote(int idDoc,int idUser) {
+        String query = "SELECT COUNT(n) FROM Note n JOIN n.document doc JOIN n.utilisateur user WHERE doc.idDocument = :idDoc AND user.idUtilisateur =:idUser";
+        Query q = em.createQuery(query).setParameter("idDoc", idDoc).setParameter("idUser", idUser);        
+        Long result = (Long) q.getSingleResult();
+          if (result == null) {
+            return 0;
+        } else {
+            return result.intValue();
+        }
+    }
  
    /* public List<Note> topDocNote() {       
         String query = "SELECT n FROM Note n JOIN n.document doc WHERE doc.fKidetatdocument = 2 ORDER BY n.document.idDocument ASC";
@@ -48,11 +68,12 @@ public class NoteFacade extends AbstractFacade<Note> {
         return q.getResultList();
     }
 
-       public List<Note> topDocNote() {       
+    */
+    public List<Note> topDocNote() {       
         String query = "SELECT n FROM Note n ORDER BY n.document.idDocument ASC";
         Query q = em.createQuery(query);
         return q.getResultList();
-    }*/
+    }
     
 }
 

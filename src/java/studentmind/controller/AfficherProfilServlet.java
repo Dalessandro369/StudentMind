@@ -5,71 +5,103 @@
 package studentmind.controller;
 
 import java.io.IOException;
-import java.util.*;
+import java.io.PrintWriter;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import studentmind.facade.*;
+import studentmind.facade.CategorieFacade;
+import studentmind.facade.DocumentFacade;
+import studentmind.facade.ServicesLocator;
+import studentmind.facade.UtilisateurFacade;
 import studentmind.model.Categorie;
 import studentmind.model.Document;
-import studentmind.model.Note;
+import studentmind.model.Image;
 import studentmind.model.Utilisateur;
 
 /**
  *
  * @author ProjetJava
  */
-public class IndexServlet extends HttpServlet {
+public class AfficherProfilServlet extends HttpServlet {
 
-    HttpSession session;
+   HttpSession session = null;
 
     @Override
     public void init() throws ServletException {
+        
+         
     }
 
-    public IndexServlet() {
+    public AfficherProfilServlet() {
         super();
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-        session = request.getSession(true);
-
+        session = request.getSession(false);
         session.setAttribute("servlet", getClass().getName());
-        request.setAttribute("nbrDocUser", afficherNombreDocUser());
-
-
+        
+        String idUser = request.getParameter("u");
+        try {
+            request.setAttribute("information", afficherInformation(Integer.parseInt(idUser)));
+        }catch (NumberFormatException e){
+            
         request.setAttribute("ListeCategorie", afficherCategorie());
         request.setAttribute("DocumentUne", afficherDocument());
         request.setAttribute("nbrDoc", afficherNbrDoc());
         request.setAttribute("nbrMembre", afficherNbrMembre());
         request.setAttribute("top", afficherTop());
         request.setAttribute("topUser", afficherTopUser());
-       // request.setAttribute("topDoc", afficherTopDoc());
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.getRequestDispatcher("index.jsp").forward(request, response);            
+            
+        }
+        
+       
+        request.getRequestDispatcher("profil.jsp").forward(request, response);
+
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        session = request.getSession(false);
-        if (session != null) {
-            session.setAttribute("servlet", getClass().getName());
-            request.setAttribute("nbrDocUser", afficherNombreDocUser());
-        }
-        request.setAttribute("ListeCategorie", afficherCategorie());
-        request.setAttribute("DocumentUne", afficherDocument());
-        request.setAttribute("nbrDoc", afficherNbrDoc());
-        request.setAttribute("nbrMembre", afficherNbrMembre());
-        request.setAttribute("top", afficherTop());
-        request.setAttribute("topUser", afficherTopUser());
-        //request.setAttribute("topDoc", afficherTopDoc());
-        request.getRequestDispatcher("/index.jsp").forward(request, response);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+                
     }
 
+    public String afficherInformation(int id) {
+
+        UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
+        Utilisateur user = uFacade.findId(id);
+        
+        String html = "";
+        html += "<form>"
+                + " <fieldset>"
+                + "<legend>Informations générales</legend>"
+                + "<label for=\"nom\">Nom :</label><span class=\"profilNom\">" + user.getNom() + "</span><br/>"
+                + "<label for=\"prenom\">Prénom :</label><span class=\"profilPrenom\">" + user.getPrenom() + "</span><br/>"
+                + "<label for=\"dateNaissance\">Date de naissance :</label><span class=\"profilDOB\">" + user.getDateNaissance() + "</span><br/>"
+                + "<label for=\"sexe\">Sexe :</label><span class=\"profilSexe\">" + user.getSexe() + "</span><br/>"
+                + "<label for=\"pays\">Pays :</label><span class=\"profilPays\">" + user.getFKidpays().getNomPays() + "</span>"
+                + " </fieldset>";
+
+        html += "<fieldset>"
+                + "<legend>Profil étudiant</legend>"
+                + "<img src='../avatars/"+user.getFKidImage().getUrlImage()+" alt='avatar' title='avatar'/><br/>"
+                + "<label for=\"ecole\">Ecole / Université : </label><span class=\"profilNom\">"+user.getEcole()+"</span><br/>"
+                + "<label for=\"site\">Site Web : </label><span class=\"profilNom\">"+user.getSiteWeb()+"</span><br/>"
+                + "<label for=\"ville\">Ville : </label><span class=\"profilNom\">"+user.getVille()+"</span><br/>"
+                + "</fieldset>"
+                + "</form>";
+
+        
+        return html;
+    }
     public String afficherCategorie() {
 
         String html = "";
@@ -219,43 +251,4 @@ public class IndexServlet extends HttpServlet {
         return html;
 
     }
-
-  /*  public String afficherTopDoc() {
-
-        NoteFacade nFacade = ServicesLocator.getNoteFacade();
-
-        String html = "";
-
-
-
-        List<Note> listeNote = nFacade.topDocNote();
-        
-        
-        if (listeNote != null) {
-            
-            ArrayList<Integer> listeNoteInteger =;
-            ArrayList<Integer> listeNoteIntegerId = new ArrayList<Integer>();
-            int i = 0;
-            int j = 0;
-            int cmp = 0;
-            int[] c;
-            int prec = listeNoteArrayId;
-            for (Note note : listeNote) {
-                if (note.getDocument().getIdDocument() == prec){
-                    listeNoteArray.set(j, note);
-                    cmp++;                    
-                }else j++;
-            }
-
-
-            for (Note note : listeNote) {
-
-                html += "<a href=\"voir-document.html?id=" + note.getDocument().getIdDocument() + "\">" + note.getDocument().getTitreDocument() +"</a><br/>";
-
-                i++;
-            }
-        }
-        return html;
-
-    }*/
 }

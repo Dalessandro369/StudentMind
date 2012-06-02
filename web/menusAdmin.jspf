@@ -69,8 +69,8 @@
             <div class="menu">
                 <header><h3>Statistiques du site</h3></header>
                 <ul>
-                    <li><strong><span class="">Nombre de membres :</span></strong>${nbrMembre}</li>
-                    <li><strong><span class="">Nombre de documents :</span></strong>${nbrDoc}</li>
+                    <li><strong><span class="">Nombre de membres :</span></strong> ${nbrMembre}</li>
+                    <li><strong><span class="">Nombre de documents :</span></strong> ${nbrDoc}</li>
                 </ul>	
             </div>
                 
@@ -105,6 +105,8 @@
         </div>
     </c:when>
     <c:when test='${servlet == "studentmind.controller.VoirDocumentServlet"}'>
+        
+        
         <div id="right_menu">
             <%@ include file="profil_messagerie.jspf"%>            
             <div class="menu">
@@ -169,20 +171,7 @@
                     </script>
             </div>
 
-            <div class="menu">
-                    <header><h3>Noter le document</h3></header>
-                    <script type="text/javascript">
-                        $(document).ready(function(){
-                            $(".note").jRating({
-                                step:true,
-                                length : 5, // nb of stars
-                                decimalLength:0, // number of decimal in the rate
-                                showRateInfo : false
-                            });
-                        });
-                    </script>
-                    <div class="note" id="vote" data="0"></div>
-            </div>
+
         </div>
     </c:when>
 </c:choose>    

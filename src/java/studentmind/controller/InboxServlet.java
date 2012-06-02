@@ -93,7 +93,7 @@ public class InboxServlet extends HttpServlet {
                     + "<input type=\"image\" src=\"img/trash.png\" title=\"\" alt=\"t\" onclick='SupprimerMes(" + mes.getIdMessage() + ")' />"
                     + "<input type='hidden' value='"+mes.getIdMessage()+"' name='id'/>"
                     +"</td>"
-                    + "<td class=\"lu\"><a href=\"\">" + mes.getFKidutilisateurexp().getNom() + " " + mes.getFKidutilisateurexp().getPrenom() + "</a></td>"
+                    + "<td class=\"lu\"><a href=\"afficher-profil.html?u="+mes.getFKidutilisateurexp().getIdUtilisateur()+"\">" + mes.getFKidutilisateurexp().getNom() + " " + mes.getFKidutilisateurexp().getPrenom() + "</a></td>"
                     + "<td class=\"lu\"><a href=\"lire-message.html?m="+mes.getIdMessage()+"\">" + mes.getObjetMessage() + "</a></td>";
             Calendar cal = new GregorianCalendar();
             cal.setTimeInMillis(mes.getDateMessage().getTime());
