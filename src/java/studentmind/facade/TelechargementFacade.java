@@ -34,5 +34,9 @@ public class TelechargementFacade extends AbstractFacade<Telechargement> {
         Query q = em.createQuery(query).setParameter("idDoc", idDoc);
         return ((Long)q.getSingleResult()).intValue();
     }
-    
+     public int nbrTelechargerVerif(int idDoc,int idUser) {
+        String query = "SELECT COUNT(t) FROM  Telechargement t JOIN t.documentIdDocument doc JOIN t.utlisateurIdUtilisateur user WHERE doc.idDocument = :idDoc AND user.idUtilisateur =:idUser";
+        Query q = em.createQuery(query).setParameter("idDoc", idDoc).setParameter("idUser", idUser);
+        return ((Long)q.getSingleResult()).intValue();
+    }   
 }

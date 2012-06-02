@@ -92,6 +92,7 @@ public class DeconnexionServlet extends HttpServlet {
 
         DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
         Document doc = dFacade.documentUne();
+        if (doc!= null){
         Calendar cal = new GregorianCalendar();
         cal.setTimeInMillis(doc.getDate().getTime());
         int jour = cal.get(Calendar.DAY_OF_MONTH);
@@ -153,6 +154,7 @@ public class DeconnexionServlet extends HttpServlet {
                 + "";
 
         return html;
+        }else return "";
     }
     public String afficherTop(){
         String html = "<ul>";

@@ -102,7 +102,7 @@ public class GererAbusServlet extends HttpServlet {
                     + "<input type='hidden' value='"+com.getIdCommentaire()+"' name='id'/>"
                     + "<input type='hidden' value='"+com.getFKidutilisateursignaleur().getIdUtilisateur()+"' name='idSignaleur'/>"
                     + "<input type='hidden' value='"+com.getFKidutilisateur().getIdUtilisateur()+"' name='idAuteur'/>"
-                    + "<input type='hidden' name='type' id='type'/>"
+                    + "<input type='hidden' name='type' id='type"+com.getIdCommentaire()+"'/>"
                     + "</td>"
                     + "</tr>"
                     + "</form>";

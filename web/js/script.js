@@ -4,19 +4,6 @@
  */
 
 
-window.onload = init;
-
-function init(){
-    $(document).ready(function(){
-        $(".avg_note").jRating({							  
-            type:'small', // type of the rate.. can be set to 'small' or 'big'
-            length : 5, // nb of stars
-            decimalLength : 1, // number of decimal in the rate
-            isDisabled : true
-        });
-    });
-    
-}
 function Editer(id) {
     $(document).ready(function(){
         $(".editer").hide(); //tous ceu qui on la class editer son cacher .show pour montrer .-> class #->id   ,-> ou
@@ -40,7 +27,7 @@ function Supprimer(id) {
         $("#ligne"+id+" .suppresionConfirmation").show();     
     });   
     document.getElementById("id"+id).value = "Supprimer"
-//
+
 }
 
 function Modifier(id) {
@@ -94,38 +81,48 @@ function validerUser(){
 }
 
 function bannirUser(){
-
-    document.getElementById("type").value = "Supprimer"
+    document.getElementById("type").value = "Supprimer";
     $(document).ready(function(){
         $("form[name='update']").submit();
     }); 
+     
   
 }
 
 function ValiderAbus(id){
-    alert(id);
-    document.getElementById("type").value = "Valider"
+    document.getElementById("type"+id).value = "Valider";
     $(document).ready(function(){
         $("form[name='ligne"+id+"']").submit();
     });
+ 
 }
 function RetirerAbus(id){
    
-    document.getElementById("type").value = "Supprimer"
+    document.getElementById("type"+id).value = "Supprimer";
     $(document).ready(function(){
         $("form[name='ligne"+id+"']").submit();
     });
+  
 }
 
 function ValiderDoc(id){
-    document.getElementById("type").value = "Valider"
+    document.getElementById("type"+id).value = "Valider";
     $(document).ready(function(){
         $("form[name='ligne"+id+"']").submit();
     });
+   
 }
 function RetirerDoc(id){
-    document.getElementById("type").value = "Supprimer"
+    document.getElementById("type"+id).value = "Supprimer";
+   
     $(document).ready(function(){
         $("form[name='ligne"+id+"']").submit();
     });
+   
+}
+function SupprimerMes(id){
+    $(document).ready(function(){
+        $("form[name='ligne"+id+"']").submit();
+    });    
+    
 }

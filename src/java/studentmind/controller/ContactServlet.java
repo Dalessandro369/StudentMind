@@ -133,6 +133,7 @@ public class ContactServlet extends HttpServlet {
 
         DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
         Document doc = dFacade.documentUne();
+        if (doc != null){
         Calendar cal = new GregorianCalendar();
         cal.setTimeInMillis(doc.getDate().getTime());
         int jour = cal.get(Calendar.DAY_OF_MONTH);
@@ -194,6 +195,7 @@ public class ContactServlet extends HttpServlet {
                 + "";
 
         return html;
+        }else return "";
     }
 
     public String afficherTop() {
@@ -210,5 +212,6 @@ public class ContactServlet extends HttpServlet {
         }
         html += "</ul>";
         return html;
+        
     }
 }

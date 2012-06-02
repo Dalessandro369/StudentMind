@@ -86,7 +86,6 @@ public class DocumentFacade extends AbstractFacade<Document> {
         try {
             d = (Document) query.getSingleResult();
         } catch (NoResultException e) {
-            e.printStackTrace();
         }
         return d;
     }
@@ -120,4 +119,5 @@ public class DocumentFacade extends AbstractFacade<Document> {
         Query q = em.createQuery(query);
         return ((Long) q.getSingleResult()).intValue();
     }
+
 }

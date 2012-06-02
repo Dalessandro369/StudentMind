@@ -1,0 +1,22 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<div class="menu">
+    <header><h3>${user.prenom} ${user.nom}</h3></header>
+    <div id="avatar">
+        <img src="../img/avatar.jpg" title="" alt="" />
+    </div>
+    <ul>
+        <li><a href="modifier-profil.html">Mon profil</a></li>
+        <li><a href="liste-documents.html">Mes documents </a> ${nbrDocUser}</li>
+        <li><a href="deconnexion.html">Se déconnecter</a></li>
+    </ul>
+</div>
+
+<div class="menu">
+    <header><h3>Ma messagerie privée</h3></header>
+    <ul>
+        <li><a href="ecrire-message.html">Nouveau message</a></li>
+        <li><a href="inbox.html">Boîte de réception</a></li>
+        <li><a href="">Messages envoyés</a></li>
+    </ul>
+</div>

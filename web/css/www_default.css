@@ -239,6 +239,16 @@ div#page{
 				font-size:0.6em;
 				margin-bottom:5px;
 			}
+                        
+                        div#page div#content form fieldset .profilNom,
+                        div#page div#content form fieldset .profilPrenom,
+                        div#page div#content form fieldset .profilDOB,
+                        div#page div#content form fieldset .profilSexe,
+                        div#page div#content form fieldset .profilPays{
+                            font-family:Verdana;
+                            font-size:0.6em;
+                        }
+                        
 	
 		div#page div#content h2{
 			background-color:#f4f5f5;

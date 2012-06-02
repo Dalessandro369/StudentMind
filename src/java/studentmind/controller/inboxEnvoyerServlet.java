@@ -5,6 +5,7 @@
 package studentmind.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -24,33 +25,37 @@ import studentmind.model.Utilisateur;
  *
  * @author ProjetJava
  */
-public class InboxServlet extends HttpServlet {
+public class inboxEnvoyerServlet extends HttpServlet {
 
     HttpSession session = null;
-
+    
     @Override
     public void init() throws ServletException {
     }
 
-    public InboxServlet() {
+    public inboxEnvoyerServlet() {
         super();
     }
+    
 
+   
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         session = request.getSession(false);
         if ((session  != null) && ((Utilisateur) session.getAttribute("user") != null)) {
         session.setAttribute("servlet", getClass().getName());
 
-        request.setAttribute("ListeMessageReception", afficherMessageRecu());
-        request.getRequestDispatcher("inbox.jsp").forward(request, response);
+        request.setAttribute("ListeMessageEnvoyer", afficherMessageEnvoyer());
+        request.getRequestDispatcher("inboxEnvoyer.jsp").forward(request, response);
         }
-        //rediriger acceuil
+       // 
     }
 
+   
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         
         String id = request.getParameter("id");
         MessageFacade mFacade = ServicesLocator.getMessageFacade();
@@ -62,11 +67,11 @@ public class InboxServlet extends HttpServlet {
         }
         mFacade.edit(mes);
         
-        request.setAttribute("ListeMessageReception", afficherMessageRecu());
-        request.getRequestDispatcher("inbox.jsp").forward(request, response);
+        request.setAttribute("ListeMessageEnvoyer", afficherMessageEnvoyer());
+        request.getRequestDispatcher("inboxEnvoyer.jsp").forward(request, response);
+       
     }
-
-    public String afficherMessageRecu() {
+     public String afficherMessageEnvoyer() {
 
         String html = "<table id=\"inbox\" class=\"sortable\">"
                 + "<thead> "
@@ -75,7 +80,6 @@ public class InboxServlet extends HttpServlet {
                 + "<th>Expéditeur</th>"
                 + "<th>Objet</th>"
                 + "<th>Date</th>"
-                + "<th class=\"nosort\"></th>"
                 + "</tr>"
                 + "</thead> "
                 + "<tbody>";
@@ -83,18 +87,19 @@ public class InboxServlet extends HttpServlet {
         UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
         Utilisateur id = (Utilisateur) session.getAttribute("user");
         Utilisateur user = uFacade.findId(id.getIdUtilisateur());
-        List<Message> liste = mFacade.findMessRecu(user.getIdUtilisateur());
+        List<Message> liste = mFacade.findMessEnvoyer(user.getIdUtilisateur());
         
         for (Message mes : liste) {
 
             html += "<tr>"                  
                     + "<td class=\"lu\">"
-                    + "<form name='ligne" + mes.getIdMessage() + "' method='POST' action='./inbox.html'>"
+                    + "<form name='ligne" + mes.getIdMessage() + "' method='POST' action='./inbox-envoyer.html'>"
                     + "<input type=\"image\" src=\"img/trash.png\" title=\"\" alt=\"t\" onclick='SupprimerMes(" + mes.getIdMessage() + ")' />"
                     + "<input type='hidden' value='"+mes.getIdMessage()+"' name='id'/>"
+                    + "</form>"
                     +"</td>"
-                    + "<td class=\"lu\"><a href=\"afficher-profil.html?u="+mes.getFKidutilisateurexp().getIdUtilisateur()+"\">" + mes.getFKidutilisateurexp().getNom() + " " + mes.getFKidutilisateurexp().getPrenom() + "</a></td>"
-                    + "<td class=\"lu\"><a href=\"lire-message.html?m="+mes.getIdMessage()+"\">" + mes.getObjetMessage() + "</a></td>";
+                    + "<td class=\"lu\"><a href=\"\">" + mes.getFKidutilisateurexp().getNom() + " " + mes.getFKidutilisateurexp().getPrenom() + "</a></td>"
+                    + "<td class=\"lu\">"+mes.getObjetMessage() + "</td>";
             Calendar cal = new GregorianCalendar();
             cal.setTimeInMillis(mes.getDateMessage().getTime());
             int jour = cal.get(Calendar.DAY_OF_MONTH);
@@ -143,17 +148,13 @@ public class InboxServlet extends HttpServlet {
             int m = cal.get(Calendar.MINUTE);
 
             html += "<td class=\"lu\"> " + jour + " " + moisDate + " " + annee + " " + h + ":" + m + "</td>";
-            if (mes.getFKidetatmessage().getIdEtatMessage() == 1) {
-                html += "<td class=\"lu\"><img src=\"img/read.png\" title=\"\" alt=\"t\" /></td>";
-            } else {
-                html += "<td class=\"lu\"><img src=\"img/unread.png\" title=\"\" alt=\"t\" /></td>";
-            }
-            html += "</tr>"
-                    + "</form>";
+            html += "</tr>";
         }
 
         html += "</tbody>"
                 + "</table>";
         return html;
     }
+
+  
 }

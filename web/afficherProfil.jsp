@@ -1,6 +1,6 @@
 <%-- 
-    Document   : ecrireMessage
-    Created on : 13-mai-2012, 23:32:53
+    Document   : afficherProfil
+    Created on : 02-juin-2012, 11:57:28
     Author     : ProjetJava
 --%>
 
@@ -9,11 +9,10 @@
 <%@ include file="header.jspf"%>
 
 <div id="page">
-  <!--  <div id="content">			-->
-        ${message}
-
-
- <!--   </div>-->
+    <div id="content">
+        <h2>Afficher profil!</h2>                  
+        ${information}
+    </div>
 </div>
 
 <%@ include file="footer.jspf"%>

@@ -14,13 +14,25 @@
         ${infoDoc}
     </div>		
 </div>
-
+<script type="text/javascript">
+                 $(document).ready(function(){             
+                 $(".avg_note").jRating({
+                 type:'small', // type of the rate.. can be set to 'small' or 'big'
+                 length : 5, // nb of stars
+                 decimalLength : 1, // number of decimal in the rate
+                 isDisabled : true,
+                });
+                });
+</script>
 <div id="page">
     <div id="content">
+       
         <h2>Vous êtes sur le point de télécharger un document !</h2>
-        ${informationDoc}
-        
+         ${informationDoc} 
+               
         <h2>Commentaires</h2>
+        <div id="output_new_comm"></div>        
+          
         ${ListeCommentaire}
     </div>
 </div>
