@@ -83,6 +83,12 @@ public class VoirDocumentServlet extends HttpServlet {
                             + "<input type='submit'/>"                           
                             + "</form>"
                             + "</div>";
+                          
+                }else if (testTelechargement == 0) {
+                    html+= "<div class=\"menu\">"
+                            + "<header><h3>Noter le document</h3></header>"
+                            + "Veuillez télécharger le document pour mettre une note"
+                              + "</div>";
                 }
                 request.setAttribute("infoDoc", html);
                 html = "<div class=\"article_header\"><header><h3>" + doc.getTitreDocument() + "</h3></header></div>"
