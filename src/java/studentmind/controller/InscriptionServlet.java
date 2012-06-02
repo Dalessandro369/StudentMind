@@ -4,14 +4,12 @@
  */
 package studentmind.controller;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import studentmind.utilities.EmailSender;
+import javax.servlet.http.*;
 import studentmind.facade.ImageFacade;
 import studentmind.facade.PaysFacade;
 import studentmind.facade.ServicesLocator;
@@ -57,6 +55,7 @@ public class InscriptionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         boolean champOk = true;
+        boolean defaultAvatar = false; // par défaut l'utilisateur choisi son avatar
         String mesNom = "";
         String mesPrenom = "";
         String mesDn = "";
@@ -79,7 +78,8 @@ public class InscriptionServlet extends HttpServlet {
         String site = request.getParameter("site");
         String ville = request.getParameter("ville");
         String pays = request.getParameter("pays");
-       // String urlimage = request.getParameter("image");
+        //String urlimage = request.getParameter("image");
+        Part part = request.getPart("image");
 
         // Contrôle de validité
         if (nom == null || nom.isEmpty()) {
@@ -122,14 +122,43 @@ public class InscriptionServlet extends HttpServlet {
             request.setAttribute("ErreurPays", mesPays);
             champOk = false;
         }
-      /*  if (urlimage == null || urlimage.isEmpty()) {
+        // si l'utilisateur n'a pas sélectionné d'image, alors on mettra un avatar par défaut
+        //if (urlimage == null || urlimage.isEmpty()) {
+        /*if (part == null) {
             mesImage = "Veuillez sélectionner une image";
             request.setAttribute("ErreurImage", mesImage);
-            champOk = false;
+            defaultAvatar = true;
         }*/
         
         UtilisateurFacade uFacade1 = ServicesLocator.getUtilisateurFacade();
-        Utilisateur userEmail = uFacade1.findEmail(email);
+        Utilisateur userEmail = uFacade1.findEmail(HashMD5.encode(email));            
+        
+        String extensionFichier = "";
+        /*if(!defaultAvatar)
+        {*/
+            String message = "";
+            // on lit le nom du fichier
+            extensionFichier  = request.getPart("image").toString();
+            int p = extensionFichier.indexOf(",");
+            if(p == 10)
+                defaultAvatar = true;
+            else
+            {
+            extensionFichier = extensionFichier.substring(10, p);
+
+            int pos = extensionFichier.lastIndexOf("."); // on récupère la position du . en partant de la fin
+            if(pos != -1) // si on trouve
+            {
+                extensionFichier = extensionFichier.substring(pos).toLowerCase();
+                if(!".jpg".equals(extensionFichier) && !".jpeg".equals(extensionFichier) && !".png".equals(extensionFichier))
+                    champOk = false;
+            }
+            else
+                champOk = false; // on ne peut pas aller plus loin
+            }
+        //}
+        
+        
             
         if (champOk && userEmail == null) {
             
@@ -137,13 +166,64 @@ public class InscriptionServlet extends HttpServlet {
             ImageFacade iFacade = ServicesLocator.getImageFacade();
 
             Utilisateur user = new Utilisateur();
+            
+            
             Image img = null;
-            //changer l'url de l'image pour le faire unique sinon sa ira pas pour le ftp
+            if(!defaultAvatar) //on upload l'avatar choisi par l'utilisateur
+            {
+                try 
+                {
+                    // on accède au fichier uploadé par le client
+                    Part p1 = request.getPart("image");
+                    InputStream is = p1.getInputStream();
 
-            img = new Image(1, "1");
+                    // on récupère le timestamp
+                    long fn = System.currentTimeMillis();
+                    String filename = Long.toString(fn);
+
+                    // on récupère le nom à utiliser sur le serveur
+                    //String outputfile = "../../../web/upload/avatars/" + filename + extensionFichier;
+                    String outputfile = this.getServletContext().getRealPath("/upload/avatars/" + filename + extensionFichier);
+                   // <img src="./img/accepter.png" alt="test" title="test" />
+                    // String outputfile = "upload\\avatars\\"+filename+extensionFichier;
+                    //System.out.println("" + filename + extensionFichier);
+                    FileOutputStream os = new FileOutputStream (outputfile);
+
+                    // on écrit les bytes du fichier de la source vers la destination
+                    int ch = is.read();
+                    while (ch != -1) {
+                        os.write(ch);
+                        ch = is.read();
+                    }
+                    os.close();  
+                    img = new Image(1, filename + extensionFichier);
+                }
+                catch(Exception ex) {
+                //out.println("Exception -->" + ex.getMessage());
+                }
+                finally { 
+                    //out.close();
+                }
+            }
+            else // on met l'avatar par défaut
+            {
+                // changer ici pour l'image par défaut
+                String defAvatar = this.getServletContext().getRealPath("/upload/avatars/Koala.jpg");
+                //String defAvatar = "..\\upload\\avatars\\Koala.jpg";
+                
+                img = new Image(1, "Koala.jpg");
+            }
+            
+            
             iFacade.create(img);
+            
+            
+            
+            
+            
             //affiche id image
             user.setFKidImage(img);
+            //user.setFKidImage(img);
 
             user.setIdUtilisateur(1);
             user.setFKidpays(new Pays(Integer.parseInt(pays))); // ok
@@ -156,8 +236,10 @@ public class InscriptionServlet extends HttpServlet {
             user.setEcole(ecole);// ok
             user.setVille(ville); //ok    
             user.setSiteWeb(site); //ok
-            user.setFKidrang(new Rang(1)); // ok 
-            user.setFKidetatutlisateur(new EtatUtilisateur(1));  // ok
+            //user.setFKidrang(new Rang(1)); // ok 
+            user.setFKidrang(new Rang(3)); // ok
+            //user.setFKidetatutlisateur(new EtatUtilisateur(1));  // ok
+            user.setFKidetatutlisateur(new EtatUtilisateur(2));  // ok
             user.setPoints(50); //ok 
             user.setNbrSignal(0); // ok       
 
@@ -170,14 +252,14 @@ public class InscriptionServlet extends HttpServlet {
             request.setAttribute("test", "inscription ok"+user.getPassword());
             
             
-            EmailSender es = new EmailSender(
+            /*EmailSender es = new EmailSender(
                 email, "contact.studentmind@gmail.com", "Merci d'avoir rejoint la communauté estudiantine StudentMind", "Bonjour " + prenom + ",\n\nFélicitations ! Vous êtes maintenant inscrit sur notre "
                     + "plateforme de partage de ressources étudiantes. Cependant, vous devez encore confirmer votre adresse email afin que votre compte soit activé. Pour"
                     + "se faire, veuillez cliquer sur le lien suivant : http://localhost:8080/StudentMind/confirm.html?e="+HashMD5.encode(email)
                     + "\nSi vous ne pouvez pas cliquer sur le lien ci-dessous, veuillez le copier-coller dans la barre d'adresse de votre navigateur."
                     + "\n\n@ bientôt sur StudentMind. Nous vous souhaitons d'ores et déjà de bons partages !"
                     + "\n\nL'équipe StudentMind"
-            );
+            );*/
             
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } else {

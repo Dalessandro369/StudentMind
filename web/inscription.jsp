@@ -40,7 +40,7 @@
 
             <fieldset>
                 <legend>Profil étudiant</legend>
-                <label for="image">Avatar :</label> <input type="file" name="image" id="image" required/><br/>
+                <label for="image">Avatar :</label> <input type="file" name="image" id="image" /><br/>
                 <label for="ecole">Ecole / Université :</label> <input type="text" name="ecole" id="ecole" /><br/>
                 <label for="site">Site Web :</label> <input type="text" name="site" id="site" placeholder="http://"/><br/>
                 <label for="ville">Ville :</label> <input type="text" name="ville" id="ville" required /><br/>
@@ -62,7 +62,6 @@
                 </noscript>
             </fieldset>
 
-            <input type="hidden" value="uploadAvatar" name="typeUpload" />
             <input type="submit" id="submit" value="Je m'inscris !" />
         </form>
     </div>
