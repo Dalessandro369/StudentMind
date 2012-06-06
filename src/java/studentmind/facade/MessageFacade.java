@@ -50,4 +50,16 @@ public class MessageFacade extends AbstractFacade<Message> {
 
         return u;
     }
+   public int nbrMessNonLu(int idUser) {
+        String query = "SELECT COUNT(m) FROM  Message m JOIN m.fKidutilisateurdes user JOIN m.fKidetatmessage etat WHERE user.idUtilisateur = :idUser AND etat.idEtatMessage = 2";
+        Query q = em.createQuery(query).setParameter("idUser", idUser);
+        return ((Long) q.getSingleResult()).intValue();
+    } // si sa est plu grand que 0 alors tu l'affiche sinon
+   
+      public int nbrMessTotal(int idUser) {
+        String query = "SELECT COUNT(m) FROM  Message m JOIN m.fKidutilisateurdes user JOIN m.fKidetatmessage etat WHERE (user.idUtilisateur = :idUser AND (etat.idEtatMessage = 2 or etat.idEtatMessage = 1))";
+        Query q = em.createQuery(query).setParameter("idUser", idUser);
+        return ((Long) q.getSingleResult()).intValue();
+    }
+
 }

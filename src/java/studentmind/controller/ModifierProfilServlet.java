@@ -9,9 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
-import studentmind.facade.ImageFacade;
-import studentmind.facade.ServicesLocator;
-import studentmind.facade.UtilisateurFacade;
+import studentmind.facade.*;
 import studentmind.model.Image;
 import studentmind.model.Utilisateur;
 
@@ -21,7 +19,9 @@ import studentmind.model.Utilisateur;
  */
 public class ModifierProfilServlet extends HttpServlet {
 
-    HttpSession session = null;
+    HttpSession session;
+    Utilisateur userExp;
+    Utilisateur user;
 
     @Override
     public void init() throws ServletException {
@@ -37,7 +37,9 @@ public class ModifierProfilServlet extends HttpServlet {
 
         session = request.getSession(false);
         session.setAttribute("servlet", getClass().getName());
-      
+        user = (Utilisateur) session.getAttribute("user");
+        request.setAttribute("nbrDocUser", afficherNombreDocUser());
+        request.setAttribute("nbrMess",afficherMess());      
         
         request.setAttribute("information", afficherInformation());
         request.getRequestDispatcher("profil.jsp").forward(request, response);
@@ -50,6 +52,8 @@ public class ModifierProfilServlet extends HttpServlet {
         
         session = request.getSession(false);
         session.setAttribute("servlet", getClass().getName());  
+        request.setAttribute("nbrDocUser", afficherNombreDocUser());
+        request.setAttribute("nbrMess",afficherMess());      
         
         //String image = request.getParameter("image");
         String ecole = request.getParameter("ecole");
@@ -134,7 +138,7 @@ public class ModifierProfilServlet extends HttpServlet {
                 + "<label for=\"prenom\">Prénom :</label><span class=\"profilPrenom\">" + user.getPrenom() + "</span><br/>"
                 + "<label for=\"dateNaissance\">Date de naissance :</label><span class=\"profilDOB\">" + user.getDateNaissance() + "</span><br/>"
                 + "<label for=\"sexe\">Sexe :</label><span class=\"profilSexe\">" + user.getSexe() + "</span><br/>"
-                + "<label for=\"pays\">Pays :</label><span class=\"profilPays\">" + user.getFKidpays().getNomPays() + "</span>"
+                + "<label for=\"pays\">Nationalité :</label><span class=\"profilPays\">" + user.getFKidpays().getNomPays() + "</span>"
                 + " </fieldset>";
 
         html += "<fieldset>"
@@ -149,5 +153,34 @@ public class ModifierProfilServlet extends HttpServlet {
                 + "<input type=\"submit\" id=\"submit\" value=\"Je modifie!\" />"
                 + " </form>";
         return html;
+    }
+    
+  public String afficherNombreDocUser() {
+        
+        int i = 0;
+        if (user != null) {
+            DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+            i = dFacade.nbrDocUser(user.getIdUtilisateur());
+        }
+        if (i >= 1) {
+            return "(" + i + ")";
+        } else {
+            return "";
+        }
+    }
+    
+    public String afficherMess() {
+        if (user != null) {
+            MessageFacade mFacade = ServicesLocator.getMessageFacade();
+            int nbrMessage = mFacade.nbrMessNonLu(user.getIdUtilisateur());
+            int nbrTotal = mFacade.nbrMessTotal(user.getIdUtilisateur());
+
+            if (nbrMessage == 0) {
+                return "";
+            }
+            else {
+                return "(" + nbrMessage + "/" + nbrTotal + ")";
+            }
+        } else return "";
     }
 }

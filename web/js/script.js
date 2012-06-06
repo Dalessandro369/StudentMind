@@ -17,7 +17,6 @@ function Editer(id) {
     document.getElementById("id"+id).value = "Modifier"
 }
 
-
 function Supprimer(id) {
     $(document).ready(function(){
         $(".editer").hide();

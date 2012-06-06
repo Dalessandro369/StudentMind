@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import studentmind.facade.CommentaireFacade;
-import studentmind.facade.ServicesLocator;
-import studentmind.facade.UtilisateurFacade;
+import studentmind.facade.*;
 import studentmind.model.Commentaire;
 import studentmind.model.EtatCommentaire;
 import studentmind.model.Utilisateur;
@@ -23,6 +21,11 @@ import studentmind.model.Utilisateur;
  * @author ProjetJava
  */
 public class GererAbusServlet extends HttpServlet {
+    
+    HttpSession session;
+    Utilisateur userExp;
+    Utilisateur user;
+    
     @Override
     public void init() throws ServletException{
     }
@@ -34,19 +37,24 @@ public class GererAbusServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        HttpSession session = request.getSession(false);
+        session = request.getSession(false);
         session.setAttribute("servlet", getClass().getName());
+        user = (Utilisateur) session.getAttribute("user");
         request.setAttribute("ListerAbus", afficherAbus());
-            
+        request.setAttribute("nbrDocUser", afficherNombreDocUser());
+        request.setAttribute("nbrMess", afficherMess());
+        request.setAttribute("nbrCom", afficherNbrComSignaler()); 
+        request.setAttribute("nbrDocFile", afficherNbrDocAttente()); 
         request.getRequestDispatcher("gererAbus.jsp").forward(request,response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        HttpSession session = request.getSession(false);
+        session = request.getSession(false);
         session.setAttribute("servlet", getClass().getName());
-     
+        user = (Utilisateur) session.getAttribute("user");
+        if (user != null){
         String id = request.getParameter("id");
         String type = request.getParameter("type");
         String signaleur = request.getParameter("idSignaleur");
@@ -76,7 +84,14 @@ public class GererAbusServlet extends HttpServlet {
                 
                 
         request.setAttribute("ListerAbus", afficherAbus());
+        request.setAttribute("nbrMess", afficherMess());
+        request.setAttribute("nbrCom", afficherNbrComSignaler()); 
+        request.setAttribute("nbrDocFile", afficherNbrDocAttente()); 
         request.getRequestDispatcher("gererAbus.jsp").forward(request,response);
+        }else{
+            
+            request.getRequestDispatcher("index.jsp").forward(request,response);
+        }
     }
     
     public String afficherAbus(){
@@ -109,5 +124,49 @@ public class GererAbusServlet extends HttpServlet {
         }
              html+="</table>";
         return html;
+    }
+    
+    public String afficherNombreDocUser() {
+      
+        int i = 0;
+        if (user != null) {
+            DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+            i = dFacade.nbrDocUser(user.getIdUtilisateur());
+        }
+        if (i >= 1) {
+            return "(" + i + ")";
+        } else {
+            return "";
+        }
+    }
+    
+    public String afficherMess() {
+        if (user != null) {
+            MessageFacade mFacade = ServicesLocator.getMessageFacade();
+            int nbrMessage = mFacade.nbrMessNonLu(user.getIdUtilisateur());
+            int nbrTotal = mFacade.nbrMessTotal(user.getIdUtilisateur());
+
+            if (nbrMessage == 0) {
+                return "";
+            } else {
+                return "(" + nbrMessage + "/" + nbrTotal + ")";
+            }
+        } else {
+            return "";
+        }
+    }
+    
+    public String afficherNbrDocAttente(){
+        
+        DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+        int i = dFacade.nbrDocAtten();
+        if (i >= 1) return "("+i+")";               
+        else return "";
+    }
+    public String afficherNbrComSignaler(){
+        CommentaireFacade cFacade = ServicesLocator.getCommentaireFacade();
+        int i = cFacade.nbrComSignaler();
+        if (i >= 1) return "("+i+")";               
+        else return "";
     }
 }

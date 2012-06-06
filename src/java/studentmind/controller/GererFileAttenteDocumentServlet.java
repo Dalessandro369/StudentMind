@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import studentmind.facade.DocumentFacade;
+import studentmind.facade.MessageFacade;
 import studentmind.facade.ServicesLocator;
 import studentmind.facade.UtilisateurFacade;
 import studentmind.model.Document;
@@ -23,6 +24,11 @@ import studentmind.model.Utilisateur;
  * @author ProjetJava
  */
 public class GererFileAttenteDocumentServlet extends HttpServlet {
+    
+    HttpSession session;
+    Utilisateur userExp;
+    Utilisateur user;    
+    
     @Override
     public void init() throws ServletException{
     }
@@ -34,17 +40,20 @@ public class GererFileAttenteDocumentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        HttpSession session = request.getSession(false);
-        session.setAttribute("servlet", getClass().getName());  
-        
+        session = request.getSession(false);
+        session.setAttribute("servlet", getClass().getName());
+        user = (Utilisateur) session.getAttribute("user");
+        request.setAttribute("nbrMess", afficherMess());
+        request.setAttribute("nbrDocUser", afficherNombreDocUser());
         request.setAttribute("ListeFileAttente", afficheFileAttenteDocument());
         request.getRequestDispatcher("gererFileAttenteDocument.jsp").forward(request,response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        session.setAttribute("servlet", getClass().getName()); 
+        session = request.getSession(false);
+        session.setAttribute("servlet", getClass().getName());
+        user = (Utilisateur) session.getAttribute("user");
         
         String id = request.getParameter("id");
         String type = request.getParameter("type");
@@ -105,5 +114,35 @@ public class GererFileAttenteDocumentServlet extends HttpServlet {
         }
         html+="</table>";
         return html;
+    }
+    
+    public String afficherMess() {
+        if (user != null) {
+            MessageFacade mFacade = ServicesLocator.getMessageFacade();
+            int nbrMessage = mFacade.nbrMessNonLu(user.getIdUtilisateur());
+            int nbrTotal = mFacade.nbrMessTotal(user.getIdUtilisateur());
+
+            if (nbrMessage == 0) {
+                return "";
+            } else {
+                return "(" + nbrMessage + "/" + nbrTotal + ")";
+            }
+        } else {
+            return "";
+        }
+    }
+    
+    public String afficherNombreDocUser() {
+      
+        int i = 0;
+        if (user != null) {
+            DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+            i = dFacade.nbrDocUser(user.getIdUtilisateur());
+        }
+        if (i >= 1) {
+            return "(" + i + ")";
+        } else {
+            return "";
+        }
     }
 }

@@ -60,14 +60,25 @@
                         <c:when test="${user == null}">
                             <li><a href="inscription.html">S'inscrire</a></li>
                         </c:when>
-                    </c:choose>                
+                    </c:choose>
                     <c:choose>
-                        <c:when test='${rang != "3"}'> <!-- != Administrateur -->
-                            <li><a href="contact.html">Contact</a></li>  
+                        <c:when test='${rang != "1" and
+                                        rang != "2" and
+                                        rang != "3"}'> <!-- Membre -->
+                            <li><a href="contact.html">Contact</a></li>
+                        </c:when> 
+                    </c:choose>
+                    <c:choose>
+                        <c:when test='${rang == "1"}'> <!-- Membre -->
+                            <li><a href="contact.html">Contact</a></li>
+                        </c:when> 
+                        <c:when test='${rang == "2"}'> <!-- Modérateur -->
+                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="admin.html">Modération</a></li>
                         </c:when> 
                         <c:when test='${rang == "3"}'> <!-- Administrateur -->
                             <li><a href="admin.html">Administration</a></li>
-                        </c:when> 
+                        </c:when>
                     </c:choose>
                 </ul>
             </nav>

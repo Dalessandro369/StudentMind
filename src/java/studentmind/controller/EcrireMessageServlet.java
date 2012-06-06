@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import studentmind.facade.DocumentFacade;
 import studentmind.facade.MessageFacade;
 import studentmind.facade.ServicesLocator;
 import studentmind.facade.UtilisateurFacade;
@@ -29,6 +30,7 @@ public class EcrireMessageServlet extends HttpServlet {
     
     String idUser;
     String idMes;
+    Utilisateur userExp;
     HttpSession session = null;
     
     @Override
@@ -44,11 +46,16 @@ public class EcrireMessageServlet extends HttpServlet {
        
         session = request.getSession(false);
         if (session  != null) {            
-        
-        session.setAttribute("servlet", getClass().getName());  
+        userExp = (Utilisateur) session.getAttribute("user");
+        session.setAttribute("servlet", getClass().getName());
+        request.setAttribute("nbrDoc", afficherNbrDoc());
+        request.setAttribute("nbrDocUser", afficherNombreDocUser());
+        request.setAttribute("nbrMess",afficherMess());
        
         idUser = request.getParameter("u");
         idMes = request.getParameter("m");
+       
+        if (userExp != null){
         if (idUser == null) {
             //nouveau
             request.setAttribute("message", afficherNouveau());
@@ -58,6 +65,9 @@ public class EcrireMessageServlet extends HttpServlet {
         }
         request.getRequestDispatcher("ecrireMessage.jsp").forward(request,response);
         }
+        } else{
+            request.getRequestDispatcher("index.jsp").forward(request,response);
+        }
     }
 
  
@@ -66,7 +76,7 @@ public class EcrireMessageServlet extends HttpServlet {
         
         session = request.getSession(false);
         if (session  != null) {            
-        
+        userExp = (Utilisateur) session.getAttribute("user");
         session.setAttribute("servlet", getClass().getName());  
         
         String nomUtilisateur = request.getParameter("nom");
@@ -77,7 +87,7 @@ public class EcrireMessageServlet extends HttpServlet {
         
         UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
         Utilisateur user = new Utilisateur(Integer.parseInt(splitab[0]));
-        Utilisateur userExp = (Utilisateur) session.getAttribute("user");
+        
         
         MessageFacade mFacade = ServicesLocator.getMessageFacade();
         Message mes = new Message();
@@ -104,7 +114,7 @@ public class EcrireMessageServlet extends HttpServlet {
         String html = "<div id=\"content\">"
                 + "<h2>Ecrire nouveau message</h2>"
                 + "<div id=\"new_message\">"
-                + "<img src=\"../img/avatar2.jpg\" title=\"\" alt=\"\" />"
+                + "<img src=\"upload/avatars/"+ userExp.getFKidImage().getUrlImage()+"\"  height='73' width='73'  title=\"\" alt=\"\" />"               
                 + "<script>"
                 + "$(function() {"
                 + "var availableTags = [";             
@@ -143,6 +153,16 @@ public class EcrireMessageServlet extends HttpServlet {
                 + "</div>";
         return html;
     }
+    public String afficherMess(){
+        String html = "";
+        MessageFacade mFacade = ServicesLocator.getMessageFacade();
+        int nbrMessage = mFacade.nbrMessNonLu(userExp.getIdUtilisateur());
+        int nbrTotal = mFacade.nbrMessTotal(userExp.getIdUtilisateur());
+        
+        
+        return "("+nbrMessage+"/"+nbrTotal+")";
+        
+    }
     public String afficherRepondre(){
         
         UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
@@ -153,7 +173,7 @@ public class EcrireMessageServlet extends HttpServlet {
         String html = "<div id=\"content\">"
                 + "<h2>Ecrire nouveau message</h2>"
                 + "<div id=\"new_message\">"
-                + "<img src=\"../img/avatar2.jpg\" title=\"\" alt=\"\" />"
+                + "<img src=\"upload/avatars/"+userExp.getFKidImage().getUrlImage()+"' title=\"\"  height='73' width='73' alt=\"\" />"
                 + "<script>"
                 + "$(function() {"
                 + "var availableTags = [";
@@ -219,7 +239,7 @@ public class EcrireMessageServlet extends HttpServlet {
 
             html += "<form name='ligne" + mes.getIdMessage() + "' method='POST' action='./inbox.html' >"
                     + "<tr>"
-                    + "<td class=\"lu\"><input type=\"image\" src=\"img/trash.gif\" title=\"\" alt=\"t\" onclick='SupprimerMes(" + mes.getIdMessage() + ")' /></td>"
+                    + "<td class=\"lu\"><input type=\"image\" src=\"img/trash.png\" title=\"\" alt=\"t\" onclick='SupprimerMes(" + mes.getIdMessage() + ")' /></td>"
                     + "<input type='hidden' value='"+mes.getIdMessage()+"' name='id'/>"
                     + "<td class=\"lu\"><a href=\"\">" + mes.getFKidutilisateurexp().getNom() + " " + mes.getFKidutilisateurexp().getPrenom() + "</a></td>"
                     + "<td class=\"lu\"><a href=\"lire-message.html?m="+mes.getIdMessage()+"\">" + mes.getObjetMessage() + "</a></td>";
@@ -283,5 +303,28 @@ public class EcrireMessageServlet extends HttpServlet {
         html += "</tbody>"
                 + "</table>";
         return html;
+    }
+      
+    public String afficherNbrDoc() {
+
+        String html = "";
+        DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+        html = "" + dFacade.nbrDoc();
+        return html;
+
+    }
+    
+    public String afficherNombreDocUser() {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        int i = 0;
+        if (user != null) {
+            DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+            i = dFacade.nbrDocUser(user.getIdUtilisateur());
+        }
+        if (i >= 1) {
+            return "(" + i + ")";
+        } else {
+            return "";
+        }
     }
 }

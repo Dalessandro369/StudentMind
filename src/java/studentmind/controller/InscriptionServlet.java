@@ -237,9 +237,9 @@ public class InscriptionServlet extends HttpServlet {
             user.setVille(ville); //ok    
             user.setSiteWeb(site); //ok
             //user.setFKidrang(new Rang(1)); // ok 
-            user.setFKidrang(new Rang(3)); // ok
+            user.setFKidrang(new Rang(1)); // ok
             //user.setFKidetatutlisateur(new EtatUtilisateur(1));  // ok
-            user.setFKidetatutlisateur(new EtatUtilisateur(2));  // ok
+            user.setFKidetatutlisateur(new EtatUtilisateur(1));  // ok
             user.setPoints(50); //ok 
             user.setNbrSignal(0); // ok       
 

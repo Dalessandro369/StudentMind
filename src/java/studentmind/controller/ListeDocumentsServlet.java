@@ -11,10 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import studentmind.facade.DocumentFacade;
-import studentmind.facade.NoteFacade;
-import studentmind.facade.ServicesLocator;
-import studentmind.facade.TelechargementFacade;
+import studentmind.facade.*;
 import studentmind.model.Document;
 import studentmind.model.Utilisateur;
 
@@ -23,6 +20,10 @@ import studentmind.model.Utilisateur;
  * @author ProjetJava
  */
 public class ListeDocumentsServlet extends HttpServlet {
+    
+    HttpSession session;
+    Utilisateur userExp;
+    Utilisateur user;
 
     @Override
     public void init() throws ServletException {
@@ -35,8 +36,11 @@ public class ListeDocumentsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
+        session = request.getSession(false);
         session.setAttribute("servlet", getClass().getName());
+        user = (Utilisateur) session.getAttribute("user");
+        request.setAttribute("nbrDocUser", afficherNombreDocUser());
+        request.setAttribute("nbrMess",afficherMess()); 
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         request.setAttribute("top", afficherTop());
         
@@ -77,7 +81,7 @@ public class ListeDocumentsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+        session = request.getSession(false);
         session.setAttribute("servlet", getClass().getName());
         request.setAttribute("top", afficherTop());
 
@@ -179,5 +183,34 @@ public class ListeDocumentsServlet extends HttpServlet {
         }
         html += "</ul>";
         return html;
+    }
+    
+    public String afficherNombreDocUser() {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        int i = 0;
+        if (user != null) {
+            DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+            i = dFacade.nbrDocUser(user.getIdUtilisateur());
+        }
+        if (i >= 1) {
+            return "(" + i + ")";
+        } else {
+            return "";
+        }
+    }
+    
+    public String afficherMess() {
+        if (user != null) {
+            MessageFacade mFacade = ServicesLocator.getMessageFacade();
+            int nbrMessage = mFacade.nbrMessNonLu(user.getIdUtilisateur());
+            int nbrTotal = mFacade.nbrMessTotal(user.getIdUtilisateur());
+
+            if (nbrMessage == 0) {
+                return "";
+            }
+            else {
+                return "(" + nbrMessage + "/" + nbrTotal + ")";
+            }
+        } else return "";
     }
 }

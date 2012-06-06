@@ -12,15 +12,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import studentmind.facade.DocumentFacade;
+import studentmind.facade.MessageFacade;
 import studentmind.facade.ServicesLocator;
 import studentmind.facade.TypeFacade;
 import studentmind.model.Type;
+import studentmind.model.Utilisateur;
 
 /**
  *
  * @author ProjetJava
  */
 public class GererTypeServlet extends HttpServlet {
+    
+    HttpSession session;
+    Utilisateur userExp;
+    Utilisateur user;
+    
     @Override
     public void init() throws ServletException{
     }
@@ -32,9 +40,13 @@ public class GererTypeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        HttpSession session = request.getSession(false);
-        session.setAttribute("servlet", getClass().getName());    
-         request.setAttribute("ListeType", afficheType());
+        
+        session = request.getSession(false);
+        session.setAttribute("servlet", getClass().getName());
+        user = (Utilisateur) session.getAttribute("user");
+        request.setAttribute("ListeType", afficheType());
+        request.setAttribute("nbrDocUser", afficherNombreDocUser());
+        request.setAttribute("nbrMess", afficherMess());
         request.getRequestDispatcher("gererType.jsp").forward(request,response);
     }
 
@@ -74,6 +86,8 @@ public class GererTypeServlet extends HttpServlet {
                 }
             }
             request.setAttribute("ListeType", afficheType());
+            request.setAttribute("nbrMess", afficherMess());
+            request.setAttribute("nbrDocUser", afficherNombreDocUser());
             request.getRequestDispatcher("gererType.jsp").forward(request, response);
         }
     }
@@ -118,4 +132,34 @@ public class GererTypeServlet extends HttpServlet {
                 + "</table>";
         return html;
    }
+    
+    public String afficherNombreDocUser() {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        int i = 0;
+        if (user != null) {
+            DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+            i = dFacade.nbrDocUser(user.getIdUtilisateur());
+        }
+        if (i >= 1) {
+            return "(" + i + ")";
+        } else {
+            return "";
+        }
+    }
+    
+    public String afficherMess() {
+        if (user != null) {
+            MessageFacade mFacade = ServicesLocator.getMessageFacade();
+            int nbrMessage = mFacade.nbrMessNonLu(user.getIdUtilisateur());
+            int nbrTotal = mFacade.nbrMessTotal(user.getIdUtilisateur());
+
+            if (nbrMessage == 0) {
+                return "";
+            } else {
+                return "(" + nbrMessage + "/" + nbrTotal + ")";
+            }
+        } else {
+            return "";
+        }
+    }
 }

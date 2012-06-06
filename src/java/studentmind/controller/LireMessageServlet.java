@@ -45,7 +45,7 @@ public class LireMessageServlet extends HttpServlet {
         Message mes = mFacade.findId(Integer.parseInt(idMes));
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         //changer l'avatar ici
-        html = "<img src=\"../img/avatar2.jpg\" title=\"\" alt=\"\" />"
+        html = "<img src=\"upload/avatars/"+ mes.getFKidutilisateurexp().getFKidImage().getUrlImage()+"\" width='73' height='73' title=\"\" alt=\"\" />"
                 + "<ul>"
                 + "<li><label><strong>Expéditeur :</strong></label>"+mes.getFKidutilisateurexp().getNom() +" "+mes.getFKidutilisateurexp().getPrenom()+" "+"</li>"
                 + "<li><label><strong>Objet :</strong></label>"+mes.getObjetMessage()+"</li>";
@@ -97,12 +97,12 @@ public class LireMessageServlet extends HttpServlet {
             int m = cal.get(Calendar.MINUTE);
 
             html += "<li><label><strong>Date :</strong></label> " + jour + " " + moisDate + " " + annee + " " + h + ":" + m + "</li>"
-                    + "<li><a href='ecrire-message.html?u="+mes.getFKidutilisateurexp().getIdUtilisateur()+"?m="+mes.getIdMessage()+"'>Répondre</a></li>"
+                  //  + "<li><a href='ecrire-message.html?u="+mes.getFKidutilisateurexp().getIdUtilisateur()+"?m="+mes.getIdMessage()+"'>Répondre</a></li>"
                     + "</ul>"
                     + "<blockquote>"+ mes.getContenuMessage()+ "</blockquote>"
                     + "<form method=\"POST\" action=\"./ecrire-message.html\">"
-                    + "<input type='hidden' name='nom'value='"+mes.getFKidutilisateurexp().getIdUtilisateur()+" - "+mes.getFKidutilisateurexp().getNom() +" "+mes.getFKidutilisateurexp().getPrenom()+"'/>"
-                    + "<input type='hidden' name='objet'value='"+mes.getObjetMessage()+" - Reponse'/>"
+                    + "<input type='hidden' name='nom' value='"+mes.getFKidutilisateurexp().getIdUtilisateur()+" - "+mes.getFKidutilisateurexp().getNom() +" "+mes.getFKidutilisateurexp().getPrenom()+"'/>"
+                    + "<input type='hidden' name='objet'value='"+mes.getObjetMessage()+"'/>"
                     + "<textarea name='contenu' placeholder=\"Cliquez ici pour répondre\"></textarea></br>"
                     + "<input type=\"submit\" value=\"Répondre\" />"                   
                     + "</form>";    

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import studentmind.facade.DocumentFacade;
 import studentmind.facade.MessageFacade;
 import studentmind.facade.ServicesLocator;
 import studentmind.facade.UtilisateurFacade;
@@ -26,7 +27,9 @@ import studentmind.model.Utilisateur;
  */
 public class InboxServlet extends HttpServlet {
 
-    HttpSession session = null;
+    HttpSession session;
+    Utilisateur userExp;
+    Utilisateur user;
 
     @Override
     public void init() throws ServletException {
@@ -42,11 +45,13 @@ public class InboxServlet extends HttpServlet {
         session = request.getSession(false);
         if ((session  != null) && ((Utilisateur) session.getAttribute("user") != null)) {
         session.setAttribute("servlet", getClass().getName());
-
+        user = (Utilisateur) session.getAttribute("user");
+        request.setAttribute("nbrMess",afficherMess());
+        request.setAttribute("nbrDocUser", afficherNombreDocUser());
         request.setAttribute("ListeMessageReception", afficherMessageRecu());
         request.getRequestDispatcher("inbox.jsp").forward(request, response);
         }
-        //rediriger acceuil
+           request.getRequestDispatcher("inscription.jsp").forward(request, response);
     }
 
     @Override
@@ -82,7 +87,7 @@ public class InboxServlet extends HttpServlet {
         MessageFacade mFacade = ServicesLocator.getMessageFacade();
         UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
         Utilisateur id = (Utilisateur) session.getAttribute("user");
-        Utilisateur user = uFacade.findId(id.getIdUtilisateur());
+        user = uFacade.findId(id.getIdUtilisateur());
         List<Message> liste = mFacade.findMessRecu(user.getIdUtilisateur());
         
         for (Message mes : liste) {
@@ -155,5 +160,34 @@ public class InboxServlet extends HttpServlet {
         html += "</tbody>"
                 + "</table>";
         return html;
+    }
+    
+    public String afficherMess() {
+        if (user != null) {
+            MessageFacade mFacade = ServicesLocator.getMessageFacade();
+            int nbrMessage = mFacade.nbrMessNonLu(user.getIdUtilisateur());
+            int nbrTotal = mFacade.nbrMessTotal(user.getIdUtilisateur());
+
+            if (nbrMessage == 0) {
+                return "";
+            }
+            else {
+                return "(" + nbrMessage + "/" + nbrTotal + ")";
+            }
+        } else return "";
+    }
+    
+    public String afficherNombreDocUser() {
+
+        int i = 0;
+        if (user != null) {
+            DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+            i = dFacade.nbrDocUser(user.getIdUtilisateur());
+        }
+        if (i >= 1) {
+            return "(" + i + ")";
+        } else {
+            return "";
+        }
     }
 }

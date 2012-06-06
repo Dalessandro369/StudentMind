@@ -2,16 +2,14 @@
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page pageEncoding="UTF-8" %>
-<%--<sql:query var="nbrCom" dataSource="student_mind_connection">
-    SELECT * FROM `commentaire` c, etat_commentaire ec WHERE ec.id_etat_commentaire = 1
-</sql:query>--%>
 <c:choose>
     <c:when test='${servlet == "studentmind.controller.AdministrationServlet"   or
                     servlet == "studentmind.controller.GererTypeServlet"        or
                     servlet == "studentmind.controller.GererCategorieServlet"   or
                     servlet == "studentmind.controller.GererExtensionServlet"   or
                     servlet == "studentmind.controller.GererAbusServlet"        or
-                    servlet == "studentmind.controller.GererUtilisateurServlet"}'>
+                    servlet == "studentmind.controller.GererUtilisateurServlet" or
+                    servlet == "studentmind.controller.GererFileAttenteDocumentServlet"}'>
         <div id="left_menu">
             <div class="menu">
                 <header><h3>Gestion des documents</h3></header>
@@ -39,18 +37,7 @@
         </div>
 
         <div id="right_menu">			
-            <div class="menu">
-                <header><h3>${user.prenom} ${user.nom}</h3></header>
-                <div id="avatar">
-                    ${afficherAvatar}
-                </div>
-                <ul>
-                    <li><a href="modifier-profil.html">Mon profil</a></li>
-                    <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
-                    <li><a href="liste-documents.html">Mes documents</a> ${nbrDocUser}</li>
-                    <li><a href="deconnexion.html">Se déconnecter</a></li>
-                </ul>
-            </div>		
+            <%@ include file="profil_messagerie.jspf"%> 		
         </div>
     </c:when>          
     <c:when test='${servlet == "studentmind.controller.IndexServlet" or
@@ -68,25 +55,19 @@
             <div class="menu">
                 <header><h3>Statistiques du site</h3></header>
                 <ul>
-                    <li><strong><span class="">Nombre de membres :</span></strong></li>
-                    <li><strong><span class="">Nombre de documents :</span></strong></li>
+                    <li><strong><span class="">Nombre de membres :</span></strong> ${nbrMembre}</li>
+                    <li><strong><span class="">Nombre de documents :</span></strong> ${nbrDoc}</li>
                 </ul>	
+            </div>
+                
+            <div class="menu">
+                <header><h3>Top 3 des utilisateurs</h3></header>
+                ${topUser}
             </div>
         </div>
 
         <div id="right_menu">
-            <div class="menu">
-                <header><h3>${user.prenom} ${user.nom}</h3></header>
-                <div id="avatar">
-                    ${afficherAvatar}                    
-                </div>
-                <ul>
-                    <li><a href="modifier-profil.html">Mon profil</a></li>
-                    <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
-                    <li><a href="liste-documents.html">Mes documents </a>${nbrDocUser}</li>
-                    <li><a href="deconnexion.html">Se déconnecter</a></li>
-                </ul>
-            </div>
+            <%@ include file="profil_messagerie.jspf"%> 
 
             <div class="menu">
                 <header><h3>Derniers documents</h3></header>
@@ -98,18 +79,7 @@
                     servlet == "studentmind.controller.RechercherDocumentServlet"   or
                     servlet == "studentmind.controller.UploadDocumentServlet"}' >
         <div id="right_menu">
-            <div class="menu">
-                <header><h3>${user.prenom} ${user.nom}</h3></header>
-                <div id="avatar">
-                    ${afficherAvatar}
-                </div>
-                <ul>
-                    <li><a href="modifier-profil.html">Mon profil</a></li>
-                    <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
-                    <li><a href="liste-documents.html">Mes documents </a> ${nbrDocUser}</li>
-                    <li><a href="deconnexion.html">Se déconnecter</a></li>
-                </ul>
-            </div>              
+            <%@ include file="profil_messagerie.jspf"%>     
             
             <div class="menu">
                 <header><h3>Derniers documents</h3></header>
@@ -117,20 +87,19 @@
             </div>
         </div>
     </c:when>
+    <c:when test='${servlet == "studentmind.controller.AfficherProfilServlet"   or 
+                    servlet == "studentmind.controller.EcrireMessageServlet"    or
+                    servlet == "studentmind.controller.InboxServlet"            or
+                    servlet == "studentmind.controller.inboxEnvoyerServlet"     or
+                    servlet == "studentmind.controller.ModifierProfilServlet"   or
+                    servlet == "studentmind.controller.LireMessageServlet"}'>
+        <div id="right_menu">
+            <%@ include file="profil_messagerie.jspf"%>       
+        </div>
+    </c:when>   
     <c:when test='${servlet == "studentmind.controller.VoirDocumentServlet"}'>
         <div id="right_menu">
-            <div class="menu">
-                <header><h3>${user.prenom} ${user.nom}</h3></header>
-                <div id="avatar">
-                    ${afficherAvatar}
-                </div>
-                <ul>
-                    <li><a href="modifier-profil.html">Mon profil</a></li>
-                    <li><a href="inbox.html">Ma messagerie privée</a> (3)</li>
-                    <li><a href="liste-documents.html">Mes documents </a>${nbrDocUser}</li>
-                    <li><a href="deconnexion.html">Se déconnecter</a></li>
-                </ul>
-            </div>              
+            <%@ include file="profil_messagerie.jspf"%>             
             
             <div class="menu">
                 <header><h3>Derniers documents</h3></header>
@@ -144,7 +113,7 @@
                 <a href="contact.html">formulaire de contact</a> pour y déposer votre réclamation.</p>
 
                 <figure> 
-                    <a href="">
+                    
                         <c:choose>
                             <c:when test='${typeFamille == "Microsoft Office"}'>
                                 <img src="img/extensions/office.png" title="Téléchargement du document" alt="Téléchargement"> 
@@ -156,8 +125,29 @@
                                 <img src="img/extensions/adobe.png" title="Téléchargement du document" alt="Téléchargement"> 
                             </c:when>
                         </c:choose>
-                                <figcaption>Télécharger</figcaption>
-                    </a>
+                       ${lien}
+                        
+ 
+                        <script type="text/javascript">
+                            document.getElementById('lien_dl').addEventListener('click', function(){
+  
+                                var req = null;
+                                var idDoc = document.getElementById("idDoc").value;
+                                var urlDoc = document.getElementById("urlDoc").value;
+                             
+                                if(window.XMLHttpRequest)   req = new XMLHttpRequest();
+                                else                        req = new ActiveXObject("Microsoft.XMLHTTP"); 
+                                
+                                req.open("GET", "http://localhost:8080/StudentMind/telecharger-document.html?doc="+idDoc+"&urlDoc="+urlDoc, true);
+                                req.onreadystatechange = function(){ 
+                                    if (req.readyState == 4 && req.status == 200) {
+                                        document.location.href="http://localhost:8080/StudentMind/upload/documents/"+urlDoc;   
+                                    }
+                                }
+                                req.send();
+                            }, false);
+                        </script>
+                   
                 </figure> 
             </div>
 
@@ -168,40 +158,30 @@
                     <script type="text/javascript">
                         document.getElementById("comm_button").addEventListener('click', function(){
                             var comm = document.getElementById("comm").value;
-                            var xhr = null;
-
-                            if (window.XMLHttpRequest)      xhr = new XMLHttpRequest();
-                            else if (window.ActiveXObject)  xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                            var req = null;
                             
-                            // On définit l'appel de la fonction retour au serveur
-                            xhr.onreadystatechange = function(){ 
-                                traitement_reponse(xhr); 
+                            if(window.XMLHttpRequest)   req = new XMLHttpRequest();
+                            else                        req = new ActiveXObject("Microsoft.XMLHTTP");
+
+                            req.open("GET", "http://localhost:8080/StudentMind/ajouter-commentaire.html?comm="+comm, true);
+                            req.onreadystatechange = function(){ 
+                                if (req.readyState == 4 && req.status == 200) {
+                                    XMLDocument = req.responseXML;
+                                   
+                                    var str = document.getElementById("output_new_comm").innerHTML; 
+                                    document.getElementById("output_new_comm").innerHTML = "<div class=\"commentaire_icon\"></div>"
+                                    + "<div class=\"commentaire_header_article\"><header><strong>Auteur : </strong>" + XMLDocument.getElementsByTagName('auteur')[0].firstChild.nodeValue + "</header></div>"
+                                    + "<div class=\"commentaire_content_article\">"
+                                    + "<blockquote>" + XMLDocument.getElementsByTagName('contenu')[0].firstChild.nodeValue + "</blockquote>"
+                                    + "</div>"
+                                    + "<div class=\"commentaire_footer_article\"><footer><strong>Posté le : </strong>" + XMLDocument.getElementsByTagName('date')[0].firstChild.nodeValue+"</div>"
+                                    + str;
+                                    document.getElementById("comm").value = "";
+                                }
                             };
-
-                            // On appelle la Servlet de traitement
-                            xhr.open("POST", "ajouter-commentaire.html", true);
-                            xhr.send("comm="+comm);
-
-                            function traitement_reponse(xhr){
-                                alert("réponse reçue");
-                            }
+                            req.send();
                         }, false);
                     </script>
-            </div>
-
-            <div class="menu">
-                    <header><h3>Noter le document</h3></header>
-                    <script type="text/javascript">
-                        $(document).ready(function(){
-                            $(".note").jRating({
-                                step:true,
-                                length : 5, // nb of stars
-                                decimalLength:0, // number of decimal in the rate
-                                showRateInfo : false
-                            });
-                        });
-                    </script>
-                    <div class="note" id="vote" data="0"></div>
             </div>
         </div>
     </c:when>

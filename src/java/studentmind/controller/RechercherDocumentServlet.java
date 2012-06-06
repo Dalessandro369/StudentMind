@@ -19,6 +19,10 @@ import studentmind.model.*;
  * @author ProjetJava
  */
 public class RechercherDocumentServlet extends HttpServlet {
+    
+    HttpSession session;
+    Utilisateur userExp;
+    Utilisateur user;
 
     @Override
     public void init() throws ServletException {
@@ -31,8 +35,11 @@ public class RechercherDocumentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
+        session = request.getSession(false);
         session.setAttribute("servlet", getClass().getName());
+        user = (Utilisateur) session.getAttribute("user");
+        request.setAttribute("nbrDocUser", afficherNombreDocUser());
+       
 
         // Affichage des types dans la liste déroulante
 
@@ -72,15 +79,17 @@ public class RechercherDocumentServlet extends HttpServlet {
         request.setAttribute("ListeExtension", listeHtml);
         
         request.setAttribute("top", afficherTop());
+         request.setAttribute("nbrMess",afficherMess());
         request.getRequestDispatcher("rechercherDocument.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
+        session = request.getSession(false);
         session.setAttribute("servlet", this.getServletName());
-
+        user = (Utilisateur) session.getAttribute("user");
+        
         boolean champOk = true;
         String mesType = "";
         String mesCategorie = "";
@@ -181,5 +190,34 @@ public class RechercherDocumentServlet extends HttpServlet {
         }
         html += "</ul>";
         return html;
+    }
+    
+    public String afficherNombreDocUser() {
+        
+        int i = 0;
+        if (user != null) {
+            DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+            i = dFacade.nbrDocUser(user.getIdUtilisateur());
+        }
+        if (i >= 1) {
+            return "(" + i + ")";
+        } else {
+            return "";
+        }
+    }
+    
+    public String afficherMess() {
+        if (user != null) {
+            MessageFacade mFacade = ServicesLocator.getMessageFacade();
+            int nbrMessage = mFacade.nbrMessNonLu(user.getIdUtilisateur());
+            int nbrTotal = mFacade.nbrMessTotal(user.getIdUtilisateur());
+
+            if (nbrMessage == 0) {
+                return "";
+            }
+            else {
+                return "(" + nbrMessage + "/" + nbrTotal + ")";
+            }
+        } else return "";
     }
 }

@@ -286,6 +286,10 @@ div#page{
                     padding-bottom:5px;
                     text-align:center;
                 }
+                
+                div#page div#content p{
+                    font-family:Verdana, serif;
+                }
 		
 		div#page div#content table{
 			background-color:#f4f5f5;
@@ -420,7 +424,6 @@ div#page{
 			}
 			
 			div#page div#content #new_message ul {
-				border:1px solid red;
 				list-style-type:none;
 				margin-left:70px;
 			}
@@ -757,4 +760,20 @@ nav[role="navigation"]{
                         
 .clear{
     clear:both;
+}
+
+.avatar_voir_profil{
+    float:right;
+}
+
+span{
+    color:gray;
+}
+
+input[type="button"], input[type="submit"]{
+    background-color:#e5e5e5;
+    font-size:0.6em;
+    color:black;
+    font-family:Verdana;
+    padding:3px;
 }

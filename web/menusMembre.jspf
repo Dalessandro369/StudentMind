@@ -10,8 +10,11 @@
             </div>
         </div>
     </c:when>
-    <c:when test='${servlet == "studentmind.controller.EcrireMessageServlet"    or
+    <c:when test='${servlet == "studentmind.controller.AfficherProfilServlet"   or 
+                    servlet == "studentmind.controller.EcrireMessageServlet"    or
                     servlet == "studentmind.controller.InboxServlet"            or
+                    servlet == "studentmind.controller.inboxEnvoyerServlet"     or
+                    servlet == "studentmind.controller.ModifierProfilServlet"   or
                     servlet == "studentmind.controller.LireMessageServlet"}'>
         <div id="right_menu">
             <%@ include file="profil_messagerie.jspf"%>       
@@ -37,9 +40,14 @@
             <div class="menu">
                 <header><h3>Statistiques du site</h3></header>
                 <ul>
-                    <li><strong><span class="">Nombre de membres :</span></strong>${nbrMembre}</li>
-                    <li><strong><span class="">Nombre de documents :</span></strong>${nbrDoc}</li>
+                    <li><strong><span class="">Nombre de membres :</span></strong> ${nbrMembre}</li>
+                    <li><strong><span class="">Nombre de documents :</span></strong> ${nbrDoc}</li>
                 </ul>	
+            </div>
+                
+            <div class="menu">
+                <header><h3>Top 3 des utilisateurs</h3></header>
+                ${topUser}
             </div>
         </div>
 
@@ -53,8 +61,7 @@
     </c:when>                  
     <c:when test='${servlet == "studentmind.controller.ListeDocumentsServlet"       or
                     servlet == "studentmind.controller.RechercherDocumentServlet"   or
-                    servlet == "studentmind.controller.UploadDocumentServlet"       or
-                    servlet == "studentmind.controller.VoirDocumentServlet" }' >
+                    servlet == "studentmind.controller.UploadDocumentServlet"}' >
         <div id="right_menu">
             <%@ include file="profil_messagerie.jspf"%>            
             
@@ -63,5 +70,92 @@
                 ${top}
             </div>
         </div>
-    </c:when>          
+    </c:when>      
+   <c:when test='${servlet == "studentmind.controller.VoirDocumentServlet"}'>
+        <div id="right_menu">
+            <%@ include file="profil_messagerie.jspf"%>             
+            
+            <div class="menu">
+                <header><h3>Derniers documents</h3></header>
+                ${top}
+            </div>
+            
+            <div class="menu">
+                <header><h3>Téléchargement du document</h3></header>
+                <p><strong>Attention :</strong> il est strictement interdit de vendre, de distribuer ou de modifier le document ci-joint sans l'accord préalable de son auteur. 
+                Si vous reconnaissez l'une de vos oeuvres et que le propriétaire n'est pas en droit de la posséder, contactez notre équipe via ce 
+                <a href="contact.html">formulaire de contact</a> pour y déposer votre réclamation.</p>
+
+                <figure> 
+                    
+                        <c:choose>
+                            <c:when test='${typeFamille == "Microsoft Office"}'>
+                                <img src="img/extensions/office.png" title="Téléchargement du document" alt="Téléchargement"> 
+                            </c:when>
+                            <c:when test='${typeFamille == "Libre Office"}'>
+                                <img src="img/extensions/openoffice.png" title="Téléchargement du document" alt="Téléchargement"> 
+                            </c:when>
+                            <c:when test='${typeFamille == "Adobe"}'>
+                                <img src="img/extensions/adobe.png" title="Téléchargement du document" alt="Téléchargement"> 
+                            </c:when>
+                        </c:choose>
+                       ${lien}
+                        
+                        <script type="text/javascript">
+                            document.getElementById('lien_dl').addEventListener('click', function(){
+  
+                                var req = null;
+                                var idDoc = document.getElementById("idDoc").value;
+                                var urlDoc = document.getElementById("urlDoc").value;
+                             
+                                if(window.XMLHttpRequest)   req = new XMLHttpRequest();
+                                else                        req = new ActiveXObject("Microsoft.XMLHTTP"); 
+                                
+                                req.open("GET", "http://localhost:8080/StudentMind/telecharger-document.html?doc="+idDoc+"&urlDoc="+urlDoc, true);
+                                req.onreadystatechange = function(){ 
+                                    if (req.readyState == 4 && req.status == 200) {
+                                        document.location.href="http://localhost:8080/StudentMind/upload/documents/"+urlDoc;   
+                                    }
+                                }
+                                req.send();
+                            }, false);
+                        </script>
+                   
+                </figure> 
+            </div>
+
+            <div class="menu">
+                    <header><h3>Poster un commentaire</h3></header>
+                    <textarea class="textarea_commentaire" name="comm" id="comm"></textarea>
+                    <input type="button" id="comm_button" value="Poster commentaire" />
+                    <script type="text/javascript">
+                        document.getElementById("comm_button").addEventListener('click', function(){
+                            var comm = document.getElementById("comm").value;
+                            var req = null;
+                            
+                            if(window.XMLHttpRequest)   req = new XMLHttpRequest();
+                            else                        req = new ActiveXObject("Microsoft.XMLHTTP");
+
+                            req.open("GET", "http://localhost:8080/StudentMind/ajouter-commentaire.html?comm="+comm, true);
+                            req.onreadystatechange = function(){ 
+                                if (req.readyState == 4 && req.status == 200) {
+                                    XMLDocument = req.responseXML;
+                                   
+                                    var str = document.getElementById("output_new_comm").innerHTML; 
+                                    document.getElementById("output_new_comm").innerHTML = "<div class=\"commentaire_icon\"></div>"
+                                    + "<div class=\"commentaire_header_article\"><header><strong>Auteur : </strong>" + XMLDocument.getElementsByTagName('auteur')[0].firstChild.nodeValue + "</header></div>"
+                                    + "<div class=\"commentaire_content_article\">"
+                                    + "<blockquote>" + XMLDocument.getElementsByTagName('contenu')[0].firstChild.nodeValue + "</blockquote>"
+                                    + "</div>"
+                                    + "<div class=\"commentaire_footer_article\"><footer><strong>Posté le : </strong>" + XMLDocument.getElementsByTagName('date')[0].firstChild.nodeValue+"</div>"
+                                    + str;
+                                    document.getElementById("comm").value = "";
+                                }
+                            };
+                            req.send();
+                        }, false);
+                    </script>
+            </div>
+        </div>
+    </c:when>
 </c:choose>    

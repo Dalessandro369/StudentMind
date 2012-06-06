@@ -19,6 +19,7 @@ import studentmind.facade.ServicesLocator;
 import studentmind.facade.UtilisateurFacade;
 import studentmind.model.Categorie;
 import studentmind.model.Document;
+import studentmind.model.Utilisateur;
 
 /**
  *
@@ -38,7 +39,7 @@ public class DeconnexionServlet extends HttpServlet {
         
         HttpSession session = request.getSession(false);
         session.setAttribute("servlet", getClass().getName());
-        
+        request.setAttribute("topUser", afficherTopUser());
         request.setAttribute("ListeCategorie", afficherCategorie());
         request.setAttribute("DocumentUne", afficherDocument());
         request.setAttribute("nbrDoc", afficherNbrDoc());
@@ -168,5 +169,18 @@ public class DeconnexionServlet extends HttpServlet {
         }
         html += "</ul>";
         return html;
+    }
+    
+    public String afficherTopUser() {
+        UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
+        String html = "<ul>";
+
+        List<Utilisateur> liste = uFacade.topUitlisateur();
+        for (Utilisateur user : liste) {
+            html += "<li><a href=\"afficher-profil.html?u="+user.getIdUtilisateur()+"\">" + user.getNom() + " " + user.getPrenom() + "</a> (" + user.getPoints() + " pts.)</li>";
+        }
+        html += "</ul>";
+        return html;
+
     }
 }

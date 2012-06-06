@@ -104,6 +104,10 @@
         <servlet-name>AfficherProfilServlet</servlet-name>
         <servlet-class>studentmind.controller.AfficherProfilServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TelechargerDocumentServlet</servlet-name>
+        <servlet-class>studentmind.controller.TelechargerDocumentServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IndexServlet</servlet-name>
         <url-pattern>/index.html</url-pattern>
@@ -203,6 +207,10 @@
     <servlet-mapping>
         <servlet-name>AfficherProfilServlet</servlet-name>
         <url-pattern>/afficher-profil.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TelechargerDocumentServlet</servlet-name>
+        <url-pattern>/telecharger-document.html</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -3,7 +3,7 @@
 <div class="menu">
     <header><h3>${user.prenom} ${user.nom}</h3></header>
     <div id="avatar">
-        <img src="../img/avatar.jpg" title="" alt="" />
+        ${afficherAvatar}
     </div>
     <ul>
         <li><a href="modifier-profil.html">Mon profil</a></li>
@@ -16,7 +16,7 @@
     <header><h3>Ma messagerie privée</h3></header>
     <ul>
         <li><a href="ecrire-message.html">Nouveau message</a></li>
-        <li><a href="inbox.html">Boîte de réception</a></li>
-        <li><a href="">Messages envoyés</a></li>
+        <li><a href="inbox.html">Boîte de réception</a> ${nbrMess}</li>
+        <li><a href="inbox-envoyer.html">Messages envoyés</a></li>
     </ul>
 </div>

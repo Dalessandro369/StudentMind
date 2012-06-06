@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import studentmind.facade.RangFacade;
-import studentmind.facade.ServicesLocator;
-import studentmind.facade.UtilisateurFacade;
+import studentmind.facade.*;
 import studentmind.model.EtatUtilisateur;
 import studentmind.model.Rang;
 import studentmind.model.Utilisateur;
@@ -23,6 +21,10 @@ import studentmind.model.Utilisateur;
  * @author ProjetJava
  */
 public class GererUtilisateurServlet extends HttpServlet {
+
+    HttpSession session;
+    Utilisateur userExp;
+    Utilisateur user;
 
     @Override
     public void init() throws ServletException {
@@ -35,10 +37,12 @@ public class GererUtilisateurServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
+        session = request.getSession(false);
         session.setAttribute("servlet", getClass().getName());
-
+        user = (Utilisateur) session.getAttribute("user");
+        request.setAttribute("nbrDocUser", afficherNombreDocUser());
         request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
+        request.setAttribute("nbrMess", afficherMess());
         request.getRequestDispatcher("gererUtilisateur.jsp").forward(request, response);
     }
 
@@ -49,6 +53,7 @@ public class GererUtilisateurServlet extends HttpServlet {
         String type = request.getParameter("type");
         String idUtilisateur = request.getParameter("id");
         String rang = request.getParameter("rang");
+        user = (Utilisateur) session.getAttribute("user");
 
         if (idUtilisateur != null && (!idUtilisateur.isEmpty())) {
             UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
@@ -66,8 +71,14 @@ public class GererUtilisateurServlet extends HttpServlet {
             try {
                 int i = Integer.parseInt(id);
                 request.setAttribute("ListeUtilisateur", afficherUtilisateur(Integer.parseInt(id)));
+                request.setAttribute("nbrDocUser", afficherNombreDocUser());
+                request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
+                request.setAttribute("nbrMess", afficherMess());
             } catch (Exception e) {
                 request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
+                request.setAttribute("nbrDocUser", afficherNombreDocUser());
+                request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
+                request.setAttribute("nbrMess", afficherMess());
             }
 
         }
@@ -168,5 +179,35 @@ public class GererUtilisateurServlet extends HttpServlet {
 
         return html;
 
+    }
+
+    public String afficherNombreDocUser() {
+
+        int i = 0;
+        if (user != null) {
+            DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+            i = dFacade.nbrDocUser(user.getIdUtilisateur());
+        }
+        if (i >= 1) {
+            return "(" + i + ")";
+        } else {
+            return "";
+        }
+    }
+
+    public String afficherMess() {
+        if (user != null) {
+            MessageFacade mFacade = ServicesLocator.getMessageFacade();
+            int nbrMessage = mFacade.nbrMessNonLu(user.getIdUtilisateur());
+            int nbrTotal = mFacade.nbrMessTotal(user.getIdUtilisateur());
+
+            if (nbrMessage == 0) {
+                return "";
+            } else {
+                return "(" + nbrMessage + "/" + nbrTotal + ")";
+            }
+        } else {
+            return "";
+        }
     }
 }

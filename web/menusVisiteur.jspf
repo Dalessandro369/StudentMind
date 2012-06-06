@@ -29,6 +29,11 @@
                     <li><strong><span class="">Nombre de documents : </span></strong>${nbrDoc}</li>
                 </ul>	
             </div>
+                
+            <div class="menu">
+                <header><h3>Top 3 des utilisateurs</h3></header>
+                ${topUser}
+            </div>
         </div>
 
         <div id="right_menu">
@@ -38,7 +43,8 @@
             </div>              
         </div>
     </c:when>        
-    <c:when test='${servlet == "studentmind.controller.InscriptionServlet"}'>
+    <c:when test='${servlet == "studentmind.controller.AfficherProfilServlet" or
+                    servlet == "studentmind.controller.InscriptionServlet"}'>
         <div id="right_menu">			
             <div class="menu">
                 <header><h3>Pourquoi s'inscrire</h3></header>
@@ -50,7 +56,7 @@
                 </ul>
             </div>
         </div>
-    </c:when>                        
+    </c:when>
     <c:when test='${servlet == "studentmind.controller.VoirDocumentServlet"         or
                     servlet == "studentmind.controller.ListeDocumentsServlet"       or
                     servlet == "studentmind.controller.RechercherDocumentServlet"}'>

@@ -13,10 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import studentmind.facade.CategorieFacade;
-import studentmind.facade.DocumentFacade;
-import studentmind.facade.ServicesLocator;
-import studentmind.facade.UtilisateurFacade;
+import studentmind.facade.*;
 import studentmind.model.Categorie;
 import studentmind.model.Document;
 import studentmind.model.Utilisateur;
@@ -28,6 +25,7 @@ import studentmind.model.Utilisateur;
 public class IndexServlet extends HttpServlet {
 
     HttpSession session;
+    Utilisateur user;
 
     @Override
     public void init() throws ServletException {
@@ -41,11 +39,11 @@ public class IndexServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         session = request.getSession(true);
-
+        user = (Utilisateur) session.getAttribute("user");
         session.setAttribute("servlet", getClass().getName());
         request.setAttribute("nbrDocUser", afficherNombreDocUser());
-
-
+        request.setAttribute("topUser", afficherTopUser());
+        request.setAttribute("nbrMess", afficherMess());
         request.setAttribute("ListeCategorie", afficherCategorie());
         request.setAttribute("DocumentUne", afficherDocument());
         request.setAttribute("nbrDoc", afficherNbrDoc());
@@ -60,8 +58,9 @@ public class IndexServlet extends HttpServlet {
 
         session = request.getSession(false);
         if (session != null) {
+            user = (Utilisateur) session.getAttribute("user");
             session.setAttribute("servlet", getClass().getName());
-            request.setAttribute("nbrDocUser", afficherNombreDocUser());        
+            request.setAttribute("nbrDocUser", afficherNombreDocUser());
             request.setAttribute("afficherAvatar", afficherImage());
         }
         request.setAttribute("ListeCategorie", afficherCategorie());
@@ -69,6 +68,7 @@ public class IndexServlet extends HttpServlet {
         request.setAttribute("nbrDoc", afficherNbrDoc());
         request.setAttribute("nbrMembre", afficherNbrMembre());
         request.setAttribute("top", afficherTop());
+        request.setAttribute("topUser", afficherTopUser());
 
         request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
@@ -193,7 +193,7 @@ public class IndexServlet extends HttpServlet {
     }
 
     public String afficherNombreDocUser() {
-        Utilisateur user = (Utilisateur) session.getAttribute("user");
+
         int i = 0;
         if (user != null) {
             DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
@@ -205,18 +205,47 @@ public class IndexServlet extends HttpServlet {
             return "";
         }
     }
-    public String afficherImage(){
-        
-        Utilisateur user = (Utilisateur) session.getAttribute("user");
+
+    public String afficherImage() {
+
+
         String html = "";
-        
-        if (user != null){
-              
-           //html = "<img src=\""+user.getFKidImage().getUrlImage()+"\" title=\"avatar\" alt=\"avatar\" />";alt=\"avatar\"
-            html = "<img src=\"upload/avatars/" + user.getFKidImage().getUrlImage()+"\" title=\"avatar\" alt=\"avatar\" height=\"80\" width=\"80\" />";
+
+        if (user != null) {
+
+            //html = "<img src=\""+user.getFKidImage().getUrlImage()+"\" title=\"avatar\" alt=\"avatar\" />";alt=\"avatar\"
+            html = "<img src=\"upload/avatars/" + user.getFKidImage().getUrlImage() + "\" title=\"avatar\" alt=\"avatar\" height=\"80\" width=\"80\" />";
             //System.out.println(user.getFKidImage().getUrlImage());
         }
-       
+
         return html;
     }
+
+    public String afficherTopUser() {
+        UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
+        String html = "<ul>";
+
+        List<Utilisateur> liste = uFacade.topUitlisateur();
+        for (Utilisateur user : liste) {
+            html += "<li><a href=\"afficher-profil.html?u=" + user.getIdUtilisateur() + "\">" + user.getNom() + " " + user.getPrenom() + "</a> (" + user.getPoints() + " pts.)</li>";
+        }
+        html += "</ul>";
+        return html;
+    }
+
+    public String afficherMess() {
+        if (user != null) {
+            MessageFacade mFacade = ServicesLocator.getMessageFacade();
+            int nbrMessage = mFacade.nbrMessNonLu(user.getIdUtilisateur());
+            int nbrTotal = mFacade.nbrMessTotal(user.getIdUtilisateur());
+
+            if (nbrMessage == 0) {
+                return "";
+            }
+            else {
+                return "(" + nbrMessage + "/" + nbrTotal + ")";
+            }
+        } else return "";
+    }
+    
 }

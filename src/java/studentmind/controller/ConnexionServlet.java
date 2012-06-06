@@ -13,10 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import studentmind.facade.CategorieFacade;
-import studentmind.facade.DocumentFacade;
-import studentmind.facade.ServicesLocator;
-import studentmind.facade.UtilisateurFacade;
+import studentmind.facade.*;
 import studentmind.model.Categorie;
 import studentmind.model.Document;
 import studentmind.model.Utilisateur;
@@ -27,6 +24,11 @@ import studentmind.utilities.HashMD5;
  * @author ProjetJava
  */
 public class ConnexionServlet extends HttpServlet {
+    
+    HttpSession session;
+    Utilisateur userExp;
+    Utilisateur user;
+    
 
     @Override
     public void init() throws ServletException {
@@ -43,12 +45,14 @@ public class ConnexionServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        
 
         //Recuperation du formulaire
         String email = request.getParameter("email");
         String mdp = request.getParameter("mdp");
 
-        HttpSession session = request.getSession(false);
+        session = request.getSession(false);
 
         if (session != null) {
             session.invalidate();
@@ -57,7 +61,7 @@ public class ConnexionServlet extends HttpServlet {
             request.setAttribute("test", "remplir formu correct");
         } else {
             UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
-            Utilisateur user = null;
+             
             user = uFacade.findEmail(HashMD5.encode(email));
             if (user != null) {
                 if (user.getFKidetatutlisateur().getIdEtatUtilisateur() == 2) {
@@ -65,7 +69,9 @@ public class ConnexionServlet extends HttpServlet {
                         session = request.getSession(true);
                         session.setAttribute("user", user);
                         session.setAttribute("rang", user.getFKidrang().getIdRang());
-                        session.setAttribute("servlet", getClass().getName());                    
+                        session.setAttribute("servlet", getClass().getName());
+                        request.setAttribute("nbrDocUser", afficherNombreDocUser());
+                        request.setAttribute("nbrMess",afficherMess());
                     } else {
                         request.setAttribute("test", "mdp errone donc remettre l'email dans le truc" + user.getFKidetatutlisateur() + user.getEmail());
                     }
@@ -73,14 +79,16 @@ public class ConnexionServlet extends HttpServlet {
                     request.setAttribute("test", "Veuillez activer votre compte " + user.getFKidetatutlisateur() + user.getEmail());
                 }
             } else {
-                request.setAttribute("test", "Rien de bon");
+                 request.getRequestDispatcher("inscription.jsp").forward(request, response);
             }
         }
+        request.setAttribute("afficherAvatar", afficherImage());
         request.setAttribute("ListeCategorie", afficherCategorie());
         request.setAttribute("DocumentUne", afficherDocument());
         request.setAttribute("nbrDoc", afficherNbrDoc());
         request.setAttribute("nbrMembre", afficherNbrMembre());
         request.setAttribute("top", afficherTop());
+        request.setAttribute("topUser", afficherTopUser());
         request.getRequestDispatcher("index.jsp").forward(request, response);   
     }
  public String afficherCategorie() {
@@ -98,6 +106,20 @@ public class ConnexionServlet extends HttpServlet {
                         + "</ul>";
             }
         }
+        return html;
+    }
+    public String afficherImage(){
+        
+      
+        String html = "";
+        
+        if (user != null){
+              
+           //html = "<img src=\""+user.getFKidImage().getUrlImage()+"\" title=\"avatar\" alt=\"avatar\" />";alt=\"avatar\"
+            html = "<img src=\"upload/avatars/" + user.getFKidImage().getUrlImage()+"\" title=\"avatar\" alt=\"avatar\" height=\"80\" width=\"80\" />";
+            //System.out.println(user.getFKidImage().getUrlImage());
+        }
+       
         return html;
     }
     public String afficherNbrDoc(){
@@ -197,5 +219,47 @@ public class ConnexionServlet extends HttpServlet {
         }
         html += "</ul>";
         return html;
+    }
+    
+    public String afficherNombreDocUser() {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        int i = 0;
+        if (user != null) {
+            DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+            i = dFacade.nbrDocUser(user.getIdUtilisateur());
+        }
+        if (i >= 1) {
+            return "(" + i + ")";
+        } else {
+            return "";
+        }
+    }
+    
+    public String afficherTopUser() {
+        UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
+        String html = "<ul>";
+
+        List<Utilisateur> liste = uFacade.topUitlisateur();
+        for (Utilisateur user : liste) {
+            html += "<li><a href=\"afficher-profil.html?u="+user.getIdUtilisateur()+"\">" + user.getNom() + " " + user.getPrenom() + "</a> (" + user.getPoints() + " pts.)</li>";
+        }
+        html += "</ul>";
+        return html;
+
+    }
+    
+    public String afficherMess() {
+        if (user != null) {
+            MessageFacade mFacade = ServicesLocator.getMessageFacade();
+            int nbrMessage = mFacade.nbrMessNonLu(user.getIdUtilisateur());
+            int nbrTotal = mFacade.nbrMessTotal(user.getIdUtilisateur());
+
+            if (nbrMessage == 0) {
+                return "";
+            }
+            else {
+                return "(" + nbrMessage + "/" + nbrTotal + ")";
+            }
+        } else return "";
     }
 }

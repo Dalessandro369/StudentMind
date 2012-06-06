@@ -5,7 +5,6 @@
 package studentmind.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -14,13 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import studentmind.facade.CategorieFacade;
-import studentmind.facade.DocumentFacade;
-import studentmind.facade.ServicesLocator;
-import studentmind.facade.UtilisateurFacade;
+import studentmind.facade.*;
 import studentmind.model.Categorie;
 import studentmind.model.Document;
-import studentmind.model.Image;
 import studentmind.model.Utilisateur;
 
 /**
@@ -47,7 +42,8 @@ public class AfficherProfilServlet extends HttpServlet {
 
         session = request.getSession(false);
         session.setAttribute("servlet", getClass().getName());
-        
+        request.setAttribute("nbrDocUser", afficherNombreDocUser());
+         request.setAttribute("nbrMess",afficherMess());
         String idUser = request.getParameter("u");
         try {
             request.setAttribute("information", afficherInformation(Integer.parseInt(idUser)));
@@ -87,12 +83,12 @@ public class AfficherProfilServlet extends HttpServlet {
                 + "<label for=\"prenom\">Prénom :</label><span class=\"profilPrenom\">" + user.getPrenom() + "</span><br/>"
                 + "<label for=\"dateNaissance\">Date de naissance :</label><span class=\"profilDOB\">" + user.getDateNaissance() + "</span><br/>"
                 + "<label for=\"sexe\">Sexe :</label><span class=\"profilSexe\">" + user.getSexe() + "</span><br/>"
-                + "<label for=\"pays\">Pays :</label><span class=\"profilPays\">" + user.getFKidpays().getNomPays() + "</span>"
+                + "<label for=\"pays\">Nationalité :</label><span class=\"profilPays\">" + user.getFKidpays().getNomPays() + "</span>"
                 + " </fieldset>";
 
         html += "<fieldset>"
                 + "<legend>Profil étudiant</legend>"
-                + "<img src='../avatars/"+user.getFKidImage().getUrlImage()+" alt='avatar' title='avatar'/><br/>"
+                + "<div class='avatar_voir_profil'><img src=\"upload/avatars/" + user.getFKidImage().getUrlImage()+"\" width='73' height='73' alt='avatar' title='avatar'/></div><br/>"
                 + "<label for=\"ecole\">Ecole / Université : </label><span class=\"profilNom\">"+user.getEcole()+"</span><br/>"
                 + "<label for=\"site\">Site Web : </label><span class=\"profilNom\">"+user.getSiteWeb()+"</span><br/>"
                 + "<label for=\"ville\">Ville : </label><span class=\"profilNom\">"+user.getVille()+"</span><br/>"
@@ -101,6 +97,21 @@ public class AfficherProfilServlet extends HttpServlet {
 
         
         return html;
+    }
+         public String afficherMess() {
+             Utilisateur userTest = (Utilisateur) session.getAttribute("user");
+        if (userTest != null) {
+            MessageFacade mFacade = ServicesLocator.getMessageFacade();
+            int nbrMessage = mFacade.nbrMessNonLu(userTest.getIdUtilisateur());
+            int nbrTotal = mFacade.nbrMessTotal(userTest.getIdUtilisateur());
+
+            if (nbrMessage == 0) {
+                return "";
+            }
+            else {
+                return "(" + nbrMessage + "/" + nbrTotal + ")";
+            }
+        } else return "";
     }
     public String afficherCategorie() {
 

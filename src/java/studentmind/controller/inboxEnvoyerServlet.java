@@ -27,7 +27,9 @@ import studentmind.model.Utilisateur;
  */
 public class inboxEnvoyerServlet extends HttpServlet {
 
-    HttpSession session = null;
+    HttpSession session;
+    Utilisateur userExp;
+    Utilisateur user;
     
     @Override
     public void init() throws ServletException {
@@ -45,7 +47,7 @@ public class inboxEnvoyerServlet extends HttpServlet {
         session = request.getSession(false);
         if ((session  != null) && ((Utilisateur) session.getAttribute("user") != null)) {
         session.setAttribute("servlet", getClass().getName());
-
+        request.setAttribute("nbrMess",afficherMess());
         request.setAttribute("ListeMessageEnvoyer", afficherMessageEnvoyer());
         request.getRequestDispatcher("inboxEnvoyer.jsp").forward(request, response);
         }
@@ -86,7 +88,7 @@ public class inboxEnvoyerServlet extends HttpServlet {
         MessageFacade mFacade = ServicesLocator.getMessageFacade();
         UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
         Utilisateur id = (Utilisateur) session.getAttribute("user");
-        Utilisateur user = uFacade.findId(id.getIdUtilisateur());
+        user = uFacade.findId(id.getIdUtilisateur());
         List<Message> liste = mFacade.findMessEnvoyer(user.getIdUtilisateur());
         
         for (Message mes : liste) {
@@ -98,7 +100,7 @@ public class inboxEnvoyerServlet extends HttpServlet {
                     + "<input type='hidden' value='"+mes.getIdMessage()+"' name='id'/>"
                     + "</form>"
                     +"</td>"
-                    + "<td class=\"lu\"><a href=\"\">" + mes.getFKidutilisateurexp().getNom() + " " + mes.getFKidutilisateurexp().getPrenom() + "</a></td>"
+                    + "<td class=\"lu\"><a href='afficher-profil.html?u="+mes.getFKidutilisateurdes().getIdUtilisateur()+"'>" + mes.getFKidutilisateurdes().getNom() + " " + mes.getFKidutilisateurdes().getPrenom() + "</a></td>"
                     + "<td class=\"lu\">"+mes.getObjetMessage() + "</td>";
             Calendar cal = new GregorianCalendar();
             cal.setTimeInMillis(mes.getDateMessage().getTime());
@@ -156,5 +158,18 @@ public class inboxEnvoyerServlet extends HttpServlet {
         return html;
     }
 
-  
+    public String afficherMess() {
+        if (user != null) {
+            MessageFacade mFacade = ServicesLocator.getMessageFacade();
+            int nbrMessage = mFacade.nbrMessNonLu(user.getIdUtilisateur());
+            int nbrTotal = mFacade.nbrMessTotal(user.getIdUtilisateur());
+
+            if (nbrMessage == 0) {
+                return "";
+            }
+            else {
+                return "(" + nbrMessage + "/" + nbrTotal + ")";
+            }
+        } else return "";
+    }  
 }
