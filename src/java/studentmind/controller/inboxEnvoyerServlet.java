@@ -46,12 +46,13 @@ public class inboxEnvoyerServlet extends HttpServlet {
             throws ServletException, IOException {
         session = request.getSession(false);
         if ((session  != null) && ((Utilisateur) session.getAttribute("user") != null)) {
-        session.setAttribute("servlet", getClass().getName());
-        request.setAttribute("nbrMess",afficherMess());
-        request.setAttribute("ListeMessageEnvoyer", afficherMessageEnvoyer());
-        request.getRequestDispatcher("inboxEnvoyer.jsp").forward(request, response);
+            session.setAttribute("servlet", getClass().getName());
+            request.setAttribute("nbrMess",afficherMess());
+            request.setAttribute("ListeMessageEnvoyer", afficherMessageEnvoyer());
+            request.getRequestDispatcher("inboxEnvoyer.jsp").forward(request, response);
+        } else{
+            request.getRequestDispatcher("inscription.jsp").forward(request, response);            
         }
-       // 
     }
 
    

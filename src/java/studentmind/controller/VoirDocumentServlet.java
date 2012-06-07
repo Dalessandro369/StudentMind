@@ -70,12 +70,13 @@ public class VoirDocumentServlet extends HttpServlet {
             if (userTest != null) {
                 test = nFacade.verifNote(Integer.parseInt(idDoc), userTest.getIdUtilisateur());
                 int testTelechargement = tFacade.nbrTelechargerVerif(Integer.parseInt(idDoc), userTest.getIdUtilisateur());
-                System.out.println(test + " " + testTelechargement);
+                
                 if ((test == 0) && (testTelechargement == 1)) {
                     html += "<div class=\"menu\">"
                             + "<header><h3>Noter le document</h3></header>"
+                            +"<label for='moyenne'>Note : </label>"
                             + "<form method='POST' action='voir-document.html'>"
-                            + "<select name='note' >"
+                            + "<select name='note' id='moyenne' >"
                             + "<option value='1'>1</option>"
                             + "<option value='2'>2</option>"
                             + "<option value='3'>3</option>"

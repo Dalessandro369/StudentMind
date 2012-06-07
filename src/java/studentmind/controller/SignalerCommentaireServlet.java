@@ -58,7 +58,7 @@ public class SignalerCommentaireServlet extends HttpServlet {
 
             html += " <li><strong>Type : </strong>" + document.getFKidtype().getNomType() + "</li>"
                     + "<li><strong>Matière : </strong>" + document.getFKidcategorie().getNomCategorie() + "</li>"
-                    + "<li><strong>Taille du fichier : </strong>" + document.getTaille() + " Mo</li>"
+                    + "<li><strong>Taille du fichier : </strong>" + document.getTaille() + " Ko</li>"
                     + "<li><strong>Type de fichier : </strong>" + document.getFKidextension().getNomExtension() + "( " + document.getFKidextension().getFKidfamille().getNomFamille() + " )</li>"
                     + "<li><strong>Téléchargé : </strong> ";
             
@@ -67,7 +67,7 @@ public class SignalerCommentaireServlet extends HttpServlet {
 
             html += tFacade.nbrTelecharger(document.getIdDocument()) + " fois</li>"
                     + "<li>"
-                    + "<strong>Moyenne : </strong>"
+                    + "<strong>Moyenne : </strong>" +  + nFacade.moyenne(document.getIdDocument()) + "/5"
                     + "<div class=\"avg_note\" data=\"" + nFacade.moyenne(document.getIdDocument()) + "\"></div>"
                     + "<script type=\"text/javascript\">"
                     + "$(document).ready(function(){"
@@ -161,17 +161,17 @@ public class SignalerCommentaireServlet extends HttpServlet {
             request.setAttribute("nbrDocUser", afficherNombreDocUser());
 
             request.getRequestDispatcher("voirDocument.jsp").forward(request, response);
+        } else {
+            session.setAttribute("servlet", getClass().getName());
+            request.setAttribute("nbrDocUser", afficherNombreDocUser());
+
+            request.setAttribute("ListeCategorie", afficherCategorie());
+            request.setAttribute("DocumentUne", afficherDocument());
+            request.setAttribute("nbrDoc", afficherNbrDoc());
+            request.setAttribute("nbrMembre", afficherNbrMembre());
+            request.setAttribute("top", afficherTop());
+            request.getRequestDispatcher("index.jsp").forward(request, response);            
         }
-        session.setAttribute("servlet", getClass().getName());
-        request.setAttribute("nbrDocUser", afficherNombreDocUser());
-
-
-        request.setAttribute("ListeCategorie", afficherCategorie());
-        request.setAttribute("DocumentUne", afficherDocument());
-        request.setAttribute("nbrDoc", afficherNbrDoc());
-        request.setAttribute("nbrMembre", afficherNbrMembre());
-        request.setAttribute("top", afficherTop());
-        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     @Override

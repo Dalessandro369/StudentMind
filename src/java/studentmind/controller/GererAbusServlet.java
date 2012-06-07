@@ -38,14 +38,18 @@ public class GererAbusServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         session = request.getSession(false);
-        session.setAttribute("servlet", getClass().getName());
-        user = (Utilisateur) session.getAttribute("user");
-        request.setAttribute("ListerAbus", afficherAbus());
-        request.setAttribute("nbrDocUser", afficherNombreDocUser());
-        request.setAttribute("nbrMess", afficherMess());
-        request.setAttribute("nbrCom", afficherNbrComSignaler()); 
-        request.setAttribute("nbrDocFile", afficherNbrDocAttente()); 
-        request.getRequestDispatcher("gererAbus.jsp").forward(request,response);
+        if ((session  != null) && ((Utilisateur) session.getAttribute("user") != null)) {        
+            session.setAttribute("servlet", getClass().getName());
+            user = (Utilisateur) session.getAttribute("user");
+            request.setAttribute("ListerAbus", afficherAbus());
+            request.setAttribute("nbrDocUser", afficherNombreDocUser());
+            request.setAttribute("nbrMess", afficherMess());
+            request.setAttribute("nbrCom", afficherNbrComSignaler()); 
+            request.setAttribute("nbrDocFile", afficherNbrDocAttente()); 
+            request.getRequestDispatcher("gererAbus.jsp").forward(request,response);
+        } else{
+             request.getRequestDispatcher("index.jsp").forward(request, response);           
+        }
     }
 
     @Override
@@ -82,7 +86,7 @@ public class GererAbusServlet extends HttpServlet {
         }            
                 
                 
-                
+        request.setAttribute("nbrDocUser", afficherNombreDocUser());              
         request.setAttribute("ListerAbus", afficherAbus());
         request.setAttribute("nbrMess", afficherMess());
         request.setAttribute("nbrCom", afficherNbrComSignaler()); 

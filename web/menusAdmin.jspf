@@ -97,7 +97,8 @@
             <%@ include file="profil_messagerie.jspf"%>       
         </div>
     </c:when>   
-    <c:when test='${servlet == "studentmind.controller.VoirDocumentServlet"}'>
+    <c:when test='${servlet == "studentmind.controller.VoirDocumentServlet" or
+                   servlet == "studentmind.controller.SignalerCommentaireServlet"}'>
         <div id="right_menu">
             <%@ include file="profil_messagerie.jspf"%>             
             
@@ -142,6 +143,7 @@
                                 req.onreadystatechange = function(){ 
                                     if (req.readyState == 4 && req.status == 200) {
                                         document.location.href="http://localhost:8080/StudentMind/upload/documents/"+urlDoc;   
+                                      
                                     }
                                 }
                                 req.send();

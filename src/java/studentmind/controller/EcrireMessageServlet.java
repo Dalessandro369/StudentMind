@@ -45,28 +45,26 @@ public class EcrireMessageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
        
         session = request.getSession(false);
-        if (session  != null) {            
-        userExp = (Utilisateur) session.getAttribute("user");
-        session.setAttribute("servlet", getClass().getName());
-        request.setAttribute("nbrDoc", afficherNbrDoc());
-        request.setAttribute("nbrDocUser", afficherNombreDocUser());
-        request.setAttribute("nbrMess",afficherMess());
-       
-        idUser = request.getParameter("u");
-        idMes = request.getParameter("m");
-       
-        if (userExp != null){
-        if (idUser == null) {
-            //nouveau
-            request.setAttribute("message", afficherNouveau());
-        }else {
-            //repondre
-             request.setAttribute("message", afficherRepondre());
-        }
-        request.getRequestDispatcher("ecrireMessage.jsp").forward(request,response);
-        }
+        if ((session != null) && ((Utilisateur) session.getAttribute("user") != null)) {          
+            userExp = (Utilisateur) session.getAttribute("user");
+            session.setAttribute("servlet", getClass().getName());
+            request.setAttribute("nbrDoc", afficherNbrDoc());
+            request.setAttribute("nbrDocUser", afficherNombreDocUser());
+            request.setAttribute("nbrMess",afficherMess());
+
+            idUser = request.getParameter("u");
+            idMes = request.getParameter("m");
+
+            if (userExp != null){
+                if (idUser == null) { //nouveau
+                    request.setAttribute("message", afficherNouveau());
+                }else { //repondre
+                    request.setAttribute("message", afficherRepondre());
+                }
+                request.getRequestDispatcher("ecrireMessage.jsp").forward(request,response);
+            }
         } else{
-            request.getRequestDispatcher("index.jsp").forward(request,response);
+            request.getRequestDispatcher("inscription.jsp").forward(request,response);
         }
     }
 
@@ -158,9 +156,11 @@ public class EcrireMessageServlet extends HttpServlet {
         MessageFacade mFacade = ServicesLocator.getMessageFacade();
         int nbrMessage = mFacade.nbrMessNonLu(userExp.getIdUtilisateur());
         int nbrTotal = mFacade.nbrMessTotal(userExp.getIdUtilisateur());
+        if (nbrMessage >= 1){
+            return "("+nbrMessage+"/"+nbrTotal+")";
+        }
+            return "";
         
-        
-        return "("+nbrMessage+"/"+nbrTotal+")";
         
     }
     public String afficherRepondre(){

@@ -1,7 +1,7 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
 <div class="menu">
-    <header><h3>${user.prenom} ${user.nom}</h3></header>
+    <header><h3>${user.prenom} ${user.nom} - ${user.points} point(s)</h3></header>
     <div id="avatar">
         ${afficherAvatar}
     </div>

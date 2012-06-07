@@ -58,12 +58,14 @@ public class ConnexionServlet extends HttpServlet {
             session.invalidate();
         }
         if ((email == null || email.isEmpty()) && (mdp == null) || mdp.isEmpty()) {
-            request.setAttribute("test", "remplir formu correct");
+                    request.setAttribute("etatUpload", "Remplir correctement les champs");
+                    request.getRequestDispatcher("uploadTermine.jsp").forward(request, response);
         } else {
             UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
              
             user = uFacade.findEmail(HashMD5.encode(email));
             if (user != null) {
+                if (user.getFKidetatutlisateur().getIdEtatUtilisateur() != 3){
                 if (user.getFKidetatutlisateur().getIdEtatUtilisateur() == 2) {
                     if (user.getPassword().equals(HashMD5.encode(mdp))) {
                         session = request.getSession(true);
@@ -73,11 +75,14 @@ public class ConnexionServlet extends HttpServlet {
                         request.setAttribute("nbrDocUser", afficherNombreDocUser());
                         request.setAttribute("nbrMess",afficherMess());
                     } else {
-                        request.setAttribute("test", "mdp errone donc remettre l'email dans le truc" + user.getFKidetatutlisateur() + user.getEmail());
+                         request.setAttribute("etatUpload", "Votre mot de passe est erroné !");
+                         request.getRequestDispatcher("uploadTermine.jsp").forward(request, response);
                     }
                 } else {
-                    request.setAttribute("test", "Veuillez activer votre compte " + user.getFKidetatutlisateur() + user.getEmail());
+                    request.setAttribute("etatUpload", "Veuillez activer votre compte");
+                    request.getRequestDispatcher("uploadTermine.jsp").forward(request, response);
                 }
+                }else  request.getRequestDispatcher("inscription.jsp").forward(request, response);
             } else {
                  request.getRequestDispatcher("inscription.jsp").forward(request, response);
             }
@@ -116,7 +121,7 @@ public class ConnexionServlet extends HttpServlet {
         if (user != null){
               
            //html = "<img src=\""+user.getFKidImage().getUrlImage()+"\" title=\"avatar\" alt=\"avatar\" />";alt=\"avatar\"
-            html = "<img src=\"upload/avatars/" + user.getFKidImage().getUrlImage()+"\" title=\"avatar\" alt=\"avatar\" height=\"80\" width=\"80\" />";
+            html = "<img src=\"upload/avatars/" + user.getFKidImage().getUrlImage()+"\" title=\"avatar\" alt=\"avatar\" height=\"70\" width=\"70\" />";
             //System.out.println(user.getFKidImage().getUrlImage());
         }
        

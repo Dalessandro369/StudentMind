@@ -5,7 +5,6 @@
 package studentmind.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -14,14 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import studentmind.facade.CategorieFacade;
-import studentmind.facade.DocumentFacade;
-import studentmind.facade.ServicesLocator;
-import studentmind.facade.UtilisateurFacade;
+import studentmind.facade.*;
 import studentmind.model.Categorie;
 import studentmind.model.Document;
-import studentmind.utilities.EmailSender;
-import studentmind.utilities.HashMD5;
+import studentmind.model.Utilisateur;
 
 /**
  *
@@ -29,6 +24,8 @@ import studentmind.utilities.HashMD5;
  */
 public class ContactServlet extends HttpServlet {
 
+       HttpSession session;
+       Utilisateur user;
     @Override
     public void init() throws ServletException {
     }
@@ -40,8 +37,9 @@ public class ContactServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
+        session = request.getSession(false);
         session.setAttribute("servlet", getClass().getName());
+        user = (Utilisateur) session.getAttribute("user");
         request.setAttribute("ListeCategorie", afficherCategorie());
         request.setAttribute("DocumentUne", afficherDocument());
         request.setAttribute("nbrDoc", afficherNbrDoc());
@@ -85,12 +83,22 @@ public class ContactServlet extends HttpServlet {
             champOk = false;
         }
 
-        EmailSender es = new EmailSender(
+      /*  EmailSender es = new EmailSender(
                 // ici c contact.g
                 email, "contact.studentmind@gmail.com", "[Quelqu'un veut vous parler] " + objet, "Un message vous a été envoyé depuis le formulaire de contact de StudentMind !"
                 + "Il vous a été envoyé par " + nom + "(" + email + ")\n\n"
-                + message);
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+                + message);*/
+        user = (Utilisateur) session.getAttribute("user");
+        request.setAttribute("nbrDocUser", afficherNombreDocUser());
+        request.setAttribute("topUser", afficherTopUser());
+        request.setAttribute("nbrMess", afficherMess());
+        request.setAttribute("ListeCategorie", afficherCategorie());
+        request.setAttribute("DocumentUne", afficherDocument());
+        request.setAttribute("nbrDoc", afficherNbrDoc());
+        request.setAttribute("nbrMembre", afficherNbrMembre());
+        request.setAttribute("top", afficherTop());
+        request.setAttribute("afficherAvatar", afficherImage());
+        request.getRequestDispatcher("contact.jsp").forward(request, response);
     }
 
     public String afficherCategorie() {
@@ -213,5 +221,59 @@ public class ContactServlet extends HttpServlet {
         html += "</ul>";
         return html;
         
+    }
+        public String afficherNombreDocUser() {
+
+        int i = 0;
+        if (user != null) {
+            DocumentFacade dFacade = ServicesLocator.getDocumentFacade();
+            i = dFacade.nbrDocUser(user.getIdUtilisateur());
+        }
+        if (i >= 1) {
+            return "(" + i + ")";
+        } else {
+            return "";
+        }
+    }
+
+    public String afficherImage() {
+
+
+        String html = "";
+
+        if (user != null) {
+
+            //html = "<img src=\""+user.getFKidImage().getUrlImage()+"\" title=\"avatar\" alt=\"avatar\" />";alt=\"avatar\"
+            html = "<img src=\"upload/avatars/" + user.getFKidImage().getUrlImage() + "\" title=\"avatar\" alt=\"avatar\" height=\"70\" width=\"70\" />";
+            //System.out.println(user.getFKidImage().getUrlImage());
+        }
+
+        return html;
+    }
+        public String afficherTopUser() {
+        UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
+        String html = "<ul>";
+
+        List<Utilisateur> liste = uFacade.topUitlisateur();
+        for (Utilisateur user2 : liste) {
+            html += "<li><a href=\"afficher-profil.html?u=" + user2.getIdUtilisateur() + "\">" + user2.getNom() + " " + user2.getPrenom() + "</a> (" + user2.getPoints() + " pts.)</li>";
+        }
+        html += "</ul>";
+        return html;
+    }
+
+    public String afficherMess() {
+        if (user != null) {
+            MessageFacade mFacade = ServicesLocator.getMessageFacade();
+            int nbrMessage = mFacade.nbrMessNonLu(user.getIdUtilisateur());
+            int nbrTotal = mFacade.nbrMessTotal(user.getIdUtilisateur());
+
+            if (nbrMessage == 0) {
+                return "";
+            }
+            else {
+                return "(" + nbrMessage + "/" + nbrTotal + ")";
+            }
+        } else return "";
     }
 }

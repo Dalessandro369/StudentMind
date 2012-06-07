@@ -40,7 +40,7 @@ public class AfficherProfilServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        session = request.getSession(false);
+        session = request.getSession(false);       
         session.setAttribute("servlet", getClass().getName());
         request.setAttribute("nbrDocUser", afficherNombreDocUser());
          request.setAttribute("nbrMess",afficherMess());
@@ -48,18 +48,15 @@ public class AfficherProfilServlet extends HttpServlet {
         try {
             request.setAttribute("information", afficherInformation(Integer.parseInt(idUser)));
         }catch (NumberFormatException e){
-            
-        request.setAttribute("ListeCategorie", afficherCategorie());
-        request.setAttribute("DocumentUne", afficherDocument());
-        request.setAttribute("nbrDoc", afficherNbrDoc());
-        request.setAttribute("nbrMembre", afficherNbrMembre());
-        request.setAttribute("top", afficherTop());
-        request.setAttribute("topUser", afficherTopUser());
-        request.getRequestDispatcher("index.jsp").forward(request, response);            
-            
+            request.setAttribute("ListeCategorie", afficherCategorie());
+            request.setAttribute("DocumentUne", afficherDocument());
+            request.setAttribute("nbrDoc", afficherNbrDoc());
+            request.setAttribute("nbrMembre", afficherNbrMembre());
+            request.setAttribute("top", afficherTop());
+            request.setAttribute("topUser", afficherTopUser());
+            request.getRequestDispatcher("index.jsp").forward(request, response);            
         }
         
-       
         request.getRequestDispatcher("profil.jsp").forward(request, response);
 
     }

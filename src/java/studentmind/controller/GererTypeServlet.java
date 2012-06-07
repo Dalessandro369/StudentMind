@@ -42,12 +42,16 @@ public class GererTypeServlet extends HttpServlet {
         
         
         session = request.getSession(false);
-        session.setAttribute("servlet", getClass().getName());
-        user = (Utilisateur) session.getAttribute("user");
-        request.setAttribute("ListeType", afficheType());
-        request.setAttribute("nbrDocUser", afficherNombreDocUser());
-        request.setAttribute("nbrMess", afficherMess());
-        request.getRequestDispatcher("gererType.jsp").forward(request,response);
+        if ((session != null) && ((Utilisateur) session.getAttribute("user") != null)) {
+            session.setAttribute("servlet", getClass().getName());
+            user = (Utilisateur) session.getAttribute("user");
+            request.setAttribute("ListeType", afficheType());
+            request.setAttribute("nbrDocUser", afficherNombreDocUser());
+            request.setAttribute("nbrMess", afficherMess());
+            request.getRequestDispatcher("gererType.jsp").forward(request,response);
+        } else{
+            request.getRequestDispatcher("index.jsp").forward(request, response);           
+        }
     }
 
     @Override

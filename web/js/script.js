@@ -14,7 +14,7 @@ function Editer(id) {
         $("#des"+id).removeAttr("disabled");
         $("#famille"+id).removeAttr("disabled");
     });
-    document.getElementById("id"+id).value = "Modifier"
+    document.getElementById("id"+id).value = "Modifier";
 }
 
 function Supprimer(id) {
@@ -25,7 +25,7 @@ function Supprimer(id) {
         $("#ligne"+id+" .modifier").show();
         $("#ligne"+id+" .suppresionConfirmation").show();     
     });   
-    document.getElementById("id"+id).value = "Supprimer"
+    document.getElementById("id"+id).value = "Supprimer";
 
 }
 
@@ -58,19 +58,20 @@ function inputRecherche(){
     
     id = valeurRecherche.split('-')[0];
     id = id.split(' ')[0];
-    
+    alert(id);
     var exp = new RegExp("^[0-9]*$","g");
     if (exp.test(id)){
         document.getElementById("tags").value = id;
+     
     }else  document.getElementById("tags").value = "";
     
-    $(document).ready(function(){
-        $("form[name='user']").submit();
-    });  
+  $(document).ready(function(){
+     $("form[name='user']").submit();
+  });  
 }
 
 function validerUser(){
-    
+  
     document.getElementById("type").value = "Modifier";     
     
     $(document).ready(function(){

@@ -44,14 +44,17 @@ public class InboxServlet extends HttpServlet {
 
         session = request.getSession(false);
         if ((session  != null) && ((Utilisateur) session.getAttribute("user") != null)) {
-        session.setAttribute("servlet", getClass().getName());
-        user = (Utilisateur) session.getAttribute("user");
-        request.setAttribute("nbrMess",afficherMess());
-        request.setAttribute("nbrDocUser", afficherNombreDocUser());
-        request.setAttribute("ListeMessageReception", afficherMessageRecu());
-        request.getRequestDispatcher("inbox.jsp").forward(request, response);
+            session.setAttribute("servlet", getClass().getName());
+            user = (Utilisateur) session.getAttribute("user");
+            request.setAttribute("nbrMess",afficherMess());
+            request.setAttribute("nbrDocUser", afficherNombreDocUser());
+            request.setAttribute("ListeMessageReception", afficherMessageRecu());
+            request.getRequestDispatcher("inbox.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("inscription.jsp").forward(request, response);
         }
-           request.getRequestDispatcher("inscription.jsp").forward(request, response);
+        
+           
     }
 
     @Override

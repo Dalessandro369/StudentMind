@@ -41,13 +41,17 @@ public class GererCategorieServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         session = request.getSession(false);
-        session.setAttribute("servlet", getClass().getName());
-        user = (Utilisateur) session.getAttribute("user");
-        request.setAttribute("nbrMess", afficherMess());
-        request.setAttribute("ListeCategorie", afficheCategorie());
-        request.setAttribute("nbrDocUser", afficherNombreDocUser());
+        if ((session  != null) && ((Utilisateur) session.getAttribute("user") != null)) { 
+            session.setAttribute("servlet", getClass().getName());
+            user = (Utilisateur) session.getAttribute("user");
+            request.setAttribute("nbrMess", afficherMess());
+            request.setAttribute("ListeCategorie", afficheCategorie());
+            request.setAttribute("nbrDocUser", afficherNombreDocUser());
 
-        request.getRequestDispatcher("gererCategorie.jsp").forward(request, response);
+            request.getRequestDispatcher("gererCategorie.jsp").forward(request, response);
+        } else{
+            request.getRequestDispatcher("index.jsp").forward(request, response); 
+        }
     }
 
     @Override

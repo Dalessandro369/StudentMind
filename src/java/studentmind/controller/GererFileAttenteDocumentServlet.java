@@ -41,12 +41,16 @@ public class GererFileAttenteDocumentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         session = request.getSession(false);
-        session.setAttribute("servlet", getClass().getName());
-        user = (Utilisateur) session.getAttribute("user");
-        request.setAttribute("nbrMess", afficherMess());
-        request.setAttribute("nbrDocUser", afficherNombreDocUser());
-        request.setAttribute("ListeFileAttente", afficheFileAttenteDocument());
-        request.getRequestDispatcher("gererFileAttenteDocument.jsp").forward(request,response);
+        if ((session != null) && ((Utilisateur) session.getAttribute("user") != null)) {
+            session.setAttribute("servlet", getClass().getName());
+            user = (Utilisateur) session.getAttribute("user");
+            request.setAttribute("nbrMess", afficherMess());
+            request.setAttribute("nbrDocUser", afficherNombreDocUser());
+            request.setAttribute("ListeFileAttente", afficheFileAttenteDocument());
+            request.getRequestDispatcher("gererFileAttenteDocument.jsp").forward(request,response);
+        } else{
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
     }
 
     @Override
@@ -96,7 +100,7 @@ public class GererFileAttenteDocumentServlet extends HttpServlet {
         List<Document> liste = dFacade.listDocAttente();
         for (Document doc : liste){
                html += "<tr>"                    
-                    + "<td class=\"colonne_nom\">"+doc.getTitreDocument()+"</td>"               
+                    + "<td class=\"colonne_nom\"><a href=\"upload/documents/"+doc.getNomFichier()+"\">"+doc.getTitreDocument()+"</a></td>"               
                     + "<td>"+doc.getDescriptionDocument()+"</td>"
                     + "<td class=\"colonne_description\">"+doc.getFKidutilisateur().getNom()+" "+doc.getFKidutilisateur().getPrenom()+"</td>"
                     + "<td>"+doc.getFKidcategorie().getNomCategorie()+"</td>"

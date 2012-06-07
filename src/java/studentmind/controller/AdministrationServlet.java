@@ -37,17 +37,18 @@ public class AdministrationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         session = request.getSession(false);
-        session.setAttribute("servlet", getClass().getName());
-        user = (Utilisateur) session.getAttribute("user");
-        session.setAttribute("rang", user.getFKidrang().getIdRang());
-        request.setAttribute("nbrDocUser", afficherNombreDocUser());
-        request.setAttribute("nbrMess",afficherMess());
-        /* faire une vérification qui dit que si le rang est différent de celui d'administrateur, alors on affiche pas la page ! */
-        
-        request.setAttribute("nbrCom", afficherNbrComSignaler()); 
-        request.setAttribute("nbrDocFile", afficherNbrDocAttente()); 
-        
-        request.getRequestDispatcher("/admin.jsp").forward(request,response); 
+        if ((session  != null) && ((Utilisateur) session.getAttribute("user") != null)) {
+            session.setAttribute("servlet", getClass().getName());
+            user = (Utilisateur) session.getAttribute("user");
+            session.setAttribute("rang", user.getFKidrang().getIdRang());
+            request.setAttribute("nbrDocUser", afficherNombreDocUser());
+            request.setAttribute("nbrMess",afficherMess());
+            request.setAttribute("nbrCom", afficherNbrComSignaler()); 
+            request.setAttribute("nbrDocFile", afficherNbrDocAttente()); 
+            request.getRequestDispatcher("/admin.jsp").forward(request,response);
+        } else{
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
     }
 
  

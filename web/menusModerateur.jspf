@@ -87,7 +87,8 @@
             </div>
         </div>
     </c:when>                     
-   <c:when test='${servlet == "studentmind.controller.VoirDocumentServlet"}'>
+   <c:when test='${servlet == "studentmind.controller.VoirDocumentServlet" or
+                   servlet == "studentmind.controller.SignalerCommentaireServlet"}'>
         <div id="right_menu">
             <%@ include file="profil_messagerie.jspf"%>             
             

@@ -23,7 +23,7 @@ import studentmind.model.Utilisateur;
  * @author ProjetJava
  */
 public class GererExtensionServlet extends HttpServlet {
-    
+
     HttpSession session;
     Utilisateur userExp;
     Utilisateur user;
@@ -42,11 +42,20 @@ public class GererExtensionServlet extends HttpServlet {
 
         session = request.getSession(false);
         session.setAttribute("servlet", getClass().getName());
-        user = (Utilisateur) session.getAttribute("user");
-        request.setAttribute("nbrMess", afficherMess());
-        request.setAttribute("ListeExtension", afficheExtension());
-        request.setAttribute("nbrDocUser", afficherNombreDocUser());
-        request.getRequestDispatcher("gererExtension.jsp").forward(request, response);
+        if ((session != null) && ((Utilisateur) session.getAttribute("user") != null)) {
+
+            user = (Utilisateur) session.getAttribute("user");
+            if (user.getFKidrang().getIdRang() == 3) {
+                request.setAttribute("nbrMess", afficherMess());
+                request.setAttribute("ListeExtension", afficheExtension());
+                request.setAttribute("nbrDocUser", afficherNombreDocUser());
+                request.getRequestDispatcher("gererExtension.jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            }
+        } else {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
     }
 
     @Override
@@ -79,12 +88,11 @@ public class GererExtensionServlet extends HttpServlet {
                     ext.setFKidfamille(new Famille(Integer.parseInt(famille)));
                     eFacade.edit(ext);
                 } else {
-                           try{
-                       eFacade.remove(ext);
-                    }catch(EJBException e){
-                        
+                    try {
+                        eFacade.remove(ext);
+                    } catch (EJBException e) {
                     }
-                    
+
                 }
             }
             request.setAttribute("ListeExtension", afficheExtension());
@@ -111,7 +119,7 @@ public class GererExtensionServlet extends HttpServlet {
                     + "<input type='hidden' name='typeGestion' id ='id" + ext.getIdExtension() + "'/>"
                     + "<td class='colonne_nom'><input  type='text' id='nom" + ext.getIdExtension() + "' name='nom' value='" + ext.getNomExtension() + "' required disabled /></td>"
                     + "<td class='colonne_description'><textarea id='des" + ext.getIdExtension() + "' name='des' required disabled >" + ext.getDescriptionExtension() + "</textarea></td>"
-                    + "<td id=\"Famille\">" + afficherFamille(ext.getIdExtension(),ext.getFKidfamille().getIdFamille()) + "</td>"
+                    + "<td id=\"Famille\">" + afficherFamille(ext.getIdExtension(), ext.getFKidfamille().getIdFamille()) + "</td>"
                     + "<td class='colonne_action'>"
                     + "<img src='img/edit.png' title='Editer' class='editer' alt='Editer' id='Editer" + ext.getIdExtension() + "' onclick='Editer(" + ext.getIdExtension() + ")' />"
                     + "<img src='img/delete.png' title='Supprimer' class='supprimer' alt='Supprimer' id='Supprimer" + ext.getIdExtension() + "' onclick='Supprimer(" + ext.getIdExtension() + ")' />"
@@ -137,35 +145,38 @@ public class GererExtensionServlet extends HttpServlet {
         return html;
     }
 
-    public String afficherFamille(int id,int famille) {
+    public String afficherFamille(int id, int famille) {
         FamilleFacade fFacade = ServicesLocator.getFamilleFacade();
         List<Famille> liste = fFacade.findAllAlpha();
         String html = "";
         html = "<select name=\"famille\" id=\"famille" + id + "\"disabled>";
         for (Famille fam : liste) {
             if (famille == fam.getIdFamille()) {
-            html += "<option value=\"" + fam.getIdFamille() + "\"selected=\"selected\">" + fam.getNomFamille() + "</option>";
-            }else  html += "<option value=\"" + fam.getIdFamille() + "\">" + fam.getNomFamille() + "</option>";
+                html += "<option value=\"" + fam.getIdFamille() + "\"selected=\"selected\">" + fam.getNomFamille() + "</option>";
+            } else {
+                html += "<option value=\"" + fam.getIdFamille() + "\">" + fam.getNomFamille() + "</option>";
+            }
         }
         html += "</select>";
         return html;
     }
+
     public String afficherFamille() {
         FamilleFacade fFacade = ServicesLocator.getFamilleFacade();
         List<Famille> liste = fFacade.findAllAlpha();
         String html = "";
         html = "<select name=\"famille\" id=\"famille\">";
 
-        for (Famille fam : liste) {          
-                    
-                    html += "<option value=\"" + fam.getIdFamille() + "\">" + fam.getNomFamille() + "</option>";
+        for (Famille fam : liste) {
+
+            html += "<option value=\"" + fam.getIdFamille() + "\">" + fam.getNomFamille() + "</option>";
         }
 
 
         html += "</select>";
         return html;
     }
-    
+
     public String afficherNombreDocUser() {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         int i = 0;
@@ -179,7 +190,7 @@ public class GererExtensionServlet extends HttpServlet {
             return "";
         }
     }
-    
+
     public String afficherMess() {
         if (user != null) {
             MessageFacade mFacade = ServicesLocator.getMessageFacade();

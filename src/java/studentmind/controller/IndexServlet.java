@@ -214,7 +214,7 @@ public class IndexServlet extends HttpServlet {
         if (user != null) {
 
             //html = "<img src=\""+user.getFKidImage().getUrlImage()+"\" title=\"avatar\" alt=\"avatar\" />";alt=\"avatar\"
-            html = "<img src=\"upload/avatars/" + user.getFKidImage().getUrlImage() + "\" title=\"avatar\" alt=\"avatar\" height=\"80\" width=\"80\" />";
+            html = "<img src=\"upload/avatars/" + user.getFKidImage().getUrlImage() + "\" title=\"avatar\" alt=\"avatar\" height=\"70\" width=\"70\" />";
             //System.out.println(user.getFKidImage().getUrlImage());
         }
 

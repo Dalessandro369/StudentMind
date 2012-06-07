@@ -129,7 +129,7 @@ public class ModifierProfilServlet extends HttpServlet {
     public String afficherInformation() {
 
         UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
-        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        user = (Utilisateur) session.getAttribute("user");
         String html = "";
         html += "<form method=\"POST\" action=\"modifier-profil.html\" enctype=\"multipart/form-data\">"
                 + " <fieldset>"
@@ -144,12 +144,14 @@ public class ModifierProfilServlet extends HttpServlet {
         html += "<fieldset>"
                 + "<legend>Profil étudiant</legend>"
                 + "<label for=\"image\">Avatar :</label> <input type=\"file\" name=\"image\" id=\"image\"/><br/>"
-                + "<label for=\"ecole\">Ecole / Université :</label> <input type=\"text\" name=\"ecole\" value='"+user.getEcole()+"' id=\"ecole\"  /><br/>"
+                 + "<label for=\"ecole\">Ecole / Université :</label> <input type=\"text\" name=\"ecole\" value='"+user.getEcole()+"' id=\"ecole\"  /><br/>"
                 + "<label for=\"site\">Site Web :</label> <input type=\"text\" name=\"site\" value='"+user.getSiteWeb()+"' id=\"site\" /><br/>"
                 + "<label for=\"ville\">Ville :</label> <input type=\"text\" name=\"ville\" value='"+user.getVille()+"' id=\"ville\" /><br/>";
-
-        
         html += "</fieldset>"
+                + "<fieldset>"
+                + "<legend>Avatar actuel</legend>"
+                + "<img src=\"upload/avatars/" + user.getFKidImage().getUrlImage() + "\" title=\"avatar\" alt=\"avatar\" height=\"70\" width=\"70\" />"
+                + "</fieldset>"
                 + "<input type=\"submit\" id=\"submit\" value=\"Je modifie!\" />"
                 + " </form>";
         return html;

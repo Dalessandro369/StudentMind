@@ -38,46 +38,47 @@ public class GererUtilisateurServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         session = request.getSession(false);
-        session.setAttribute("servlet", getClass().getName());
-        user = (Utilisateur) session.getAttribute("user");
-        request.setAttribute("nbrDocUser", afficherNombreDocUser());
-        request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
-        request.setAttribute("nbrMess", afficherMess());
-        request.getRequestDispatcher("gererUtilisateur.jsp").forward(request, response);
+        if ((session != null) && ((Utilisateur) session.getAttribute("user") != null)) {
+            session.setAttribute("servlet", getClass().getName());
+            user = (Utilisateur) session.getAttribute("user");
+            request.setAttribute("nbrDocUser", afficherNombreDocUser());
+            request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
+            request.setAttribute("nbrMess", afficherMess());
+            request.getRequestDispatcher("gererUtilisateur.jsp").forward(request, response);
+        } else{
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+      
         String id = request.getParameter("tags");
         String type = request.getParameter("type");
         String idUtilisateur = request.getParameter("id");
         String rang = request.getParameter("rang");
         user = (Utilisateur) session.getAttribute("user");
-
+        
         if (idUtilisateur != null && (!idUtilisateur.isEmpty())) {
             UtilisateurFacade uFacade = ServicesLocator.getUtilisateurFacade();
             Utilisateur u = uFacade.findId(Integer.parseInt(idUtilisateur));
+            System.out.println(type); 
             if (type.equals("Modifier")) {
-                u.setFKidrang(new Rang(Integer.parseInt(rang)));
-                uFacade.edit(u);
+                u.setFKidrang(new Rang(Integer.parseInt(rang)));                
             } else {
-                u.setFKidetatutlisateur(new EtatUtilisateur(3));
-                uFacade.edit(u);;
+                u.setFKidetatutlisateur(new EtatUtilisateur(3));                
             }
+            uFacade.edit(u);
             request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
         } else {
-
             try {
                 int i = Integer.parseInt(id);
                 request.setAttribute("ListeUtilisateur", afficherUtilisateur(Integer.parseInt(id)));
-                request.setAttribute("nbrDocUser", afficherNombreDocUser());
-                request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
+                request.setAttribute("nbrDocUser", afficherNombreDocUser());               
                 request.setAttribute("nbrMess", afficherMess());
             } catch (Exception e) {
                 request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
                 request.setAttribute("nbrDocUser", afficherNombreDocUser());
-                request.setAttribute("ListeUtilisateur", afficherUtilisateur(0));
                 request.setAttribute("nbrMess", afficherMess());
             }
 
@@ -108,17 +109,17 @@ public class GererUtilisateurServlet extends HttpServlet {
         Utilisateur u = null;
 
         if (liste.size() <= 1) {
-            for (Utilisateur user : liste) {
-                html += "\"" + user.getIdUtilisateur() + " - " + user.getNom() + " " + user.getPrenom() + "\"";
-                if (id == user.getIdUtilisateur()) {
-                    u = user;
+            for (Utilisateur user2 : liste) {
+                html += "\"" + user2.getIdUtilisateur() + " - " + user2.getNom() + " " + user2.getPrenom() + "\"";
+                if (id == user2.getIdUtilisateur()) {
+                    u = user2;
                 }
             }
         } else {
-            for (Utilisateur user : liste) {
-                html += "\"" + user.getIdUtilisateur() + " - " + user.getNom() + " " + user.getPrenom() + "\",";
-                if (id == user.getIdUtilisateur()) {
-                    u = user;
+            for (Utilisateur user2 : liste) {
+                html += "\"" + user2.getIdUtilisateur() + " - " + user2.getNom() + " " + user2.getPrenom() + "\",";
+                if (id == user2.getIdUtilisateur()) {
+                    u = user2;
                 }
             }
         }
@@ -135,6 +136,7 @@ public class GererUtilisateurServlet extends HttpServlet {
                 //--------------------------
                 //Verifier en js que lorsqu'on sort du champ que sa soit un nombre si oui ok si pas remettre le champ a blanc
                 + "<input class=\"nom_utilisateur\" type=\"text\" name=\"tags\" id=\"tags\" placeholder=\"Nom d\'utilisateur\" />"
+                
                 + "</form>"
                 + "</div>"
                 + " </td>";
